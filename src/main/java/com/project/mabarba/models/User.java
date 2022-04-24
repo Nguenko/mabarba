@@ -1,6 +1,7 @@
 package com.project.mabarba.models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -20,13 +21,15 @@ public class User {
 	private Long id;
 
 	@NotBlank
-	@Size(max = 20)
+	@Size(max = 40)
 	private String username;
 
 	@NotBlank
 	@Size(max = 50)
 	@Email
 	private String email;
+
+	private String phone;
 
 	@NotBlank
 	@Size(max = 120)
@@ -37,6 +40,12 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+	@ManyToMany(mappedBy="users")
+	private List<Salon> salons;
+	
+	@ManyToMany(mappedBy = "userList")
+	private List<Salon> salonList;
 
 	public User() {
 	}
