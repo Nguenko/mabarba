@@ -8,20 +8,33 @@ public class PlageHoraire {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "carnetId")
-    private Carnet carnet;
+      @ManyToOne
+      @JoinColumn(name = "carnetId")
+      private Carnet carnet;
 
+    public Carnet getCarnet() {
+        return carnet;
+    }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "reservation",
+    public void setCarnet(Carnet carnet) {
+        this.carnet = carnet;
+    }
+
+   @ManyToMany(fetch = FetchType.LAZY)
+   @JoinTable(name = "reservation",
             joinColumns = @JoinColumn(name = "plage_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> userList;
+           inverseJoinColumns = @JoinColumn(name = "user_id"))
+   private List<User> userList;
 
 
 }

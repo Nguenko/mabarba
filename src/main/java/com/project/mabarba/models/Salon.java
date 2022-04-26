@@ -7,6 +7,10 @@ import java.util.List;
 @Entity
 public class Salon {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @NotBlank
     private String name;
 
@@ -14,6 +18,22 @@ public class Salon {
 
     public Salon(){
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @OneToOne
@@ -27,7 +47,7 @@ public class Salon {
     @OneToMany(mappedBy = "salon")
     private  List<Coiffeur> coiffeurs;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "paiement", joinColumns = @JoinColumn(name = "salon_id"), inverseJoinColumns =
     @JoinColumn(name = "user_id"))
     private List<User> users;

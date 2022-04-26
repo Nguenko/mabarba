@@ -43,9 +43,9 @@ public class User {
 
 	@ManyToMany(mappedBy="users")
 	private List<Salon> salons;
-	
+
 	@ManyToMany(mappedBy = "userList")
-	private List<Salon> salonList;
+	private List<PlageHoraire> salonList;
 
 	public User() {
 	}
