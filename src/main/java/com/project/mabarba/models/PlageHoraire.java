@@ -1,14 +1,42 @@
 package com.project.mabarba.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-public class PlageHoraire {
+@Table(name = "plageHoraire")
+public class PlageHoraire extends CommonModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "hh:mm:ss")
+    @Column(
+            name = "debut",
+            nullable = false
+    )
+    private Date debut;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "hh:mm:ss")
+    @Column(
+            name = "fin",
+            nullable = false
+    )
+    private Date fin;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(
+            name = "jour",
+            nullable = false
+    )
+
 
     public Long getId() {
         return id;

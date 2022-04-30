@@ -1,18 +1,21 @@
 package com.project.mabarba.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
-public class Salon {
+@Table(name = "Salon")
+public class Salon extends CommonModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
-    private String name;
+    @Column(
+            name = "nom",
+            nullable = false
+    )
+    private String nom;
 
 
 
@@ -29,15 +32,15 @@ public class Salon {
     }
 
     public String getName() {
-        return name;
+        return nom;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nom = name;
     }
 
-    @OneToOne
-    @JoinColumn(name = "localisationId")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "localisation_Id", referencedColumnName = "localisationId")
     private Localisation localisation;
 
 
@@ -52,5 +55,43 @@ public class Salon {
     @JoinColumn(name = "user_id"))
     private List<User> users;
 
+    public String getNom() {
+        return nom;
+    }
 
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public Localisation getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(Localisation localisation) {
+        this.localisation = localisation;
+    }
+
+    public List<Coiffure> getCoiffures() {
+        return coiffures;
+    }
+
+    public void setCoiffures(List<Coiffure> coiffures) {
+        this.coiffures = coiffures;
+    }
+
+    public List<Coiffeur> getCoiffeurs() {
+        return coiffeurs;
+    }
+
+    public void setCoiffeurs(List<Coiffeur> coiffeurs) {
+        this.coiffeurs = coiffeurs;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

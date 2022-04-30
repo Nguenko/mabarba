@@ -3,7 +3,6 @@ package com.project.mabarba.models;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,10 +14,19 @@ import javax.validation.constraints.Size;
 			@UniqueConstraint(columnNames = "username"),
 			@UniqueConstraint(columnNames = "email") 
 		})
-public class User {
+public class User extends CommonModel{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@NotBlank
+	private String nom;
+
+	@NotBlank
+	private  String prenom;
+
+	@NotBlank
+	private String ville;
 
 	@NotBlank
 	@Size(max = 40)
@@ -94,5 +102,37 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public String getVille() {
+		return ville;
+	}
+
+	public void setVille(String ville) {
+		this.ville = ville;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

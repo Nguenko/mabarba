@@ -4,13 +4,15 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Carnet {
+@Table(name = "carnet")
+public class Carnet extends CommonModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String nomCarnet;
+    @Column(name = "nom",  nullable = false)
+    private String nom;
 
     public Long getId() {
         return id;
@@ -20,12 +22,12 @@ public class Carnet {
         this.id = id;
     }
 
-    public String getNomCarnet() {
-        return nomCarnet;
+    public String getNom() {
+        return nom;
     }
 
-    public void setNomCarnet(String nomCarnet) {
-        this.nomCarnet = nomCarnet;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
 
@@ -43,4 +45,11 @@ public class Carnet {
     @OneToMany(mappedBy = "carnet")
     private List<PlageHoraire> plageHoraires;
 
+    public List<PlageHoraire> getPlageHoraires() {
+        return plageHoraires;
+    }
+
+    public void setPlageHoraires(List<PlageHoraire> plageHoraires) {
+        this.plageHoraires = plageHoraires;
+    }
 }
