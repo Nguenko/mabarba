@@ -2,6 +2,8 @@ package com.project.mabarba.models;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "coiffure")
@@ -34,7 +36,10 @@ public class Coiffure extends CommonModel{
     }
 
 
-      @ManyToOne
-      @JoinColumn(name = "salonId")
-      private Salon salon;
+    @ManyToOne
+    @JoinColumn(name = "salonId")
+    private Salon salon;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "coiffure",cascade = CascadeType.ALL)
+    List<File> photos = new ArrayList<>();
 }

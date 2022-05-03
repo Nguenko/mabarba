@@ -46,9 +46,9 @@ public class PlageHoraire extends CommonModel{
         this.id = id;
     }
 
-      @ManyToOne
-      @JoinColumn(name = "carnetId")
-      private Carnet carnet;
+    @ManyToOne
+    @JoinColumn(name = "carnetId")
+    private Carnet carnet;
 
     public Carnet getCarnet() {
         return carnet;

@@ -1,6 +1,7 @@
 package com.project.mabarba.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,17 +12,33 @@ public class Salon extends CommonModel{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(
-            name = "nom",
-            nullable = false
-    )
+    @Column(name = "nom", nullable = false)
     private String nom;
 
+    @Column(name = "telephone", nullable = false)
+    private String telephone;
+
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "salon", cascade = CascadeType.ALL)
+    List<File> photos = new ArrayList<>();
 
 
     public Salon(){
 
     }
+
+
+    public Salon(String nom, String telephone){
+        this.nom =  nom;
+        this.telephone =  telephone;
+    }
+
+    public Salon(Long id, String nom, String telephone){
+        this.id = id;
+        this.nom =  nom;
+        this.telephone =  telephone;
+    }
+
 
     public Long getId() {
         return id;
@@ -44,7 +61,7 @@ public class Salon extends CommonModel{
     private Localisation localisation;
 
 
-    @OneToMany(mappedBy = "salon")
+    @OneToMany(mappedBy = "salon", cascade = CascadeType.ALL)
     private List<Coiffure> coiffures;
 
     @OneToMany(mappedBy = "salon")
@@ -94,4 +111,7 @@ public class Salon extends CommonModel{
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
+
+
 }

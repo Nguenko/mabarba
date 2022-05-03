@@ -1,5 +1,6 @@
 package com.project.mabarba.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -135,4 +136,7 @@ public class User extends CommonModel{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	List<File> photos = new ArrayList<>();
 }
