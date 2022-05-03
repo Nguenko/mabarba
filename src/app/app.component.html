@@ -41,11 +41,11 @@
     <mat-toolbar>
       <span>My Application</span>
     </mat-toolbar>
-  </p>  --> 
+  </p>  -->
 
-   
 
- 
+
+
 <!-- </div> -->
 
       <mat-toolbar color="primary">
@@ -58,18 +58,18 @@
        <button *ngIf="showAdminBoard" color ="warning" routerLink="admin" mat-button>Admin Board</button>
        <button color ="warning" mat-button *ngIf="showModeratorBoard" routerLink="mod">Moderator Board</button>
        <button color ="warning" mat-button *ngIf="isLoggedIn" routerLink="user">User</button>
-       <button color ="warning" class="nav-link" mat-button routerLink="register"> Sign Up</button>
-       <button color ="warning" class="nav-link" mat-button routerLink="login"> Login </button>
+       <button color ="warning" class="nav-link" mat-button routerLink="/auth/register"> Sign Up</button>
+       <button color ="warning" class="nav-link" mat-button routerLink="/auth/login"> Login </button>
      </mat-toolbar>
- 
-<mat-drawer-container> 
 
-      <mat-drawer mode ="side" opened>  
+<mat-drawer-container>
 
-      </mat-drawer>  
+      <mat-drawer mode ="side" opened>
+
+      </mat-drawer>
   <mat-drawer-content>
      <router-outlet>
 
      </router-outlet>
-  </mat-drawer-content>   
-</mat-drawer-container>   
+  </mat-drawer-content>
+</mat-drawer-container>
