@@ -8,10 +8,11 @@ import com.project.mabarba.repository.CoiffeurRepository;
 import com.project.mabarba.repository.SalonRepository;
 import com.project.mabarba.service.UpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.function.Supplier;
 
-
+@Service
 public class UpdateServiceImpl implements UpdateService {
 
     @Autowired

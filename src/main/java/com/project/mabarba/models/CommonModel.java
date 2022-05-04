@@ -27,7 +27,42 @@ public class CommonModel {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date dateModification;
 
-    private Boolean supprime;
+    protected boolean deleted;
 
+    public CommonModel(){
+        this.dateCreation = new Date();
+        this.deleted = false;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public Date getDateModification() {
+        return dateModification;
+    }
+
+    public void setDateModification(Date dateModification) {
+        this.dateModification = dateModification;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 }
