@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class HomeComponent implements OnInit {
 
   content: string;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,private router :Router) { }
 
   ngOnInit(): void {
     this.userService.getPublicContent().subscribe(
@@ -22,5 +23,8 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-
+  navigateTo()
+  {
+    this.router.navigate(['/shop'])
+  }
 }
