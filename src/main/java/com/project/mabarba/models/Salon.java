@@ -57,7 +57,7 @@ public class Salon extends CommonModel{
     }
 
     @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "localisation_Id", referencedColumnName = "localisationId")
+    @JoinColumn(name = "localisationId")
     private Localisation localisation;
 
 

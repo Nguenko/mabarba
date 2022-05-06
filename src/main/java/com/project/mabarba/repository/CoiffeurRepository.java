@@ -1,6 +1,8 @@
 package com.project.mabarba.repository;
 
 import com.project.mabarba.models.Coiffeur;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +13,6 @@ import java.util.Optional;
 public interface CoiffeurRepository extends JpaRepository<Coiffeur,Long> {
 
     Optional<Coiffeur> findByIdAndDeletedIsFalse(long id);
-    List<Coiffeur> findAllByIdAndDeletedIsFalse(long id);
+    List<Coiffeur> findAllByOrderByCreatedAtDesc();
+    Page<Coiffeur> findAllByOrderByCreatedAtDesc(Pageable pageable);
 }

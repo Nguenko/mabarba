@@ -7,7 +7,8 @@ public class File {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    @Column(name = "id", nullable=false)
+    private long id;
     private String uid;
     private String mimeType;
     private String type; // type de fichier (IMAGE, AUDIO, VIDEO, ou DOCUMENT générique)
@@ -20,6 +21,10 @@ public class File {
     //private EnumFileType enumFileType;
     private String userId;
     private String documentId;
+
+    public File() {
+
+    }
 
     public File(String uid, String mimeType) {
         this.uid = uid;
@@ -56,11 +61,11 @@ public class File {
         this.userId = userId;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -150,19 +155,19 @@ public class File {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "coiffeur_Id")
+    @JoinColumn(name = "coiffeurId", insertable=false, updatable=false)
     Coiffeur coiffeur;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "coiffure_Id")
+    @JoinColumn(name = "coiffureId", insertable=false, updatable=false)
     Coiffure coiffure;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "salon_Id")
+    @JoinColumn(name = "salonId", insertable=false, updatable=false)
     Salon salon;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_Id")
+    @JoinColumn(name = "id", insertable=false, updatable=false)
     User user;
 
 

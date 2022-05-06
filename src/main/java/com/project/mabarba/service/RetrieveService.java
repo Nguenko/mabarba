@@ -6,6 +6,7 @@ import com.project.mabarba.models.Salon;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RetrieveService {
    //Display a salon information
@@ -22,19 +23,19 @@ public interface RetrieveService {
 
 //------------------------------List of ellements ----------------------------------
    //Display a salon information
-   List<Salon> salonDisplayedList(long salonId);
+   List<Salon> salonDisplayedList();
 
 
    //Display a barba information
-   List<Coiffeur> barberDisplayedList(long coiffeurId);
+   List<Coiffeur> barberDisplayedList();
 
 //------------------------------Page of ellements ----------------------------------
    //Display a salon information
-   Page<Salon>  salonDisplayedPage(long salonId);
+  Map<String, Object> salonDisplayedPage(int pageNo, int pageSize);
 
 
    //Display a barba information
-   Page<Salon>  barberDisplayedPage(long coiffeurId);
+  Map<String, Object>  barberDisplayedPage(int pageNo, int pageSize);
 
 
 }

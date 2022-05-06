@@ -7,55 +7,64 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public class CommonModel {
+public class CommonModel implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Scope.FirstLevel.class)
-    private Long id;
+    protected String idCreator;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonView(Scope.FirstLevel.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private Date dateCreation;
+    protected Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonView(Scope.FirstLevel.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private Date dateModification;
+    protected Date updatedAt;
+
+    protected String idUpdatedBy;
 
     protected boolean deleted;
 
-    public CommonModel(){
-        this.dateCreation = new Date();
+    protected Date deletedAt;
+
+    public  CommonModel(){
+        this.createdAt = new Date();
         this.deleted = false;
     }
-
-    public Long getId() {
-        return id;
+    public String getIdCreator() {
+        return idCreator;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdCreator(String idCreator) {
+        this.idCreator = idCreator;
     }
 
-    public Date getDateCreation() {
-        return dateCreation;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDateCreation(Date dateCreation) {
-        this.dateCreation = dateCreation;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getDateModification() {
-        return dateModification;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setDateModification(Date dateModification) {
-        this.dateModification = dateModification;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getIdUpdatedBy() {
+        return idUpdatedBy;
+    }
+
+    public void setIdUpdatedBy(String idUpdatedBy) {
+        this.idUpdatedBy = idUpdatedBy;
     }
 
     public boolean isDeleted() {
@@ -65,4 +74,13 @@ public class CommonModel {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
 }

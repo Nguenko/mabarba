@@ -1,6 +1,7 @@
 package com.project.mabarba.service.impl;
 
 import com.project.mabarba.exception.NoDataFoundException;
+import com.project.mabarba.helpers.FunctionalUtilities;
 import com.project.mabarba.models.Coiffeur;
 import com.project.mabarba.models.Salon;
 import com.project.mabarba.service.RetrieveService;
@@ -8,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import com.project.mabarba.repository.CoiffeurRepository;
 import com.project.mabarba.repository.SalonRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
+
 
 @Service
 public class RetrieveServiceImpl  implements RetrieveService {
@@ -54,24 +56,43 @@ public class RetrieveServiceImpl  implements RetrieveService {
     }
 
     @Override
-    public List<Salon> salonDisplayedList(long salonId) {
-         Supplier<List<Salon>> salonList = ()->salonRepository.findAllByIdAndDeletedIsFalse(salonId);
+    public List<Salon> salonDisplayedList() {
+         Supplier<List<Salon>> salonList = ()->salonRepository.findAllByOrderByCreatedAtDesc();
          return salonList.get();
     }
 
     @Override
-    public List<Coiffeur> barberDisplayedList(long coiffeurId) {
-        Supplier<List<Coiffeur>> coiffeurList = ()->coiffeurRepository.findAllByIdAndDeletedIsFalse(coiffeurId);
+    public List<Coiffeur> barberDisplayedList() {
+        Supplier<List<Coiffeur>> coiffeurList = ()->coiffeurRepository.findAllByOrderByCreatedAtDesc();
         return coiffeurList.get();
     }
 
     @Override
-    public Page<Salon> salonDisplayedPage(long salonId) {
+    public Map<String, Object> salonDisplayedPage(int pageNo, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        try {
+            Page<Salon> salonPage = salonRepository.findAllByOrderByCreatedAtDesc(pageable);
+            //on appel la mathode utilitaire qui gere la pagination
+             return new FunctionalUtilities<Salon>().paginator(salonPage);
+        }catch (Exception e){
+            e.getMessage();
+        }
+
         return null;
     }
 
     @Override
-    public Page<Salon>  barberDisplayedPage(long coiffeurId) {
+    public Map<String, Object>  barberDisplayedPage(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        try {
+            Page<Coiffeur> barberPage = coiffeurRepository.findAllByOrderByCreatedAtDesc(pageable);
+            //on appel la mathode utilitaire qui gere la pagination
+            return new FunctionalUtilities<Coiffeur>().paginator(barberPage);
+        }catch (Exception e){
+            e.getMessage();
+        }
+
         return null;
     }
 }

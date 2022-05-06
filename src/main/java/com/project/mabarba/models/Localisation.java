@@ -8,7 +8,7 @@ public class Localisation extends CommonModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long localisationId;
+    private Long id;
 
     @Column(name = "quartier", nullable = false)
     private String quartier;
@@ -17,11 +17,11 @@ public class Localisation extends CommonModel{
     private String ville;
 
     public Long getId() {
-        return localisationId;
+        return id;
     }
 
     public void setId(Long localisationId) {
-        this.localisationId = localisationId;
+        this.id = localisationId;
     }
 
     public String getQuartier() {
