@@ -13,6 +13,7 @@ import java.util.Optional;
 @Repository
 public interface SalonRepository extends JpaRepository<Salon, Long> {
     Optional<Salon> findByIdAndDeletedIsFalse(long id);
+    boolean findByNom(String nom);
     List<Salon> findAllByOrderByCreatedAtDesc();
     Page<Salon> findAllByOrderByCreatedAtDesc(Pageable pageable);
  // Page<Offer> findAllByOrderByIdDesc(Pageable pageable);

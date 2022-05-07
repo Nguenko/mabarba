@@ -12,6 +12,10 @@ public class SalonRequest {
 
     private Long id;
 
+    public SalonRequest(String nom,  String telephone) {
+        this.nom = nom;
+        this.telephone = telephone;
+    }
 
     public String getNom() {
         return nom;

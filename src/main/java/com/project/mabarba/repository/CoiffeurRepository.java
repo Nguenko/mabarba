@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface CoiffeurRepository extends JpaRepository<Coiffeur,Long> {
 
     Optional<Coiffeur> findByIdAndDeletedIsFalse(long id);
+    Coiffeur findByNom(String nom);
     List<Coiffeur> findAllByOrderByCreatedAtDesc();
     Page<Coiffeur> findAllByOrderByCreatedAtDesc(Pageable pageable);
 }

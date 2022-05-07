@@ -24,6 +24,18 @@ public class RetrieveController {
     @Autowired
     RetrieveService retrieveService;
 
+    @GetMapping("/test")
+    @ApiOperation("Test Unitaire et d'integration init")
+    public String hello (String name){
+        return String.format("hello, %s", name);
+    }
+
+    @GetMapping("/helloTest")
+    @ApiOperation("Test Unitaire et d'integration init")
+    public String helloTest (@RequestParam(name="name", defaultValue = "world") String name){
+        return String.format("hello, %s", name);
+    }
+
     @GetMapping("/salonDisplayed/{id}")
     @ApiOperation("Affichage d'un Salon de coiffure")
     public RestResponse salonDisplayed (@PathVariable long id) throws NoDataFoundException {
@@ -42,6 +54,8 @@ public class RetrieveController {
                return new RestResponse("Fatal error : this Id does not existe", ResponseStatus.FAILED, 400);
         }
     }
+
+
 
     @GetMapping("/barberDisplayed/{id}")
     @ApiOperation("Affichage d'un Coiffeur")
