@@ -3,6 +3,7 @@ package com.project.mabarba.service;
 import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.models.Coiffeur;
 import com.project.mabarba.models.Salon;
+import com.project.mabarba.models.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -37,5 +38,7 @@ public interface RetrieveService {
    //Display a barba information
   Map<String, Object>  barberDisplayedPage(int pageNo, int pageSize);
 
+  List<User> userDisplayedList();
 
+  User userDisplayed(long id)  throws NoDataFoundException;
 }

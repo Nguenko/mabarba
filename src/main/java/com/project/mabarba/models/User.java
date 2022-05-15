@@ -1,9 +1,6 @@
 package com.project.mabarba.models;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -63,6 +60,22 @@ public class User extends CommonModel{
 		this.username = username;
 		this.email = email;
 		this.password = password;
+	}
+
+	public User(long id, String username, String email, String password) {
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
+
+	public User(long id,String username, String email, String password, boolean deleted, Date createdAt) {
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		super.deleted = deleted;
+		super.createdAt = createdAt;
 	}
 
 	public Long getId() {

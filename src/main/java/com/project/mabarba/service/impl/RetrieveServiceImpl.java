@@ -4,6 +4,8 @@ import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.helpers.FunctionalUtilities;
 import com.project.mabarba.models.Coiffeur;
 import com.project.mabarba.models.Salon;
+import com.project.mabarba.models.User;
+import com.project.mabarba.repository.UserRepository;
 import com.project.mabarba.service.RetrieveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,9 @@ public class RetrieveServiceImpl  implements RetrieveService {
 
     @Autowired
     SalonRepository salonRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     CoiffeurRepository coiffeurRepository;
@@ -63,7 +68,7 @@ public class RetrieveServiceImpl  implements RetrieveService {
 
     @Override
     public List<Coiffeur> barberDisplayedList() {
-        Supplier<List<Coiffeur>> coiffeurList = ()->coiffeurRepository.findAllByOrderByCreatedAtDesc();
+        Supplier<List<Coiffeur>> coiffeurList = ()->coiffeurRepository.findAll();
         return coiffeurList.get();
     }
 
@@ -94,5 +99,17 @@ public class RetrieveServiceImpl  implements RetrieveService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<User> userDisplayedList() {
+        Supplier<List<User>> userList = ()->userRepository.findAll();
+        return userList.get();
+    }
+
+    @Override
+    public User userDisplayed(long id)  throws NoDataFoundException{
+        User user = userRepository.findById(id).orElseThrow(()->new NoDataFoundException(id));
+        return user;
     }
 }

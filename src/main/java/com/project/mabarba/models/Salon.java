@@ -1,7 +1,12 @@
 package com.project.mabarba.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,6 +33,7 @@ public class Salon extends CommonModel{
     }
 
 
+
     public Salon(String nom, String telephone){
         this.nom =  nom;
         this.telephone =  telephone;
@@ -37,6 +43,28 @@ public class Salon extends CommonModel{
         this.id = id;
         this.nom =  nom;
         this.telephone =  telephone;
+    }
+
+
+    public Salon(Long id, String nom, String telephone, boolean deleted){
+        this.id = id;
+        this.nom =  nom;
+        this.telephone =  telephone;
+        super.deleted = deleted;
+    }
+
+    public Salon(Long id, String nom, String telephone, boolean deleted, Date createdAt){
+        this.id = id;
+        this.nom =  nom;
+        this.telephone =  telephone;
+        super.deleted = deleted;
+        super.createdAt = createdAt;
+    }
+
+    public Salon(Salon salon) {
+        this.id = salon.getId();
+        this.nom =  salon.getNom();
+        this.telephone = salon.getTelephone();
     }
 
 
@@ -112,6 +140,11 @@ public class Salon extends CommonModel{
         this.users = users;
     }
 
+    public String getTelephone() {
+        return telephone;
+    }
 
-
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
 }

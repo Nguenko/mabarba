@@ -1,51 +1,43 @@
 package com.project.mabarba;
 
+import com.project.mabarba.models.User;
+import com.project.mabarba.repository.UserRepository;
+import com.project.mabarba.service.RetrieveService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.util.function.BiFunction;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
-
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class MabarbaApplicationTests {
 
-	Calculator underTest = new Calculator();
+	@Autowired
+	private RetrieveService service;
+
+	@MockBean
+	private UserRepository repository;
 
 	@Test
-	void itShouldAddNumbers() {
-		//given
-		int numberOne = 20;
-		int numberTwo = 30;
-
-		//when
-		int result = underTest.add(numberOne, numberTwo);
-
-		//then
-		int expected = 50;
-		assertThat(result).isEqualTo(expected);
+	void contextLoads() {
 	}
-
 	@Test
-	void itShouldAddNumbersFunctional() {
-		//given
-		int numberOne = 25;
-		int numberTwo = 30;
-
-		//when
-		int result = underTest.adds.apply(numberOne, numberTwo);
-
-		//then
-		int expected = 55;
-		assertThat(result).isEqualTo(expected);
+	public void getUsersTest() {
+		when(repository.findAll()).thenReturn(Stream
+		.of(new User(376, "Danile", "danielle@gmail.com", "Dani@12345"),
+		    new User(958, "Steve", "steve@gmail.com", "Steve@12345"))
+				.collect(Collectors.toList()));
+		assertEquals(2, service.userDisplayedList().size());
 	}
-
-	class Calculator {
-		int add(int a, int b) {
-			return a+b;
-		}
-
-		BiFunction<Integer, Integer, Integer> adds =( a, b)->  a+b;
-	}
-
 }

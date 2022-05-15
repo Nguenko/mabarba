@@ -34,13 +34,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
 
-//	@Order(1)
-//	@Override
-//	public void configure(WebSecurity web) throws Exception {
-//		web
-//				.ignoring()
-//				.antMatchers( "/**");
-//	}
+	@Order(1)
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web
+				.ignoring()
+				.antMatchers( "/**");
+	}
 
 
 	@Bean

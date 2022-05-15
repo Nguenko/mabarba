@@ -2,84 +2,83 @@ package com.project.mabarba.service.impl;
 
 import com.project.mabarba.models.Coiffeur;
 import com.project.mabarba.models.Salon;
+import com.project.mabarba.payload.request.CoiffeurRequest;
 import com.project.mabarba.payload.request.SalonRequest;
 import com.project.mabarba.repository.CoiffeurRepository;
 import com.project.mabarba.repository.SalonRepository;
 import com.project.mabarba.service.UpdateService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.springframework.web.client.HttpClientErrorException;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 
+@ExtendWith(MockitoExtension.class)
 class UpdateServiceImplTest {
 
-    private CoiffeurRepository coiffeurRepository;
-    private SalonRepository salonRepository;
-    private UpdateService underTest;
+    @Mock
+    private UpdateService service;
 
-    @BeforeEach
-    void setUp(){
-        underTest = new UpdateServiceImpl();
+    @Mock
+    private SalonRepository salonRepository;
+
+    @Mock
+    private CoiffeurRepository coiffeurRepository;
+
+    @Captor
+    private ArgumentCaptor<Salon> postArgumentCaptor;
+
+    @Captor
+    private ArgumentCaptor<Coiffeur> barberArgumentCaptor;
+
+    private String dDate="2022-05-12 15:32:52";
+    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private Date cDate = df.parse(dDate);
+
+    UpdateServiceImplTest() throws ParseException {
     }
+
 
     @Test
     void salonCreation() {
-        //given
-        SalonRequest salon = new SalonRequest("salon labelle","674253980");
-        //when
-        underTest.salonCreation(salon);
-        //salonRepository.save(salon);
-        //then
-        ArgumentCaptor<Salon> argumentCaptor = ArgumentCaptor.forClass(Salon.class);
-        verify(salonRepository).save(argumentCaptor.capture());
+        long salonId = 376l;
+        Salon salon = new Salon(salonId, "Beauty", "23774563489",false, cDate);
+        SalonRequest salonRequest = new SalonRequest(salonId, "Beauty", "23774563489");
+        service.salonCreation(salonRequest);
+        Mockito.when(salonRepository.save(salon)).thenReturn(salon);
+        Mockito.verify(salonRepository, Mockito.times(1)).save(postArgumentCaptor.capture());
+        Assertions.assertThat(postArgumentCaptor.getValue().getTelephone()).isEqualTo("23774563489");
 
-        Salon capturedSalon = argumentCaptor.getValue();
 
-        assertThat(capturedSalon).isEqualTo(salon);
     }
 
-
     @Test
-    void willThrowWhenEmailsTaken() {
-        //given
-        SalonRequest salonrequest = new SalonRequest("salon Ma Jolie","674253980");
-        //when
-        //underTest.salonCreation(salonrequest);
-        given(salonRepository.findByNom("salon Ma Jolie")).willReturn(true);
-        //salonRepository.save(salon);
-        //then
-        assertThatThrownBy(()->underTest.salonCreation(salonrequest))
-                .isInstanceOf(Exception.class)
-                .hasMessageContaining(salonrequest.getTelephone());
-        ArgumentCaptor<Salon> argumentCaptor = ArgumentCaptor.forClass(Salon.class);
-        //verify(salonRepository).save(argumentCaptor.capture());
-
-        //Salon capturedSalon = argumentCaptor.getValue();
-
-       // assertThat(capturedSalon).isEqualTo(salon);
-    }
-
-
-
-    @Test
-    @Disabled
     void salonModification() {
+
     }
 
     @Test
-    @Disabled
     void barberCreation() {
+        long coifeurId = 376l;
+        Coiffeur coiffeur = new Coiffeur(coifeurId, "Beauty", "23774563489",false, cDate);
+        CoiffeurRequest barberRequest = new CoiffeurRequest(coifeurId, "Beauty", "23774563489");
+        service.barberCreation(barberRequest);
+        Mockito.when(coiffeurRepository.save(coiffeur)).thenReturn(coiffeur);
+        Mockito.verify(coiffeurRepository, Mockito.times(1)).save(barberArgumentCaptor.capture());
+        Assertions.assertThat(barberArgumentCaptor.getValue().getTelephone()).isEqualTo("23774563489");
+        //     assertEquals(salon.getTelephone(), service.salonCreation(salonRequest).getTelephone());
     }
 
     @Test
-    @Disabled
     void barberModification() {
     }
 }
