@@ -89,8 +89,6 @@ public class RetrieveController {
             else{
                 return new RestResponse("No salon at the moment !", ResponseStatus.ABORTED, 404);
             }
-
-
     }
 
     @GetMapping("/barberDisplayedList")
