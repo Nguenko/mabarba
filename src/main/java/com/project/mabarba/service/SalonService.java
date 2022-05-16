@@ -11,9 +11,19 @@ public interface SalonService {
     //----------------------- RetrieveService
     
     // Display a salon information
+    /**
+     * paginated list of barber
+     * @param salonId
+     * @return
+     */
     Salon salonDisplayed(long salonId) throws NoDataFoundException;
 
     // Delete a salon information
+    /**
+     * paginated list of barber
+     * @param salonId
+     * @return
+     */
     boolean salonDeleted(long salonId) throws NoDataFoundException;
 
     // ------------------------------List of ellements
@@ -24,6 +34,12 @@ public interface SalonService {
     // ------------------------------Page of ellements
     // ----------------------------------
     // Display a salon information
+    /**
+     * paginated list of barber
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     Map<String, Object> salonDisplayedPage(int pageNo, int pageSize);
 
     // ---------------------- Update Service

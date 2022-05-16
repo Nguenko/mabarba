@@ -10,9 +10,18 @@ import com.project.mabarba.payload.request.CoiffeurRequest;
 public interface CoiffeurService {
     /*************** Retrive Service *****************/
     // Display a barba information
+    /**
+     * Display a barba information
+     * @param coiffeurId
+     * @return
+     */
     Coiffeur barberDisplayed(long coiffeurId) throws NoDataFoundException;
 
-    // Delete a barber information
+    /**
+     * Delete a barber information
+     * @param coiffeurId
+     * @return
+     */
     boolean barberDeleted(long coiffeurId) throws NoDataFoundException;
 
     // ------------------------------List of ellements
@@ -25,6 +34,12 @@ public interface CoiffeurService {
     // ----------------------------------
 
     // Display a barba information
+    /**
+     * paginated list of barber
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     Map<String, Object> barberDisplayedPage(int pageNo, int pageSize);
 
     /********************* Update Service  ******************/
@@ -32,5 +47,11 @@ public interface CoiffeurService {
     Coiffeur barberCreation(CoiffeurRequest coiffeurRequest);
 
     //update a barberbg
+    /**
+     * paginated list of barber
+     * @param coiffeurRequest
+     * @param id
+     * @return
+     */
     Coiffeur barberModification(CoiffeurRequest coiffeurRequest, Long id);
 }
