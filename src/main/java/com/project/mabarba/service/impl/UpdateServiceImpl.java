@@ -25,7 +25,7 @@ public class UpdateServiceImpl implements UpdateService {
     @Override
     //Creation d'un salon
     public Salon salonCreation(SalonRequest salonRequest) {
-        Supplier<Salon> salon = ()->new Salon(salonRequest.getNom(), salonRequest.getTelephone());
+        Supplier<Salon> salon = ()->new Salon(salonRequest.getId(),salonRequest.getNom(), salonRequest.getTelephone());
         return salonRepository.save(salon.get());
     }
 

@@ -11,6 +11,13 @@ public class CoiffeurRequest {
 
     private Long id;
 
+    public CoiffeurRequest(long id, String nom,  String telephone) {
+        this.id = id;
+        this.nom = nom;
+        this.telephone = telephone;
+    }
+
+    public CoiffeurRequest(){}
 
     public String getNom() {
         return nom;

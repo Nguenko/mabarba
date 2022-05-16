@@ -12,7 +12,15 @@ public class SalonRequest {
 
     private Long id;
 
+    public SalonRequest(){}
+
     public SalonRequest(String nom,  String telephone) {
+        this.nom = nom;
+        this.telephone = telephone;
+    }
+
+    public SalonRequest(long id, String nom,  String telephone) {
+        this.id = id;
         this.nom = nom;
         this.telephone = telephone;
     }

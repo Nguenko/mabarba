@@ -4,11 +4,14 @@ package com.project.mabarba.controllers;
 import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.models.Coiffeur;
 import com.project.mabarba.models.Salon;
+import com.project.mabarba.models.User;
 import com.project.mabarba.payload.response.ResponseStatus;
 import com.project.mabarba.payload.response.RestResponse;
 import com.project.mabarba.service.RetrieveService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,19 +28,19 @@ public class RetrieveController {
     RetrieveService retrieveService;
 
     @GetMapping("/test")
-    @ApiOperation("Test Unitaire et d'integration init")
+    @Operation(summary = "Test Unitaire et d'integration init")
     public String hello (String name){
         return String.format("hello, %s", name);
     }
 
     @GetMapping("/helloTest")
-    @ApiOperation("Test Unitaire et d'integration init")
+    @Operation(summary = "Test Unitaire et d'integration init")
     public String helloTest (@RequestParam(name="name", defaultValue = "world") String name){
         return String.format("hello, %s", name);
     }
 
     @GetMapping("/salonDisplayed/{id}")
-    @ApiOperation("Affichage d'un Salon de coiffure")
+    @Operation(summary = "Affichage d'un Salon de coiffure")
     public RestResponse salonDisplayed (@PathVariable long id) throws NoDataFoundException {
 
         if(id>0){
@@ -58,7 +61,7 @@ public class RetrieveController {
 
 
     @GetMapping("/barberDisplayed/{id}")
-    @ApiOperation("Affichage d'un Coiffeur")
+    @Operation(summary = "Affichage d'un Coiffeur en prenant en param son Id", description = "bar")
     public RestResponse barberDisplayed (@PathVariable long id) throws NoDataFoundException {
 
         if(id>0){
@@ -77,7 +80,7 @@ public class RetrieveController {
     }
 
     @GetMapping("/salonDisplayedList/{id}")
-    @ApiOperation("Affichage de la liste de tous les Salons de coiffure sans pagination")
+    @Operation(summary="Affichage de la liste de tous les Salons de coiffure sans pagination")
     public RestResponse salonDisplayedList () throws NoDataFoundException {
 
 
@@ -92,7 +95,7 @@ public class RetrieveController {
     }
 
     @GetMapping("/barberDisplayedList")
-    @ApiOperation("Affichage de la liste de tous les Coiffeurs sans pagination")
+    @Operation(summary="Affichage de la liste de tous les Coiffeurs sans pagination")
     public RestResponse barberDisplayedList () {
 
 
@@ -109,7 +112,7 @@ public class RetrieveController {
     }
 
     @GetMapping("/barberDisplayedPage")
-    @ApiOperation("Affichage de la liste de tous les coiffeurs avec pagination")
+    @Operation(summary="Affichage de la liste de tous les coiffeurs avec pagination")
     public RestResponse barberDisplayedPage (@RequestParam(name="pageNo", defaultValue = "0") int pageNo,
                                              @RequestParam(name="pageSize", defaultValue = "2") int pageSize)  {
 
@@ -129,7 +132,7 @@ public class RetrieveController {
     }
 
     @GetMapping("/salonDisplayedPage")
-    @ApiOperation("Affichage de la liste de tous les Salons avec pagination")
+    @Operation(summary="Affichage de la liste de tous les Salons avec pagination")
     public RestResponse salonDisplayedPage (@RequestParam(name="pageNo", defaultValue = "0") int pageNo,
                                             @RequestParam(name="pageSize", defaultValue = "2") int pageSize)  {
 
@@ -146,6 +149,23 @@ public class RetrieveController {
         else{
             return new RestResponse("Fatal error : pagesize and page number must be positif", ResponseStatus.FAILED, 400);
         }
+    }
+
+    @GetMapping("/userDisplayedList")
+    @Operation(summary="Affichage de la liste de tous les Utilisateurs sans pagination")
+    public RestResponse userDisplayedList () {
+
+        List<User> userList = retrieveService.userDisplayedList();
+        if (userList!=null){
+
+            return new RestResponse(userList,"User List displayed!", ResponseStatus.SUCCESS, 200);
+        }
+        else{
+            return new RestResponse("Users List empty", ResponseStatus.ABORTED, 404);
+
+        }
+
+
     }
 
 

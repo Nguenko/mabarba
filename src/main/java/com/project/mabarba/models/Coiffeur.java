@@ -3,6 +3,7 @@ package com.project.mabarba.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -38,6 +39,14 @@ public class Coiffeur extends CommonModel{
         this.id = id;
         this.nom = nom;
         this.telephone = telephone;
+    }
+
+    public Coiffeur(Long id, String nom, String telephone, boolean deleted, Date createdAt){
+        this.id = id;
+        this.nom = nom;
+        this.telephone = telephone;
+        super.deleted = deleted;
+        super.createdAt = createdAt;
     }
 
     public Long getId() {
