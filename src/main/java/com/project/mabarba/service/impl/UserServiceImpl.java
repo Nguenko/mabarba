@@ -9,7 +9,8 @@ import com.project.mabarba.helpers.FunctionalUtilities;
 import com.project.mabarba.models.User;
 import com.project.mabarba.payload.request.SignupRequest;
 import com.project.mabarba.repository.UserRepository;
-import com.project.mabarba.service.UserService;
+import com.project.mabarba.service.UserRetrieveService;
+import com.project.mabarba.service.UserUpdateService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserUpdateService, UserRetrieveService {
 
     @Autowired
     UserRepository userRepository;
