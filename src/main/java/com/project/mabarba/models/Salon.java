@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Salon")
@@ -146,5 +147,27 @@ public class Salon extends CommonModel{
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    @Override
+    public String toString() {
+        return "Salon{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", telephone='" + telephone + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Salon)) return false;
+        Salon salon = (Salon) o;
+        return Objects.equals(id, salon.id) && Objects.equals(nom, salon.nom) && Objects.equals(telephone, salon.telephone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nom, telephone);
     }
 }

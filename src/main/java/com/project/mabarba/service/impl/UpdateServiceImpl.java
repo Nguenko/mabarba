@@ -30,18 +30,12 @@ public class UpdateServiceImpl implements UpdateService {
     }
 
     @Override
-    //Mise à jour d'un salon
-    public Salon salonModification(SalonRequest salonRequest) {
-        Supplier<Salon> salon = ()->new Salon(salonRequest.getId(), salonRequest.getNom(), salonRequest.getTelephone());
-        return salonRepository.save(salon.get());
-    }
-
-    @Override
     //Creation d'un coiffeur
     public Coiffeur barberCreation(CoiffeurRequest coiffeurRequest) {
-       Supplier<Coiffeur> coiffeur = ()->new Coiffeur(coiffeurRequest.getNom(), coiffeurRequest.getTelephone());
-       return coiffeurRepository.save(coiffeur.get());
+        Supplier<Coiffeur> coiffeur = ()->new Coiffeur(coiffeurRequest.getId(),coiffeurRequest.getNom(), coiffeurRequest.getTelephone());
+        return coiffeurRepository.save(coiffeur.get());
     }
+
 
     @Override
     //Mise à jour du coiffeur
@@ -49,4 +43,14 @@ public class UpdateServiceImpl implements UpdateService {
         Supplier<Coiffeur> coiffeur = ()->new Coiffeur(coiffeurRequest.getId(),coiffeurRequest.getNom(), coiffeurRequest.getTelephone());
         return coiffeurRepository.save(coiffeur.get());
     }
+
+    @Override
+    //Mise à jour d'un salon
+    public Salon salonModification(SalonRequest salonRequest) {
+        Supplier<Salon> salon = ()->new Salon(salonRequest.getId(), salonRequest.getNom(), salonRequest.getTelephone());
+        return salonRepository.save(salon.get());
+    }
+
+
+
 }

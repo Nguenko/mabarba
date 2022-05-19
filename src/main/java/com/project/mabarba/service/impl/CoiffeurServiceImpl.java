@@ -31,9 +31,7 @@ public class CoiffeurServiceImpl implements CoiffeurService{
 
     @Override
     public boolean barberDeleted(long coiffeurId) throws NoDataFoundException{
-        Coiffeur coiffeur = coiffeurRepository.findByIdAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
-        coiffeur.setDeleted(true);
-        coiffeurRepository.save(coiffeur);
+        Coiffeur coiffeur = coiffeurRepository.deleteCoiffeurById(true,coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
         return true;
     }
 

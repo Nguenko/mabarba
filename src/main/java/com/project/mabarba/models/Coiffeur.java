@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "coiffeur")
@@ -86,7 +87,28 @@ public class Coiffeur extends CommonModel{
     List<File> photos = new ArrayList<>();
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Coiffeur)) return false;
+        Coiffeur coiffeur = (Coiffeur) o;
+        return Objects.equals(id, coiffeur.id) &&
+                Objects.equals(nom, coiffeur.nom) &&
+                Objects.equals(telephone, coiffeur.telephone);
 
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nom, telephone);
+    }
 
+    @Override
+    public String toString() {
+        return "Coiffeur{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", telephone='" + telephone + '\'' +
+                '}';
+    }
 }

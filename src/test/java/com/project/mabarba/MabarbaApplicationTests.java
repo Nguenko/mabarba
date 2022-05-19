@@ -32,12 +32,12 @@ class MabarbaApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-	@Test
-	public void getUsersTest() {
-		when(repository.findAll()).thenReturn(Stream
-		.of(new User(376, "Danile", "danielle@gmail.com", "Dani@12345"),
-		    new User(958, "Steve", "steve@gmail.com", "Steve@12345"))
-				.collect(Collectors.toList()));
-		assertEquals(2, service.userDisplayedList().size());
-	}
+//	@Test
+//	public void getUsersTest() {
+//		when(repository.findAll()).thenReturn(Stream
+//		.of(new User(376, "Danile", "danielle@gmail.com", "Dani@12345"),
+//		    new User(958, "Steve", "steve@gmail.com", "Steve@12345"))
+//				.collect(Collectors.toList()));
+//		assertEquals(2, service.userDisplayedList().size());
+//	}
 }

@@ -55,8 +55,6 @@ public class RetrieveServiceImpl  implements RetrieveService {
     @Override
     public boolean barberDeleted(long coiffeurId) throws NoDataFoundException{
         Coiffeur coiffeur = coiffeurRepository.findByIdAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
-        coiffeur.setDeleted(true);
-        coiffeurRepository.save(coiffeur);
         return true;
     }
 
@@ -68,7 +66,7 @@ public class RetrieveServiceImpl  implements RetrieveService {
 
     @Override
     public List<Coiffeur> barberDisplayedList() {
-        Supplier<List<Coiffeur>> coiffeurList = ()->coiffeurRepository.findAll();
+        Supplier<List<Coiffeur>> coiffeurList = ()->coiffeurRepository.findAllByOrderByCreatedAtDesc();
         return coiffeurList.get();
     }
 
@@ -103,7 +101,7 @@ public class RetrieveServiceImpl  implements RetrieveService {
 
     @Override
     public List<User> userDisplayedList() {
-        Supplier<List<User>> userList = ()->userRepository.findAll();
+        Supplier<List<User>> userList = ()->userRepository.findAllByOrderByCreatedAtDesc();
         return userList.get();
     }
 
