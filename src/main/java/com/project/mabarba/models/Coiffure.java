@@ -19,6 +19,15 @@ public class Coiffure extends CommonModel{
     @Column(name = "prix", nullable = true, updatable = true)
     private double prix;
 
+    public Coiffure(){
+
+    }
+    public Coiffure(String nom, double prix){
+
+    }
+    public Coiffure (Long id, String nom, double prix){
+
+    }
     public Long getId() {
         return id;
     }

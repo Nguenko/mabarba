@@ -1,26 +1,22 @@
 package com.project.mabarba.service.impl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-
 import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.helpers.FunctionalUtilities;
 import com.project.mabarba.models.User;
-import com.project.mabarba.payload.request.SignupRequest;
 import com.project.mabarba.repository.UserRepository;
 import com.project.mabarba.service.UserRetrieveService;
-import com.project.mabarba.service.UserUpdateService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserServiceImpl implements UserUpdateService, UserRetrieveService {
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
+@Service
+public class UserRetrieveImpl implements UserRetrieveService {
     @Autowired
     UserRepository userRepository;
 
@@ -38,7 +34,7 @@ public class UserServiceImpl implements UserUpdateService, UserRetrieveService {
     /*
      * @Override
      * public Boolean userDeleted(Long userId) throws NoDataFoundException{
-     * 
+     *
      * }
      */
 
@@ -60,11 +56,5 @@ public class UserServiceImpl implements UserUpdateService, UserRetrieveService {
         }
 
         return null;
-    }
-
-    @Override
-    public User userModification(SignupRequest signupRequest, Long id){
-        Supplier<User> user = ()->new User(id,signupRequest.getUsername(), signupRequest.getEmail());
-        return userRepository.save(user.get());
     }
 }

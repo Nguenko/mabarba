@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.models.Coiffeur;
+import com.project.mabarba.models.Coiffure;
 import com.project.mabarba.models.Salon;
 
 public interface ManagerRetrieveService {
@@ -40,9 +41,27 @@ public interface ManagerRetrieveService {
     // Display a barba information
     List<Coiffeur> barberDisplayedList();
 
-    // ------------------------------Page of ellements
+    // ------------------------------Page of elements
     // ----------------------------------
 
     // Display a barba information
     Map<String, Object> barberDisplayedPage(int pageNo, int pageSize);
+
+    /**
+     * Gestion des coiffures
+     */
+    //Display a Coiffure information
+    Coiffure coiffureDisplayed(long coiffureId) throws NoDataFoundException;
+
+    //Delete a coiffure information
+    boolean coiffureDeleted(long coiffureId) throws NoDataFoundException;
+
+    //--------------------- List of Coiffure
+
+    //Display all coiffure information
+    List<Coiffure> coiffureDisplayedList();
+
+    //----------------- Page of elements --------------------------------
+    //Display a coiffure information
+    Map<String, Object> coiffureDisplayedPage(int pageNo, int pageSize);
 }

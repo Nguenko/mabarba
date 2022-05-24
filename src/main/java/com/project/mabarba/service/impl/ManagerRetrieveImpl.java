@@ -1,33 +1,37 @@
 package com.project.mabarba.service.impl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-
 import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.helpers.FunctionalUtilities;
 import com.project.mabarba.models.Coiffeur;
+import com.project.mabarba.models.Coiffure;
 import com.project.mabarba.models.Salon;
-import com.project.mabarba.payload.request.CoiffeurRequest;
-import com.project.mabarba.payload.request.SalonRequest;
 import com.project.mabarba.repository.CoiffeurRepository;
+import com.project.mabarba.repository.CoiffureRepository;
 import com.project.mabarba.repository.SalonRepository;
 import com.project.mabarba.service.ManagerRetrieveService;
-import com.project.mabarba.service.ManagerUpdateService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
 @Service
-public class ManagerServiceImpl implements ManagerRetrieveService, ManagerUpdateService{
+public class ManagerRetrieveImpl implements ManagerRetrieveService {
     @Autowired
     SalonRepository salonRepository;
 
+    @Autowired
+    CoiffeurRepository coiffeurRepository;
+
+    @Autowired
+    CoiffureRepository coiffureRepository;
+
     @Override
-    public Salon salonDisplayed(long salonId) throws NoDataFoundException{
+    public Salon salonDisplayed(long salonId) throws NoDataFoundException {
         return salonRepository.findByIdAndDeletedIsFalse(salonId).orElseThrow(()->new NoDataFoundException(salonId));
 
     }
@@ -42,10 +46,10 @@ public class ManagerServiceImpl implements ManagerRetrieveService, ManagerUpdate
 
     @Override
     public List<Salon> salonDisplayedList() {
-         Supplier<List<Salon>> salonList = ()->salonRepository.findAllByOrderByCreatedAtDesc();
-         return salonList.get();
+        Supplier<List<Salon>> salonList = ()->salonRepository.findAllByOrderByCreatedAtDesc();
+        return salonList.get();
     }
-    
+
     @Override
     public Map<String, Object> salonDisplayedPage(int pageNo, int pageSize) {
 
@@ -53,7 +57,7 @@ public class ManagerServiceImpl implements ManagerRetrieveService, ManagerUpdate
         try {
             Page<Salon> salonPage = salonRepository.findAllByOrderByCreatedAtDesc(pageable);
             //on appel la mathode utilitaire qui gere la pagination
-             return new FunctionalUtilities<Salon>().paginator(salonPage);
+            return new FunctionalUtilities<Salon>().paginator(salonPage);
         }catch (Exception e){
             e.getMessage();
         }
@@ -61,26 +65,9 @@ public class ManagerServiceImpl implements ManagerRetrieveService, ManagerUpdate
         return null;
     }
 
-    /** Update Service implements */
-    @Override
-    //Creation d'un salon
-    public Salon salonCreation(SalonRequest salonRequest) {
-        Supplier<Salon> salon = ()->new Salon(salonRequest.getNom(), salonRequest.getTelephone());
-        return salonRepository.save(salon.get());
-    }
-
-    @Override
-    //Mise à jour d'un salon
-    public Salon salonModification(SalonRequest salonRequest, Long id) {
-        Supplier<Salon> salon = ()->new Salon(id, salonRequest.getNom(), salonRequest.getTelephone());
-        return salonRepository.save(salon.get());
-    }
-
-    /********************* Coiffeur ****************************/
-    @Autowired
-    CoiffeurRepository coiffeurRepository;
-
-    /******************* Retrieve Service Implement ******************/
+    /**
+     * Gestion des coiffeurs
+     */
     @Override
     public Coiffeur barberDisplayed(long coiffeurId) throws NoDataFoundException{
         return   coiffeurRepository.findByIdAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
@@ -114,18 +101,36 @@ public class ManagerServiceImpl implements ManagerRetrieveService, ManagerUpdate
         return null;
     }
 
-    /*********************** Update Service Implements *************/
+    /**
+     * Gestion des Coiffures
+     */
+
     @Override
-    //Creation d'un coiffeur
-    public Coiffeur barberCreation(CoiffeurRequest coiffeurRequest) {
-       Supplier<Coiffeur> coiffeur = ()->new Coiffeur(coiffeurRequest.getNom(), coiffeurRequest.getTelephone());
-       return coiffeurRepository.save(coiffeur.get());
+    public Coiffure coiffureDisplayed(long coiffureId) throws NoDataFoundException {
+        return coiffureRepository.findByIdAndDeletedIsFalse(coiffureId).orElseThrow(()->new NoDataFoundException(coiffureId));
     }
 
     @Override
-    //Mise à jour du coiffeur
-    public Coiffeur barberModification(CoiffeurRequest coiffeurRequest, Long id) {
-        Supplier<Coiffeur> coiffeur = ()->new Coiffeur(id,coiffeurRequest.getNom(), coiffeurRequest.getTelephone());
-        return coiffeurRepository.save(coiffeur.get());
+    public boolean coiffureDeleted(long coiffureId) throws NoDataFoundException {
+        return false;
+    }
+
+    @Override
+    public List<Coiffure> coiffureDisplayedList() {
+        return coiffureRepository.findAllByOrderByCreatedAtDesc();
+    }
+
+    @Override
+    public Map<String, Object> coiffureDisplayedPage(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        try {
+            Page<Coiffure> coiffurePage = coiffureRepository.findAllByOrderByCreatedAtDesc(pageable);
+            //on appel la mathode utilitaire qui gere la pagination
+            return new FunctionalUtilities<Coiffure>().paginator(coiffurePage);
+        }
+        catch (Exception e){
+            e.getMessage();
+        }
+        return null;
     }
 }
