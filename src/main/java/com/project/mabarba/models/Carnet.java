@@ -6,7 +6,6 @@ import java.util.List;
 @Entity
 @Table(name = "carnet")
 public class Carnet extends CommonModel{
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

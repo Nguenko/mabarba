@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.project.mabarba.exception.NoDataFoundException;
+import com.project.mabarba.models.Carnet;
 import com.project.mabarba.models.Coiffeur;
 import com.project.mabarba.models.Coiffure;
 import com.project.mabarba.models.Salon;
@@ -64,4 +65,16 @@ public interface ManagerRetrieveService {
     //----------------- Page of elements --------------------------------
     //Display a coiffure information
     Map<String, Object> coiffureDisplayedPage(int pageNo, int pageSize);
+
+    /**
+     * Gestion des carnets
+     */
+    // Display one carnet
+    Carnet carnetDisplayed(long carnetId) throws NoDataFoundException;
+
+    // Display list of carnet
+    List <Carnet> carnetDisplayedList();
+
+    // Display list of carnet by page
+    Map<String, Object> carnetDisplayedPage(int pageNo, int pageSize);
 }

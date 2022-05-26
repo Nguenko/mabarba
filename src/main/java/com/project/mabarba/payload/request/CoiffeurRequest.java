@@ -1,5 +1,6 @@
 package com.project.mabarba.payload.request;
 
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
 public class CoiffeurRequest {
@@ -9,6 +10,7 @@ public class CoiffeurRequest {
     @NotBlank
     private String telephone;
 
+    @Id
     private Long id;
 
     public CoiffeurRequest(long id, String nom,  String telephone) {

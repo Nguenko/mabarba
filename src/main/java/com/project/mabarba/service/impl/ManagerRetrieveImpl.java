@@ -2,9 +2,11 @@ package com.project.mabarba.service.impl;
 
 import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.helpers.FunctionalUtilities;
+import com.project.mabarba.models.Carnet;
 import com.project.mabarba.models.Coiffeur;
 import com.project.mabarba.models.Coiffure;
 import com.project.mabarba.models.Salon;
+import com.project.mabarba.repository.CarnetRepository;
 import com.project.mabarba.repository.CoiffeurRepository;
 import com.project.mabarba.repository.CoiffureRepository;
 import com.project.mabarba.repository.SalonRepository;
@@ -29,6 +31,9 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService {
 
     @Autowired
     CoiffureRepository coiffureRepository;
+
+    @Autowired
+    CarnetRepository carnetRepository;
 
     @Override
     public Salon salonDisplayed(long salonId) throws NoDataFoundException {
@@ -129,6 +134,27 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService {
             return new FunctionalUtilities<Coiffure>().paginator(coiffurePage);
         }
         catch (Exception e){
+            e.getMessage();
+        }
+        return null;
+    }
+
+    /**
+     * Gestion des carnets
+     */
+    @Override
+    public Carnet carnetDisplayed(long carnetId) throws NoDataFoundException {
+        return null;
+    }
+    public List<Carnet> carnetDisplayedList(){
+        return carnetRepository.findAllByOrderByCreatedAtDesc();
+    }
+    public Map<String,Object> carnetDisplayedPage(int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo,pageSize);
+        try {
+            Page<Carnet> carnetPage = carnetRepository.findAllByOrderByCreatedAtDesc(pageable);;
+            return new FunctionalUtilities<Carnet>().paginator(carnetPage);
+        }catch (Exception e){
             e.getMessage();
         }
         return null;
