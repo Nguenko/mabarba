@@ -13,6 +13,19 @@ public class Carnet extends CommonModel{
     @Column(name = "nom",  nullable = false)
     private String nom;
 
+    public Carnet(String nom){
+        this.nom = nom;
+    }
+
+    public Carnet() {
+
+    }
+
+    public Carnet(Long id, String nom){
+        this.id=id;
+        this.nom = nom;
+    }
+
     public Long getId() {
         return id;
     }

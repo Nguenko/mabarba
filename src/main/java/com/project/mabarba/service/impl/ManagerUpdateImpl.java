@@ -1,11 +1,14 @@
 package com.project.mabarba.service.impl;
 
+import com.project.mabarba.models.Carnet;
 import com.project.mabarba.models.Coiffeur;
 import com.project.mabarba.models.Coiffure;
 import com.project.mabarba.models.Salon;
+import com.project.mabarba.payload.request.CarnetRequest;
 import com.project.mabarba.payload.request.CoiffeurRequest;
 import com.project.mabarba.payload.request.CoiffureRequest;
 import com.project.mabarba.payload.request.SalonRequest;
+import com.project.mabarba.repository.CarnetRepository;
 import com.project.mabarba.repository.CoiffeurRepository;
 import com.project.mabarba.repository.CoiffureRepository;
 import com.project.mabarba.repository.SalonRepository;
@@ -13,6 +16,7 @@ import com.project.mabarba.service.ManagerUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service
@@ -25,6 +29,9 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
 
     @Autowired
     CoiffureRepository coiffureRepository;
+
+    @Autowired
+    CarnetRepository carnetRepository;
 
     @Override
     //Creation d'un salon
@@ -64,7 +71,7 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
      */
     @Override
     //Creation d'une coiffure
-    public Coiffure coiffureCreation(CoiffureRequest coiffureRequest, Long id){
+    public Coiffure coiffureCreation(CoiffureRequest coiffureRequest){
         Coiffure coiffure = new Coiffure(coiffureRequest.getNom(), coiffureRequest.getPrix());
         return coiffureRepository.save(coiffure);
     }
@@ -73,5 +80,18 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
     public Coiffure coiffureModification(CoiffureRequest coiffureRequest, Long id) {
         Coiffure coiffure = new Coiffure(id,coiffureRequest.getNom(),coiffureRequest.getPrix());
         return coiffureRepository.save(coiffure);
+    }
+    /**
+     * Gestion des carnets
+     */
+    @Override
+    public Carnet carnetCreation(CarnetRequest carnetRequest){
+        Carnet carnet = new Carnet(carnetRequest.getNom());
+        return carnetRepository.save(carnet);
+    }
+    @Override
+    public Carnet carnetModification(CarnetRequest carnetRequest, Long id){
+        Carnet carnet = new Carnet(id,carnetRequest.getNom());
+        return carnetRepository.save(carnet);
     }
 }

@@ -13,7 +13,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CarnetRepository extends JpaRepository<Carnet, Long> {
+
+    Carnet save(Carnet carnet);
+
     Optional<Carnet> findByIdAndDeletedIsFalse(Long id);
+
+    List<Carnet> findAll();
 
     List<Carnet> findAllByOrderByCreatedAtDesc();
 
