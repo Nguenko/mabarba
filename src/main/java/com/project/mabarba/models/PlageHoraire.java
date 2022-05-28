@@ -36,7 +36,7 @@ public class PlageHoraire extends CommonModel{
             name = "jour",
             nullable = false
     )
-
+    private Date jour;
 
     public Long getId() {
         return id;
@@ -64,5 +64,19 @@ public class PlageHoraire extends CommonModel{
            inverseJoinColumns = @JoinColumn(name = "user_id"))
    private List<User> userList;
 
+    public PlageHoraire() {
+    }
 
+    public PlageHoraire(Long id, Date debut, Date fin, Date jour) {
+        this.id = id;
+        this.debut = debut;
+        this.fin = fin;
+        this.jour = jour;
+    }
+
+    public PlageHoraire(Date debut, Date fin, Date jour) {
+        this.debut = debut;
+        this.fin = fin;
+        this.jour = jour;
+    }
 }

@@ -1,13 +1,7 @@
 package com.project.mabarba.service.impl;
 
-import com.project.mabarba.models.Carnet;
-import com.project.mabarba.models.Coiffeur;
-import com.project.mabarba.models.Coiffure;
-import com.project.mabarba.models.Salon;
-import com.project.mabarba.payload.request.CarnetRequest;
-import com.project.mabarba.payload.request.CoiffeurRequest;
-import com.project.mabarba.payload.request.CoiffureRequest;
-import com.project.mabarba.payload.request.SalonRequest;
+import com.project.mabarba.models.*;
+import com.project.mabarba.payload.request.*;
 import com.project.mabarba.repository.CarnetRepository;
 import com.project.mabarba.repository.CoiffeurRepository;
 import com.project.mabarba.repository.CoiffureRepository;
@@ -94,4 +88,17 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
         Carnet carnet = new Carnet(id,carnetRequest.getNom());
         return carnetRepository.save(carnet);
     }
+    //Création d'un plage horaire
+    @Override
+    public PlageHoraire plageHoraireCreation(PlageHoraireRequest plageHoraireRequest) {
+        PlageHoraire plageHoraire = new PlageHoraire(plageHoraireRequest.getDebut(), plageHoraireRequest.getFin(), plageHoraireRequest.getFin());
+        return plageHoraire;
+    }
+    //Modification d'une plage horaire
+    @Override
+    public PlageHoraire plageHoraireModification(PlageHoraireRequest plageHoraireRequest, Long id) {
+        PlageHoraire plageHoraire = new PlageHoraire(id,plageHoraireRequest.getDebut(),plageHoraireRequest.getFin(), plageHoraireRequest.getJour());
+        return plageHoraire;
+    }
+
 }

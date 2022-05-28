@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.project.mabarba.exception.NoDataFoundException;
-import com.project.mabarba.models.Carnet;
-import com.project.mabarba.models.Coiffeur;
-import com.project.mabarba.models.Coiffure;
-import com.project.mabarba.models.Salon;
+import com.project.mabarba.models.*;
 
 public interface ManagerRetrieveService {
     /**************** Salon ***********************/
@@ -77,4 +74,14 @@ public interface ManagerRetrieveService {
 
     // Display list of carnet by page
     Map<String, Object> carnetDisplayedPage(int pageNo, int pageSize);
+
+    /**
+     * Gestion des plages horaires
+     */
+    //Afficher une plage horaire
+    PlageHoraire plageHoraireDisplayed(long plageId) throws NoDataFoundException;
+    //Afficher la liste des plages horaires
+    List<PlageHoraire>plageHoraireDisplayedList();
+    //Afficher les plages horaires par pages
+    Map<String,Object> plageHoraireDisplayedPage(int pageNo, int pageSize);
 }

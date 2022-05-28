@@ -4,12 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.project.mabarba.exception.NoDataFoundException;
-import com.project.mabarba.models.Coiffeur;
-import com.project.mabarba.models.Coiffure;
-import com.project.mabarba.models.Salon;
-import com.project.mabarba.payload.request.CoiffeurRequest;
-import com.project.mabarba.payload.request.CoiffureRequest;
-import com.project.mabarba.payload.request.SalonRequest;
+import com.project.mabarba.models.*;
+import com.project.mabarba.payload.request.*;
 import com.project.mabarba.payload.response.ResponseStatus;
 import com.project.mabarba.payload.response.RestResponse;
 import com.project.mabarba.service.ManagerRetrieveService;
@@ -144,14 +140,14 @@ public class ManagerController {
     @ApiOperation("Création d'un coiffeur")
     public RestResponse barberCreation(@RequestBody CoiffeurRequest coiffeurRequest){
         Coiffeur coiffeur = managerUpdateService.barberCreation(coiffeurRequest);
-        return new RestResponse(coiffeur,"Barber created successfuly",ResponseStatus.SUCCESS,200);
+        return new RestResponse(coiffeur,"Barber created successfuly",ResponseStatus.SUCCESS,201);
     }
 
     @PutMapping(path = "/barber/{id}", name = "update")
     @ApiOperation("Modification d'un coiffeur à l'aide de son id")
     public RestResponse barberModification(@RequestBody CoiffeurRequest coiffeurRequest, @PathVariable Long id){
         Coiffeur coiffeur = managerUpdateService.barberModification(coiffeurRequest,id);
-        return new RestResponse(coiffeur,"Barber updated successfully", ResponseStatus.SUCCESS,201);
+        return new RestResponse(coiffeur,"Barber updated successfully", ResponseStatus.SUCCESS,200);
     }
 
     /**************** Coiffure endpoints *******************************/
@@ -160,14 +156,14 @@ public class ManagerController {
     @ApiOperation("Création d'une coiffure")
     public RestResponse coiffureCreation(@RequestBody CoiffureRequest coiffureRequest){
         Coiffure coiffure = managerUpdateService.coiffureCreation(coiffureRequest);
-        return new RestResponse(coiffure,"La création de la coiffure a réussie",ResponseStatus.SUCCESS,200);
+        return new RestResponse(coiffure,"La création de la coiffure a réussie",ResponseStatus.SUCCESS,201);
     }
     //Modificqtion d'une coiffure
     @PutMapping(path = "/coiffure/{id}", name = "Update")
     @ApiOperation("Modificqtion d'une coiffure")
     public RestResponse coiffureModification(@RequestBody CoiffureRequest coiffureRequest, @PathVariable Long id){
         Coiffure coiffure = managerUpdateService.coiffureModification(coiffureRequest,id);
-        return new RestResponse(coiffure, "Modification de la coiffure avec succes",ResponseStatus.SUCCESS,201);
+        return new RestResponse(coiffure, "Modification de la coiffure avec succes",ResponseStatus.SUCCESS,200);
     }
     //Information sur une coiffure
     /**
@@ -212,4 +208,83 @@ public class ManagerController {
         if(coiffure==null) return new RestResponse("this coiffure does'nt exist",ResponseStatus.ABORTED,404);
         return new RestResponse(coiffure,"coiffure displayed with pagination", ResponseStatus.SUCCESS,200);
     }
+
+    /******************* Carnet endpoints ******************************************/
+    //Création d'un carnet
+    @PostMapping(path = "/carnet", name = "create")
+    @ApiOperation("Création du carnet d'un coiffeur")
+    public RestResponse carnetCreation(@RequestBody CarnetRequest carnetRequest){
+        Carnet carnet = managerUpdateService.carnetCreation(carnetRequest);
+        return new RestResponse(carnet,"Création du carnet avec succes",ResponseStatus.SUCCESS,201);
+    }
+    //Modification d'un carnet
+
+    /**
+     *
+     * @param carnetRequest
+     * @param id
+     * @return
+     */
+    @PutMapping(path="/carnet/{id}", name = "update")
+    @ApiOperation("Modification du carnet d'un coiffeur")
+    public RestResponse carnetModification(@RequestBody CarnetRequest carnetRequest, @PathVariable Long id){
+        Carnet carnet = managerUpdateService.carnetModification(carnetRequest,id);
+        return new RestResponse(carnet,"La modification a été effectuée avec succes",ResponseStatus.SUCCESS,201);
+    }
+    //Afficher un carnet
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws NoDataFoundException
+     */
+    @GetMapping(path = "/carnet/{id}", name = "read")
+    @ApiOperation("Afficher les informations sur un carnet")
+    public RestResponse carnetDisplayed(@PathVariable Long id)throws NoDataFoundException{
+        if(id<0) return new RestResponse("Fatal error: This id does not exist", ResponseStatus.FAILED,400);
+        Carnet carnet = managerRetrieveService.carnetDisplayed(id);
+        if(carnet==null) return new RestResponse("Ce carnet n'existe pas", ResponseStatus.FAILED,404);
+        return new RestResponse(carnet, "Le carnet a ete trouve", ResponseStatus.SUCCESS,200);
+    }
+    //Afficher tous les carnets
+    @GetMapping(path = "/carnets", name = "All")
+    @ApiOperation("Affiche tous les carnets")
+    public RestResponse carnetDisplayedList(){
+        List<Carnet> carnetList = managerRetrieveService.carnetDisplayedList();
+        if(carnetList.isEmpty()) return new RestResponse("Carnet is empty",ResponseStatus.ABORTED,401);
+        return new RestResponse(carnetList,"Liste des carnets",ResponseStatus.SUCCESS,200);
+    }
+    //Lister les carnet par page
+
+    /**
+     *
+     * @param pageSize
+     * @param pageNo
+     * @return
+     */
+    @GetMapping(path = "/carnets-by-page", name = "List")
+    @ApiOperation("Afficher les informations sur les carnets par page")
+    public RestResponse carnetDisplayedPage(@RequestParam(name = "pageNo", defaultValue = "0") int pageSize, @RequestParam(name = "pageSize", defaultValue = "0") int pageNo){
+        if(pageNo<0||pageSize<0) return new RestResponse("Fatal error: pageSize and pageNo must positive",ResponseStatus.FAILED,400);
+        Map<String, Object> carnet = managerRetrieveService.coiffureDisplayedPage(pageNo, pageSize);
+        if(carnet==null) return new RestResponse("this carnet does'nt exist",ResponseStatus.ABORTED,404);
+        return new RestResponse(carnet,"carnet displayed with pagination", ResponseStatus.SUCCESS,200);
+    }
+
+    /**
+     * Gestion des plages horaires
+     */
+    //Créer une plage horaire
+    @PostMapping(path = "/plage-horaire",name = "create")
+    @ApiOperation("Créer une plage horaire")
+    public RestResponse plageHoraireCreation(@RequestBody PlageHoraireRequest plageHoraireRequest){
+        PlageHoraire plageHoraire = managerUpdateService.plageHoraireCreation(plageHoraireRequest);
+        return new RestResponse(plageHoraire,"Création d'une plage horaire a réussie",ResponseStatus.SUCCESS,200);
+    }
+    //Modifier une plage horaire
+    //Afficher une plage horaire
+    //Afficher la liste des plages horaire
+    //Afficher la liste des plages horaires par page
 }
+

@@ -1,13 +1,7 @@
 package com.project.mabarba.service;
 
-import com.project.mabarba.models.Carnet;
-import com.project.mabarba.models.Coiffeur;
-import com.project.mabarba.models.Coiffure;
-import com.project.mabarba.models.Salon;
-import com.project.mabarba.payload.request.CarnetRequest;
-import com.project.mabarba.payload.request.CoiffeurRequest;
-import com.project.mabarba.payload.request.CoiffureRequest;
-import com.project.mabarba.payload.request.SalonRequest;
+import com.project.mabarba.models.*;
+import com.project.mabarba.payload.request.*;
 
 public interface ManagerUpdateService {
 
@@ -41,4 +35,13 @@ public interface ManagerUpdateService {
     Carnet carnetCreation(CarnetRequest carnetRequest);
 
     Carnet carnetModification(CarnetRequest carnetRequest, Long id);
+
+    /**
+     * Gestion des plages horaires
+     */
+    //Création d'une plage horaire
+    PlageHoraire plageHoraireCreation(PlageHoraireRequest plageHoraireRequest);
+
+    //Modification d'une plage Horaire
+    PlageHoraire plageHoraireModification(PlageHoraireRequest plageHoraireRequest, Long id);
 }
