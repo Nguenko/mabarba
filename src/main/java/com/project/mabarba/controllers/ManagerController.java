@@ -283,8 +283,49 @@ public class ManagerController {
         return new RestResponse(plageHoraire,"Création d'une plage horaire a réussie",ResponseStatus.SUCCESS,200);
     }
     //Modifier une plage horaire
+    @PutMapping(path = "/plage-horaire/{id}", name = "update")
+    @ApiOperation("Modifier une plage horaire")
+    public RestResponse plageHoraireModification(@RequestBody PlageHoraireRequest plageHoraireRequest, @PathVariable Long id){
+        PlageHoraire plageHoraire = managerUpdateService.plageHoraireModification(plageHoraireRequest, id);
+        return new RestResponse(plageHoraire,"Modification de la plage horaire avec succes",ResponseStatus.SUCCESS,200);
+    }
     //Afficher une plage horaire
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws NoDataFoundException
+     */
+    @GetMapping(path = "/plage-horaire/{id}", name = "read")
+    @ApiOperation("Afficher une plage horaire")
+    public RestResponse plageHoraireDisplayed(@PathVariable Long id) throws NoDataFoundException{
+        if(id<0) return new RestResponse("Fatal error: l'id doit être un nombre positif",ResponseStatus.FAILED,400);
+        PlageHoraire plageHoraire = managerRetrieveService.plageHoraireDisplayed(id);
+        if(plageHoraire==null) return new RestResponse("Cette plage horaire n'existe pas", ResponseStatus.FAILED,404);
+        return new RestResponse(plageHoraire, "La plage horaire a ete trouve", ResponseStatus.SUCCESS,200);
+    }
     //Afficher la liste des plages horaire
+    @GetMapping(path = "/plages-horaires", name = "all")
+    @ApiOperation("Afficher la liste des plages horaires")
+    public RestResponse plageHoraireDisplayedList(){
+        List<PlageHoraire> plageHoraireList = managerRetrieveService.plageHoraireDisplayedList();
+        if(plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire trouvée",ResponseStatus.ABORTED,404);
+        return new RestResponse(plageHoraireList, "Liste des plages horaires", ResponseStatus.SUCCESS,200);
+    }
     //Afficher la liste des plages horaires par page
+
+    /**
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    public RestResponse plageHoraireDisplayedPage(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo, @RequestParam(name = "pageSize", defaultValue = "2") int pageSize){
+        if(pageNo<0||pageSize<0) return new RestResponse("Fatal error: pageSize and pageNo must positive",ResponseStatus.FAILED,400);
+        Map<String, Object> plageHoraire = managerRetrieveService.plageHoraireDisplayedPage(pageNo, pageSize);
+        if(plageHoraire==null) return new RestResponse("Cette plage horaire n'existe pas",ResponseStatus.ABORTED,404);
+        return new RestResponse(plageHoraire,"Liste des plages horaires avec pagination", ResponseStatus.SUCCESS,200);
+    }
 }
 
