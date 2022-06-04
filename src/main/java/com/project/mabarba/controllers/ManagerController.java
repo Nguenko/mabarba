@@ -314,7 +314,6 @@ public class ManagerController {
         return new RestResponse(plageHoraireList, "Liste des plages horaires", ResponseStatus.SUCCESS,200);
     }
     //Afficher la liste des plages horaires par page
-
     /**
      *
      * @param pageNo

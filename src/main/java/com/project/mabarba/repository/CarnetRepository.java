@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.project.mabarba.models.Carnet;
 import com.project.mabarba.models.Coiffeur;
+import com.project.mabarba.models.PlageHoraire;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +24,8 @@ public interface CarnetRepository extends JpaRepository<Carnet, Long> {
     List<Carnet> findAllByOrderByCreatedAtDesc();
 
     Page<Carnet> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+
+    //Afficher le carnet d'un coiffeur
+    Carnet findByCoiffeurId(Long coiffeurId);
 }

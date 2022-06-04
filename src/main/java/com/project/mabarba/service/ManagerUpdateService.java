@@ -2,7 +2,9 @@ package com.project.mabarba.service;
 
 import com.project.mabarba.models.*;
 import com.project.mabarba.payload.request.*;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface ManagerUpdateService {
 
     // ---------------------- Salon -----------------/

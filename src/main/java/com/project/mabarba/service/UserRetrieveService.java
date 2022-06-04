@@ -1,11 +1,14 @@
 package com.project.mabarba.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.project.mabarba.exception.NoDataFoundException;
-import com.project.mabarba.models.User;
+import com.project.mabarba.models.*;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface UserRetrieveService {
     //Display User information
     User userDisplayedByID(Long userId) throws NoDataFoundException;
@@ -32,4 +35,43 @@ public interface UserRetrieveService {
      * @return
      */
     Map<String, Object> userDisplayedPage(int pageNo, int pageSize);
+
+    // Pour les salons
+    //TODO: Afficher la liste des salons
+    /**
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    Map<String, Object> salonDisplayedPage(int pageNo, int pageSize);
+    //TODO: Afficher un salon à partir de son id
+    /**
+     *
+     * @param salonId
+     * @return
+     * @throws NoDataFoundException
+     */
+    Salon salonDisplayed(long salonId) throws NoDataFoundException;
+    //TODO: Afficher les coiffeurs d'un salon
+    /**
+     *
+     * @param salonId
+     * @return
+     * @throws NoDataFoundException
+     */
+    List<Coiffeur> salonDisplayedCoiffeur(long salonId) throws NoDataFoundException;
+
+    //TODO: Liste des coiffures d'un salon
+
+    /**
+     *
+     * @param salonId
+     * @return
+     * @throws NoDataFoundException
+     */
+    List<Coiffure> salonDisplayedCoiffure(long salonId) throws NoDataFoundException;
+
+    //TODO: Afficher les Plage Horaire d'un coiffeur pour une journée x
+    List<PlageHoraire>plageHoraireDisplayedByJour(Date jour);
 }

@@ -5,7 +5,9 @@ import java.util.Map;
 
 import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.models.*;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface ManagerRetrieveService {
     /**************** Salon ***********************/
     // ----------------------- RetrieveService salon ---------------/
@@ -25,6 +27,12 @@ public interface ManagerRetrieveService {
     // ----------------------------------
     // Display a salon information
     Map<String, Object> salonDisplayedPage(int pageNo, int pageSize);
+
+    //Liste des Coiffeurs d'un salon
+    List<Coiffeur> salonDisplayedCoiffeur(long salonId) throws NoDataFoundException;
+
+    //Liste des coiffures d'un salon
+    List<Coiffure> salonDisplayedCoiffure(long salonId) throws NoDataFoundException;
 
     /*************** Coiffeur *****************/
     // Display a barba information
@@ -84,4 +92,7 @@ public interface ManagerRetrieveService {
     List<PlageHoraire>plageHoraireDisplayedList();
     //Afficher les plages horaires par pages
     Map<String,Object> plageHoraireDisplayedPage(int pageNo, int pageSize);
+
+    //Afficher les plages horaires d'un carnet
+
 }

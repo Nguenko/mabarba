@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 @Service
-public class ManagerRetrieveImpl implements ManagerRetrieveService {
+public class ManagerRetrieveImpl implements ManagerRetrieveService{
     @Autowired
     SalonRepository salonRepository;
 
@@ -35,7 +35,6 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService {
     @Override
     public Salon salonDisplayed(long salonId) throws NoDataFoundException {
         return salonRepository.findByIdAndDeletedIsFalse(salonId).orElseThrow(()->new NoDataFoundException(salonId));
-
     }
 
     @Override
@@ -71,6 +70,20 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Coiffeur> salonDisplayedCoiffeur(long salonId) throws NoDataFoundException {
+        Salon salon = salonRepository.findByIdAndDeletedIsFalse(salonId).orElseThrow(()->new NoDataFoundException(salonId));
+        List<Coiffeur> coiffeurList = coiffeurRepository.findBySalonId(salonId);
+        return coiffeurList;
+    }
+
+    @Override
+    public List<Coiffure>salonDisplayedCoiffure(long salonId) throws NoDataFoundException{
+        Salon salon = salonRepository.findByIdAndDeletedIsFalse(salonId).orElseThrow(()->new NoDataFoundException(salonId));
+        List<Coiffure> coiffureList = coiffureRepository.findSalonById(salonId);
+        return coiffureList;
     }
 
     /**
@@ -171,6 +184,7 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService {
      * @param pageSize
      * @return
      */
+    @Override
     public Map<String,Object> carnetDisplayedPage(int pageNo, int pageSize){
         Pageable pageable = PageRequest.of(pageNo,pageSize);
         try {
@@ -187,21 +201,23 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService {
      */
     @Override
     public PlageHoraire plageHoraireDisplayed(long plageId) throws NoDataFoundException {
-        return plageHoraireRepository.findByIdAndDeleteIsFalse(plageId).orElseThrow(()->new NoDataFoundException(plageId));
+        //return plageHoraireRepository.findByIdAndDeleteIsFalse(plageId).orElseThrow(()->new NoDataFoundException(plageId));
+        return null;
     }
 
     @Override
     public List<PlageHoraire> plageHoraireDisplayedList() {
-        List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAllByOrderByCreatedAtDesc();
-        return plageHoraireList;
+        //List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAllByOrderByCreatedAtDesc();
+        //return plageHoraireList;
+        return null;
     }
 
     @Override
     public Map<String, Object> plageHoraireDisplayedPage(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo,pageSize);
         try {
-            Page<PlageHoraire> plageHorairesPage = plageHoraireRepository.findAllByOrderByCreatedAtDesc(pageable);;
-            return new FunctionalUtilities<PlageHoraire>().paginator(plageHorairesPage);
+            //Page<PlageHoraire> plageHorairesPage = plageHoraireRepository.findAllByOrderByCreatedAtDesc(pageable);;
+            //return new FunctionalUtilities<PlageHoraire>().paginator(plageHorairesPage);
         }catch (Exception e){
             e.getMessage();
         }
