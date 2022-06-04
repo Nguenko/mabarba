@@ -32,6 +32,9 @@ public class UserRetrieveImpl implements UserRetrieveService{
     @Autowired
     PlageHoraireRepository plageHoraireRepository;
 
+    @Autowired
+    CarnetRepository carnetRepository;
+
     /******** Retrive Service implement */
     @Override
     public User userDisplayedByID(Long userId) throws NoDataFoundException {
@@ -103,8 +106,9 @@ public class UserRetrieveImpl implements UserRetrieveService{
     }
 
     @Override
-    public List<PlageHoraire> plageHoraireDisplayedByJour(Date jour){
-        List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAllByJourOrderByCreatedAt(jour);
+    public List<PlageHoraire> plageHoraireByCoiffeurByJour(Long coiffeurId, Date jour) throws NoDataFoundException{
+        Carnet carnet = carnetRepository.findByCoiffeurIdAAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
+        List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAllByJourByCarnetByIdOrderByCreatedAt(jour,carnet.getId());
         return plageHoraireList;
     }
 }

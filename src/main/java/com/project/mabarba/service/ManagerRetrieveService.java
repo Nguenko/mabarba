@@ -82,7 +82,8 @@ public interface ManagerRetrieveService {
 
     // Display list of carnet by page
     Map<String, Object> carnetDisplayedPage(int pageNo, int pageSize);
-
+    // Rechercher le carnet d'un coiffeur
+    Carnet carnetDisplayByCoiffeur(Long coiffeurId) throws NoDataFoundException;
     /**
      * Gestion des plages horaires
      */

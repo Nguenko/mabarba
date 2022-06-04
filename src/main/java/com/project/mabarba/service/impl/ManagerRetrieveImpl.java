@@ -196,6 +196,12 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService{
         return null;
     }
 
+    @Override
+    public Carnet carnetDisplayByCoiffeur(Long coiffeurId) throws NoDataFoundException{
+        Carnet carnet = carnetRepository.findByCoiffeurIdAAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
+        return carnet;
+    }
+
     /**
      * Gestion des plages horaires
      */

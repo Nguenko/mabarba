@@ -37,7 +37,7 @@ public interface UserRetrieveService {
     Map<String, Object> userDisplayedPage(int pageNo, int pageSize);
 
     // Pour les salons
-    //TODO: Afficher la liste des salons
+    //Afficher la liste des salons
     /**
      *
      * @param pageNo
@@ -45,7 +45,7 @@ public interface UserRetrieveService {
      * @return
      */
     Map<String, Object> salonDisplayedPage(int pageNo, int pageSize);
-    //TODO: Afficher un salon à partir de son id
+    //Afficher un salon à partir de son id
     /**
      *
      * @param salonId
@@ -53,7 +53,8 @@ public interface UserRetrieveService {
      * @throws NoDataFoundException
      */
     Salon salonDisplayed(long salonId) throws NoDataFoundException;
-    //TODO: Afficher les coiffeurs d'un salon
+
+    //Afficher les coiffeurs d'un salon
     /**
      *
      * @param salonId
@@ -62,8 +63,7 @@ public interface UserRetrieveService {
      */
     List<Coiffeur> salonDisplayedCoiffeur(long salonId) throws NoDataFoundException;
 
-    //TODO: Liste des coiffures d'un salon
-
+    //Liste des coiffures d'un salon
     /**
      *
      * @param salonId
@@ -73,5 +73,8 @@ public interface UserRetrieveService {
     List<Coiffure> salonDisplayedCoiffure(long salonId) throws NoDataFoundException;
 
     //TODO: Afficher les Plage Horaire d'un coiffeur pour une journée x
-    List<PlageHoraire>plageHoraireDisplayedByJour(Date jour);
+    List<PlageHoraire>plageHoraireByCoiffeurByJour(Long coiffeurId, Date jour) throws NoDataFoundException;
+
+    //TODO: Reserver une plage horaire
+
 }

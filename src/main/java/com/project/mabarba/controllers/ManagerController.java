@@ -136,6 +136,20 @@ public class ManagerController {
         }
     }
 
+    /**
+     *
+     * @param salonId
+     * @return
+     * @throws NoDataFoundException
+     */
+    @GetMapping(path = "/salon-barber/{salonId}", name = "")
+    @ApiOperation("Afficher la liste des coiffeurs d'un salon")
+    public RestResponse salonDisplayedCoiffeur(@PathVariable Long salonId) throws NoDataFoundException{
+        if(salonId<0) return new RestResponse("Fatal Error: this salon id does not exist",ResponseStatus.FAILED,400);
+        List<Coiffeur> coiffeurList = managerRetrieveService.salonDisplayedCoiffeur(salonId);
+        if(coiffeurList.isEmpty()) return new RestResponse("There is no barber in this salon", ResponseStatus.ABORTED,404);
+        return new RestResponse(coiffeurList,"Liste des coiffeurs d'un salon", ResponseStatus.SUCCESS,200);
+    }
     @PostMapping(path = "/barber", name = "create")
     @ApiOperation("Création d'un coiffeur")
     public RestResponse barberCreation(@RequestBody CoiffeurRequest coiffeurRequest){
@@ -207,6 +221,21 @@ public class ManagerController {
         Map<String, Object> coiffure = managerRetrieveService.coiffureDisplayedPage(pageNo, pageSize);
         if(coiffure==null) return new RestResponse("this coiffure does'nt exist",ResponseStatus.ABORTED,404);
         return new RestResponse(coiffure,"coiffure displayed with pagination", ResponseStatus.SUCCESS,200);
+    }
+    //Liste des coiffures d'un salon de coiffuere
+    /**
+     *
+     * @param salonId
+     * @return
+     * @throws NoDataFoundException
+     */
+    @GetMapping(path = "/salon-coiffure/{salonId}")
+    @ApiOperation("Liste des coiffures enregistrée dans un salon")
+    public RestResponse salonDisplayedCoiffure(@PathVariable Long salonId) throws NoDataFoundException{
+        if(salonId<0) return new RestResponse("Fatal Error: this salon id does not exist",ResponseStatus.FAILED,400);
+        List<Coiffure> coiffureList = managerRetrieveService.salonDisplayedCoiffure(salonId);
+        if(coiffureList.isEmpty()) return new RestResponse("There is no coiffure in this salon", ResponseStatus.ABORTED,404);
+        return new RestResponse(coiffureList,"Liste des coiffures d'un salon", ResponseStatus.SUCCESS,200);
     }
 
     /******************* Carnet endpoints ******************************************/

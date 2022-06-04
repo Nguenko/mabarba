@@ -33,5 +33,5 @@ public interface PlageHoraireRepository extends JpaRepository<PlageHoraire, Long
     List<PlageHoraire> findCarnetById(Long carnetId);
 
     //Afficher les plage horaires pour une journee x
-    List<PlageHoraire> findAllByJourOrderByCreatedAt(Date jour);
+    List<PlageHoraire> findAllByJourByCarnetByIdOrderByCreatedAt(Date jour,Long carnetId);
 }
