@@ -12,16 +12,11 @@ import com.project.mabarba.service.ManagerRetrieveService;
 import com.project.mabarba.service.ManagerUpdateService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.ApiOperation;
 
+@RequestMapping("/manager")
 @RestController
 public class ManagerController {
     @Autowired
@@ -150,6 +145,7 @@ public class ManagerController {
         if(coiffeurList.isEmpty()) return new RestResponse("There is no barber in this salon", ResponseStatus.ABORTED,404);
         return new RestResponse(coiffeurList,"Liste des coiffeurs d'un salon", ResponseStatus.SUCCESS,200);
     }
+
     @PostMapping(path = "/barber", name = "create")
     @ApiOperation("Création d'un coiffeur")
     public RestResponse barberCreation(@RequestBody CoiffeurRequest coiffeurRequest){
@@ -174,7 +170,7 @@ public class ManagerController {
     }
     //Modificqtion d'une coiffure
     @PutMapping(path = "/coiffure/{id}", name = "Update")
-    @ApiOperation("Modificqtion d'une coiffure")
+    @ApiOperation("Modification d'une coiffure")
     public RestResponse coiffureModification(@RequestBody CoiffureRequest coiffureRequest, @PathVariable Long id){
         Coiffure coiffure = managerUpdateService.coiffureModification(coiffureRequest,id);
         return new RestResponse(coiffure, "Modification de la coiffure avec succes",ResponseStatus.SUCCESS,200);
@@ -299,6 +295,18 @@ public class ManagerController {
         Map<String, Object> carnet = managerRetrieveService.coiffureDisplayedPage(pageNo, pageSize);
         if(carnet==null) return new RestResponse("this carnet does'nt exist",ResponseStatus.ABORTED,404);
         return new RestResponse(carnet,"carnet displayed with pagination", ResponseStatus.SUCCESS,200);
+    }
+
+    @GetMapping("/display-barber-planing/{coiffeurId}")
+    @ApiOperation("Afficher le carnet d'un carnet")
+    public RestResponse displayBarberPlaning(@PathVariable long coiffeurId) throws NoDataFoundException{
+        Carnet carnet = new Carnet();
+        carnet = managerRetrieveService.displayBarberPlaning(coiffeurId);
+        System.out.println("Dans le controller "+carnet.toString());
+        if(carnet==null) return new RestResponse("this carnet does'nt exist",ResponseStatus.ABORTED,404);
+        return new RestResponse(carnet,"carnet displayed ", ResponseStatus.SUCCESS,200);
+
+        //return new RestResponse("Carnet displayed succesfully",ResponseStatus.SUCCESS,200);
     }
 
     /**

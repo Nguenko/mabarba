@@ -14,6 +14,9 @@ public class CoiffureRequest {
     @NotBlank
     private double prix;
 
+    @NotBlank
+    private Long salonId;
+    public CoiffureRequest(){}
     public  CoiffureRequest(String nom, double prix){
         this.nom = nom;
         this.prix = prix;
@@ -33,6 +36,14 @@ public class CoiffureRequest {
     }
     public double getPrix(){
         return prix;
+    }
+
+    public Long getSalonId() {
+        return salonId;
+    }
+
+    public void setSalonId(Long salonId) {
+        this.salonId = salonId;
     }
 
     public void setId(Long id){

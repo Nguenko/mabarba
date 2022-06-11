@@ -10,6 +10,9 @@ public class CoiffeurRequest {
     @NotBlank
     private String telephone;
 
+    @NotBlank
+    private Long salonId;
+
     @Id
     private Long id;
 
@@ -43,5 +46,13 @@ public class CoiffeurRequest {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getSalonId() {
+        return salonId;
+    }
+
+    public void setSalonId(Long salonId) {
+        this.salonId = salonId;
     }
 }

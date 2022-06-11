@@ -94,6 +94,7 @@ public interface ManagerRetrieveService {
     //Afficher les plages horaires par pages
     Map<String,Object> plageHoraireDisplayedPage(int pageNo, int pageSize);
 
-    //Afficher les plages horaires d'un carnet
+    //Afficher les plages horaires d'un coiffeur
+    Carnet displayBarberPlaning(Long coiffeurId) throws NoDataFoundException;
 
 }

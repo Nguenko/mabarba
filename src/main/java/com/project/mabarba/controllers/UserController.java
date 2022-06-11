@@ -10,17 +10,21 @@ import com.project.mabarba.payload.response.RestResponse;
 import com.project.mabarba.service.UserRetrieveService;
 import com.project.mabarba.service.UserUpdateService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -82,7 +86,7 @@ public class UserController {
      * @throws NoDataFoundException
      */
     @GetMapping(path = "/salon-coiffure/{salonId}")
-    @ApiOperation("Liste des coiffures enregistrée dans un salon")
+    @ApiOperation("Liste des coiffures enregistrées dans un salon")
     public RestResponse salonDisplayedCoiffure(@PathVariable Long salonId) throws NoDataFoundException{
         if(salonId<0) return new RestResponse("Fatal Error: this salon id does not exist",ResponseStatus.FAILED,400);
         List<Coiffure> coiffureList = userRetrieveService.salonDisplayedCoiffure(salonId);
@@ -92,9 +96,15 @@ public class UserController {
     //Liste des plages horaires d'un coiffeur pour une journee
     @GetMapping(path = "/plagehoraire-coiffeur-jour")
     @ApiOperation("Les plages Horaires d'une journee pour un coiffeur")
-    public RestResponse plageHoraireCoiffeurJour(@RequestParam Long coiffeurId, @RequestParam Date jour) throws NoDataFoundException{
+    public RestResponse plageHoraireCoiffeurJour(@RequestParam(name = "coiffeurId") Long coiffeurId, @RequestParam(name = "jour") String jour) throws Exception{
         if(coiffeurId<0) return new RestResponse("Fatal Error: this coiffeur id does not exist", ResponseStatus.FAILED,400);
-        List<PlageHoraire> plageHoraireList = userRetrieveService.plageHoraireByCoiffeurByJour(coiffeurId,jour);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date parsedDate = dateFormat.parse(jour);
+        Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+
+
+        List<PlageHoraire> plageHoraireList = userRetrieveService.plageHoraireByCoiffeurByJour(coiffeurId,timestamp);
         if(plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire pour cette journee",ResponseStatus.ABORTED,404);
         return new RestResponse(plageHoraireList,"Liste des plage horaire pour un coiffeur pour une journee", ResponseStatus.SUCCESS,200);
     }

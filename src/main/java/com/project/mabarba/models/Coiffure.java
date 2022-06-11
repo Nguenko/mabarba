@@ -28,6 +28,13 @@ public class Coiffure extends CommonModel{
     public Coiffure (Long id, String nom, double prix){
 
     }
+
+    public Coiffure(String nom, double prix, Salon salon) {
+        this.nom = nom;
+        this.prix = prix;
+        this.salon = salon;
+    }
+
     public Long getId() {
         return id;
     }

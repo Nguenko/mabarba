@@ -22,4 +22,5 @@ public interface CoiffeurRepository extends JpaRepository<Coiffeur,Long> {
 
     //Liste des Coiffeurs d'un salon
     List<Coiffeur> findBySalonId(Long salonId);
+
 }

@@ -9,6 +9,11 @@ public class CarnetRequest {
     @NotBlank
     private String nom;
 
+    @NotBlank
+    private Long coiffeurId;
+
+    public CarnetRequest(){}
+
     public String getNom(){
         return this.nom;
     }
@@ -20,5 +25,13 @@ public class CarnetRequest {
     }
     public void setId(Long id){
         this.id = id;
+    }
+
+    public Long getCoiffeurId() {
+        return coiffeurId;
+    }
+
+    public void setCoiffeurId(Long coiffeurId) {
+        this.coiffeurId = coiffeurId;
     }
 }

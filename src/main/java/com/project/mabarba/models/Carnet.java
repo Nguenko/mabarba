@@ -1,6 +1,7 @@
 package com.project.mabarba.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,6 +16,11 @@ public class Carnet extends CommonModel{
 
     public Carnet(String nom){
         this.nom = nom;
+    }
+
+    public Carnet(String nom, Coiffeur coiffeur) {
+        this.nom = nom;
+        this.coiffeur = coiffeur;
     }
 
     public Carnet() {
@@ -58,10 +64,24 @@ public class Carnet extends CommonModel{
     private List<PlageHoraire> plageHoraires;
 
     public List<PlageHoraire> getPlageHoraires() {
+        if(plageHoraires ==null || plageHoraires.isEmpty())
+            plageHoraires= new ArrayList<>();
         return plageHoraires;
     }
 
+    /*public List<PlageHoraire> getPlageHoraires() {
+        return plageHoraires;
+    }*/
+
     public void setPlageHoraires(List<PlageHoraire> plageHoraires) {
         this.plageHoraires = plageHoraires;
+    }
+
+    @Override
+    public String toString() {
+        return "Carnet{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                '}';
     }
 }

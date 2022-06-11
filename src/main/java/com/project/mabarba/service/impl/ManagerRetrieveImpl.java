@@ -1,5 +1,6 @@
 package com.project.mabarba.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.helpers.FunctionalUtilities;
 import com.project.mabarba.models.*;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service
@@ -68,7 +70,6 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService{
         }catch (Exception e){
             e.getMessage();
         }
-
         return null;
     }
 
@@ -82,7 +83,7 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService{
     @Override
     public List<Coiffure>salonDisplayedCoiffure(long salonId) throws NoDataFoundException{
         Salon salon = salonRepository.findByIdAndDeletedIsFalse(salonId).orElseThrow(()->new NoDataFoundException(salonId));
-        List<Coiffure> coiffureList = coiffureRepository.findSalonById(salonId);
+        List<Coiffure> coiffureList = coiffureRepository.findBySalonId(salonId);
         return coiffureList;
     }
 
@@ -198,7 +199,7 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService{
 
     @Override
     public Carnet carnetDisplayByCoiffeur(Long coiffeurId) throws NoDataFoundException{
-        Carnet carnet = carnetRepository.findByCoiffeurIdAAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
+        Carnet carnet = carnetRepository.findByCoiffeurIdAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
         return carnet;
     }
 
@@ -224,6 +225,32 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService{
         try {
             //Page<PlageHoraire> plageHorairesPage = plageHoraireRepository.findAllByOrderByCreatedAtDesc(pageable);;
             //return new FunctionalUtilities<PlageHoraire>().paginator(plageHorairesPage);
+        }catch (Exception e){
+            e.getMessage();
+        }
+        return null;
+    }
+
+    @Override
+    public Carnet displayBarberPlaning(Long coiffeurId) throws NoDataFoundException {
+        System.out.println("1");
+        Optional<Carnet> carnetOptional = carnetRepository.findByCoiffeurIdAndDeletedIsFalse(coiffeurId);
+        System.out.println("2");
+        Carnet carnet = new Carnet();
+        Carnet carnetResult = new Carnet();
+        ObjectMapper carnetMapper = new ObjectMapper();
+        try{
+            System.out.println("3");
+            if(carnetOptional.isPresent()){
+                System.out.println("4");
+                carnet = carnetOptional.get();
+                System.out.println(carnet.getNom());
+                System.out.println(carnet.getId());
+                //carnetResult=carnetMapper.convertValue(carnet,Carnet.class);
+                //System.out.println(carnetResult.toString());
+                return  carnet;
+            }
+            System.out.println("5");
         }catch (Exception e){
             e.getMessage();
         }

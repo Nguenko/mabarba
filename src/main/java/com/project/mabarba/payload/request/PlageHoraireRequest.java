@@ -17,6 +17,12 @@ public class PlageHoraireRequest {
     @NotBlank
     private Date jour;
 
+    @NotBlank
+    private Long carnetId;
+
+    public PlageHoraireRequest() {
+    }
+
     public PlageHoraireRequest(Long id, Date debut, Date fin, Date jour) {
         this.id = id;
         this.debut = debut;
@@ -60,5 +66,13 @@ public class PlageHoraireRequest {
 
     public void setJour(Date jour) {
         this.jour = jour;
+    }
+
+    public Long getCarnetId() {
+        return carnetId;
+    }
+
+    public void setCarnetId(Long carnetId) {
+        this.carnetId = carnetId;
     }
 }

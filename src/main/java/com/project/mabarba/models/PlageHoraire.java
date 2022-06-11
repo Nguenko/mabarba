@@ -30,6 +30,30 @@ public class PlageHoraire extends CommonModel{
     )
     private Date fin;
 
+    public Date getDebut() {
+        return debut;
+    }
+
+    public void setDebut(Date debut) {
+        this.debut = debut;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
+    }
+
+    public Date getJour() {
+        return jour;
+    }
+
+    public void setJour(Date jour) {
+        this.jour = jour;
+    }
+
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(
@@ -58,11 +82,13 @@ public class PlageHoraire extends CommonModel{
         this.carnet = carnet;
     }
 
-   @ManyToMany(fetch = FetchType.LAZY)
+   /*@ManyToMany(fetch = FetchType.LAZY)
    @JoinTable(name = "reservation",
             joinColumns = @JoinColumn(name = "plage_id"),
            inverseJoinColumns = @JoinColumn(name = "user_id"))
-   private List<User> userList;
+   private List<User> userList;*/
+    @OneToMany(mappedBy = "plageHoraire")
+   private List<Reservation> reservationList;
 
     public PlageHoraire() {
     }

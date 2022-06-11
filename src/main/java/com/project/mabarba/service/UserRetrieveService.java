@@ -1,5 +1,6 @@
 package com.project.mabarba.service;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,6 @@ public interface UserRetrieveService {
     /******************List of Element *************/
     //Display all users information
     List<User> userDisplayedList();
-
 
     /**
      * Display users information by page
@@ -73,7 +73,7 @@ public interface UserRetrieveService {
     List<Coiffure> salonDisplayedCoiffure(long salonId) throws NoDataFoundException;
 
     //TODO: Afficher les Plage Horaire d'un coiffeur pour une journée x
-    List<PlageHoraire>plageHoraireByCoiffeurByJour(Long coiffeurId, Date jour) throws NoDataFoundException;
+    List<PlageHoraire>plageHoraireByCoiffeurByJour(Long coiffeurId, Timestamp jour) throws NoDataFoundException;
 
     //TODO: Reserver une plage horaire
 

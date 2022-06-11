@@ -49,6 +49,7 @@ public class Coiffeur extends CommonModel{
         super.createdAt = createdAt;
     }
 
+
     public Long getId() {
         return id;
     }
@@ -85,8 +86,19 @@ public class Coiffeur extends CommonModel{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "coiffeur",cascade = CascadeType.ALL)
     List<File> photos = new ArrayList<>();
 
+    public Carnet getCarnet() {
+        return carnet;
+    }
 
+    public void setCarnet(Carnet carnet) {
+        this.carnet = carnet;
+    }
 
+    public Salon getSalon() {
+        return salon;
+    }
 
-
+    public void setSalon(Salon salon) {
+        this.salon = salon;
+    }
 }

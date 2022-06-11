@@ -27,5 +27,6 @@ public interface CarnetRepository extends JpaRepository<Carnet, Long> {
 
 
     //Afficher le carnet d'un coiffeur
-    Optional<Carnet> findByCoiffeurIdAAndDeletedIsFalse(Long coiffeurId);
+    Optional<Carnet> findByCoiffeurIdAndDeletedIsFalse(Long coiffeurId);
+    //Optional<Carnet> findByCoiffeur(Coiffeur coiffeur);
 }

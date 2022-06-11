@@ -50,8 +50,11 @@ public class User extends CommonModel{
 	@ManyToMany(mappedBy="users")
 	private List<Salon> salons;
 
-	@ManyToMany(mappedBy = "userList")
-	private List<PlageHoraire> salonList;
+	/*@ManyToMany(mappedBy = "userList")
+	private List<PlageHoraire> plageHoraireList;*/
+
+	@OneToMany(mappedBy = "user")
+	private List<Reservation> reservationList;
 
 	public User() {
 	}

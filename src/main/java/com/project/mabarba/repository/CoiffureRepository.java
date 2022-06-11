@@ -21,5 +21,5 @@ public interface CoiffureRepository extends JpaRepository<Coiffure,Long> {
     Page<Coiffure> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     //Liste des coiffures d'un salon
-    List<Coiffure> findSalonById(Long salonId);
+    List<Coiffure> findBySalonId(Long salonId);
 }
