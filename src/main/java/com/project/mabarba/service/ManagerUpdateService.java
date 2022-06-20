@@ -1,5 +1,6 @@
 package com.project.mabarba.service;
 
+import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.models.*;
 import com.project.mabarba.payload.request.*;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public interface ManagerUpdateService {
 
     /********************* Coiffeur ******************/
     // create a barber
-    Coiffeur barberCreation(CoiffeurRequest coiffeurRequest);
+    Coiffeur barberCreation(CoiffeurRequest coiffeurRequest) throws NoDataFoundException;
 
     // update a barberbg
     Coiffeur barberModification(CoiffeurRequest coiffeurRequest, Long id);

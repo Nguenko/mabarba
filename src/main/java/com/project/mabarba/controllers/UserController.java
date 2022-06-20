@@ -98,14 +98,12 @@ public class UserController {
     @ApiOperation("Les plages Horaires d'une journee pour un coiffeur")
     public RestResponse plageHoraireCoiffeurJour(@RequestParam(name = "coiffeurId") Long coiffeurId, @RequestParam(name = "jour") String jour) throws Exception{
         if(coiffeurId<0) return new RestResponse("Fatal Error: this coiffeur id does not exist", ResponseStatus.FAILED,400);
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date parsedDate = dateFormat.parse(jour);
         Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-
-
         List<PlageHoraire> plageHoraireList = userRetrieveService.plageHoraireByCoiffeurByJour(coiffeurId,timestamp);
-        if(plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire pour cette journee",ResponseStatus.ABORTED,404);
+        if(plageHoraireList.isEmpty())
+            return new RestResponse("Aucune plage horaire pour cette journee",ResponseStatus.ABORTED,404);
         return new RestResponse(plageHoraireList,"Liste des plage horaire pour un coiffeur pour une journee", ResponseStatus.SUCCESS,200);
     }
 }

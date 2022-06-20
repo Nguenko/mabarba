@@ -22,6 +22,11 @@ public class CoiffeurRequest {
         this.telephone = telephone;
     }
 
+    public CoiffeurRequest(String nom,  String telephone) {
+        this.nom = nom;
+        this.telephone = telephone;
+    }
+
     public CoiffeurRequest(){}
 
     public String getNom() {

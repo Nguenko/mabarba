@@ -1,8 +1,6 @@
 package com.project.mabarba.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ public class Salon extends CommonModel{
     @Column(name = "telephone", nullable = false)
     private String telephone;
 
-
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "salon", cascade = CascadeType.ALL)
     List<File> photos = new ArrayList<>();
 
@@ -84,17 +82,20 @@ public class Salon extends CommonModel{
         this.nom = name;
     }
 
+    @JsonIgnore
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "localisationId")
     private Localisation localisation;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "salon", cascade = CascadeType.ALL)
     private List<Coiffure> coiffures;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "salon")
     private  List<Coiffeur> coiffeurs;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "paiement", joinColumns = @JoinColumn(name = "salon_id"), inverseJoinColumns =
     @JoinColumn(name = "user_id"))

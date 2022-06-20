@@ -1,5 +1,6 @@
 package com.project.mabarba.service.impl;
 
+import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.models.*;
 import com.project.mabarba.payload.request.*;
 import com.project.mabarba.repository.*;
@@ -46,11 +47,12 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
      */
     @Override
     //Creation d'un coiffeur
-    public Coiffeur barberCreation(CoiffeurRequest coiffeurRequest) {
-        Optional<Salon> salonOptional = salonRepository.findByIdAndDeletedIsFalse(coiffeurRequest.getSalonId());
+    public Coiffeur barberCreation(CoiffeurRequest coiffeurRequest) throws NoDataFoundException {
+        Salon salon = salonRepository.findByIdAndDeletedIsFalse(coiffeurRequest.getSalonId())
+                .orElseThrow(()->new NoDataFoundException("Salon"));
         Supplier<Coiffeur> coiffeurSupplier = ()->new Coiffeur(coiffeurRequest.getNom(), coiffeurRequest.getTelephone());
         Coiffeur coiffeur = coiffeurSupplier.get();
-        coiffeur.setSalon(salonOptional.get());
+        coiffeur.setSalon(salon);
         return coiffeurRepository.save(coiffeur);
     }
 

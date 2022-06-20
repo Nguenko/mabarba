@@ -1,5 +1,7 @@
 package com.project.mabarba.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,7 @@ public class Carnet extends CommonModel{
     }
 
 
+    @JsonIgnore
     @OneToOne(mappedBy = "carnet")
     private Coiffeur coiffeur;
 
@@ -60,6 +63,7 @@ public class Carnet extends CommonModel{
         this.coiffeur = coiffeur;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "carnet")
     private List<PlageHoraire> plageHoraires;
 

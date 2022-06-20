@@ -1,5 +1,7 @@
 package com.project.mabarba.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -41,18 +43,21 @@ public class User extends CommonModel{
 	@Size(max = 120)
 	private String password;
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
+	@JsonIgnore
 	@ManyToMany(mappedBy="users")
 	private List<Salon> salons;
 
 	/*@ManyToMany(mappedBy = "userList")
 	private List<PlageHoraire> plageHoraireList;*/
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Reservation> reservationList;
 

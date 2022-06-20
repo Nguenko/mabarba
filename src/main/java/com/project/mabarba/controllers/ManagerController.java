@@ -11,6 +11,7 @@ import com.project.mabarba.payload.response.RestResponse;
 import com.project.mabarba.service.ManagerRetrieveService;
 import com.project.mabarba.service.ManagerUpdateService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -146,10 +147,11 @@ public class ManagerController {
         return new RestResponse(coiffeurList,"Liste des coiffeurs d'un salon", ResponseStatus.SUCCESS,200);
     }
 
-    @PostMapping(path = "/barber", name = "create")
-    @ApiOperation("Création d'un coiffeur")
-    public RestResponse barberCreation(@RequestBody CoiffeurRequest coiffeurRequest){
+    @PostMapping("/barber")
+    @Operation(description = "Création d'un coiffeur")
+    public RestResponse barberCreation(@RequestBody CoiffeurRequest coiffeurRequest) throws NoDataFoundException{
         Coiffeur coiffeur = managerUpdateService.barberCreation(coiffeurRequest);
+        System.out.println("rsult "+coiffeur.toString());
         return new RestResponse(coiffeur,"Barber created successfuly",ResponseStatus.SUCCESS,201);
     }
 

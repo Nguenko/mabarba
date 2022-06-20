@@ -1,6 +1,8 @@
 package com.project.mabarba.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +54,12 @@ public class Coiffure extends CommonModel{
     }
 
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "salonId")
     private Salon salon;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "coiffure",cascade = CascadeType.ALL)
     List<File> photos = new ArrayList<>();
 }
