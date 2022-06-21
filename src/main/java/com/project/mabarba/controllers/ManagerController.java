@@ -11,6 +11,7 @@ import com.project.mabarba.payload.response.RestResponse;
 import com.project.mabarba.service.ManagerRetrieveService;
 import com.project.mabarba.service.ManagerUpdateService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class ManagerController {
 
     /******************* Salon endpoints ************************/
     @GetMapping(path = "/salon/{id}", name = "read")
-    @ApiOperation("Affichage d'un Salon de coiffure")
+    @Operation(description = "Affichage d'un Salon de coiffure")
     public RestResponse salonDisplayed(@PathVariable long id) throws NoDataFoundException {
         if (id > 0) {
             Salon salon = managerRetrieveService.salonDisplayed(id);
@@ -42,7 +43,7 @@ public class ManagerController {
     }
 
     @GetMapping(path = "/salons-all", name = "all")
-    @ApiOperation("Affichage de la liste de tous les Salons de coiffure sans pagination")
+    @Operation(description = "Affichage de la liste de tous les Salons de coiffure sans pagination")
     public RestResponse salonDisplayedList() throws NoDataFoundException {
         List<Salon> salonList = managerRetrieveService.salonDisplayedList();
         if (!salonList.isEmpty()) {
@@ -53,7 +54,7 @@ public class ManagerController {
     }
 
     @GetMapping(path = "/salons-by-page", name = "list")
-    @ApiOperation("Affichage de la liste de tous les Salons avec pagination")
+    @Operation(description = "Affichage de la liste de tous les Salons avec pagination")
     public RestResponse salonDisplayedPage(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "2") int pageSize) {
         if (pageNo >= 0 && pageSize >= 0) {
@@ -71,14 +72,14 @@ public class ManagerController {
     }
 
     @PostMapping(path = "/salon", name = "create")
-    @ApiOperation("Création d'un salon de coiffure")
+    @Operation(description = "Création d'un salon de coiffure")
     public RestResponse salonCreation(@RequestBody SalonRequest salonRequest){
         Salon salon = managerUpdateService.salonCreation(salonRequest);
         return new RestResponse(salon,"Salon created successfuly", ResponseStatus.SUCCESS,200);
     }
 
     @PutMapping(path="/salon/{id}", name="update")
-    @ApiOperation("Modification d'un salon de coiffure à l'aide de son id")
+    @Operation(description = "Modification d'un salon de coiffure à l'aide de son id")
     public RestResponse salonModification(@RequestBody SalonRequest salonRequest, @PathVariable Long id){
         Salon salon = managerUpdateService.salonModification(salonRequest, id);
         return new RestResponse(salon,"Salon updated successfuly", ResponseStatus.SUCCESS,200);
@@ -86,7 +87,7 @@ public class ManagerController {
 
     /******************* Coiffeur endpoints ************************/
     @GetMapping(path = "/barber/{id}", name = "read")
-    @ApiOperation("Affichage d'un Coiffeur")
+    @Operation(description = "Affichage d'un Coiffeur")
     public RestResponse barberDisplayed(@PathVariable long id) throws NoDataFoundException {
         if (id > 0) {
             Coiffeur coiffeur = managerRetrieveService.barberDisplayed(id);
@@ -102,7 +103,7 @@ public class ManagerController {
     }
 
     @GetMapping(path = "/barbers-all", name = "all")
-    @ApiOperation("Affichage de la liste de tous les Coiffeurs sans pagination")
+    @Operation(description = "Affichage de la liste de tous les Coiffeurs sans pagination")
     public RestResponse barberDisplayedList() {
         List<Coiffeur> coiffeur = managerRetrieveService.barberDisplayedList();
         if (coiffeur != null) {
@@ -114,7 +115,7 @@ public class ManagerController {
     }
 
     @GetMapping(path = "/barber-by-page", name = "list")
-    @ApiOperation("Affichage de la liste de tous les coiffeurs avec pagination")
+    @Operation(description = "Affichage de la liste de tous les coiffeurs avec pagination")
     public RestResponse barberDisplayedPage(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "2") int pageSize) {
 
@@ -138,7 +139,7 @@ public class ManagerController {
      * @throws NoDataFoundException
      */
     @GetMapping(path = "/salon-barber/{salonId}", name = "")
-    @ApiOperation("Afficher la liste des coiffeurs d'un salon")
+    @Operation(description = "Afficher la liste des coiffeurs d'un salon")
     public RestResponse salonDisplayedCoiffeur(@PathVariable Long salonId) throws NoDataFoundException{
         if(salonId<0) return new RestResponse("Fatal Error: this salon id does not exist",ResponseStatus.FAILED,400);
         List<Coiffeur> coiffeurList = managerRetrieveService.salonDisplayedCoiffeur(salonId);
@@ -146,15 +147,16 @@ public class ManagerController {
         return new RestResponse(coiffeurList,"Liste des coiffeurs d'un salon", ResponseStatus.SUCCESS,200);
     }
 
-    @PostMapping(path = "/barber", name = "create")
-    @ApiOperation("Création d'un coiffeur")
-    public RestResponse barberCreation(@RequestBody CoiffeurRequest coiffeurRequest){
+    @PostMapping("/barber")
+    @Operation(description = "Création d'un coiffeur")
+    public RestResponse barberCreation(@RequestBody CoiffeurRequest coiffeurRequest) throws NoDataFoundException{
         Coiffeur coiffeur = managerUpdateService.barberCreation(coiffeurRequest);
+        System.out.println("rsult "+coiffeur.toString());
         return new RestResponse(coiffeur,"Barber created successfuly",ResponseStatus.SUCCESS,201);
     }
 
     @PutMapping(path = "/barber/{id}", name = "update")
-    @ApiOperation("Modification d'un coiffeur à l'aide de son id")
+    @Operation(description = "Modification d'un coiffeur à l'aide de son id")
     public RestResponse barberModification(@RequestBody CoiffeurRequest coiffeurRequest, @PathVariable Long id){
         Coiffeur coiffeur = managerUpdateService.barberModification(coiffeurRequest,id);
         return new RestResponse(coiffeur,"Barber updated successfully", ResponseStatus.SUCCESS,200);
@@ -163,14 +165,14 @@ public class ManagerController {
     /**************** Coiffure endpoints *******************************/
     //Création d'une coiffure
     @PostMapping(path = "/coiffure", name = "create")
-    @ApiOperation("Création d'une coiffure")
+    @Operation(description = "Création d'une coiffure")
     public RestResponse coiffureCreation(@RequestBody CoiffureRequest coiffureRequest){
         Coiffure coiffure = managerUpdateService.coiffureCreation(coiffureRequest);
         return new RestResponse(coiffure,"La création de la coiffure a réussie",ResponseStatus.SUCCESS,201);
     }
     //Modificqtion d'une coiffure
     @PutMapping(path = "/coiffure/{id}", name = "Update")
-    @ApiOperation("Modification d'une coiffure")
+    @Operation(description = "Modification d'une coiffure")
     public RestResponse coiffureModification(@RequestBody CoiffureRequest coiffureRequest, @PathVariable Long id){
         Coiffure coiffure = managerUpdateService.coiffureModification(coiffureRequest,id);
         return new RestResponse(coiffure, "Modification de la coiffure avec succes",ResponseStatus.SUCCESS,200);
@@ -182,7 +184,7 @@ public class ManagerController {
      * @return
      */
     @GetMapping(path = "/coiffure/{id}")
-    @ApiOperation("Afficher les informations sur une coiffure")
+    @Operation(description = "Afficher les informations sur une coiffure")
     public RestResponse coiffureDisplayed(@PathVariable Long id) throws NoDataFoundException{
         if(id<0) return new RestResponse("Fatal error : this Id does not exist",ResponseStatus.FAILED,400);
         Coiffure coiffure = managerRetrieveService.coiffureDisplayed(id);
@@ -196,7 +198,7 @@ public class ManagerController {
      * @return
      */
     @GetMapping(path = "/coiffures", name = "all")
-    @ApiOperation("Liste de toutes les coiffures")
+    @Operation(description = "Liste de toutes les coiffures")
     public RestResponse coiffureDisplayedList(){
         List<Coiffure> coiffureList = managerRetrieveService.coiffureDisplayedList();
         if(coiffureList.isEmpty()) return new RestResponse("Coiffures is empty",ResponseStatus.ABORTED,404);
@@ -211,7 +213,7 @@ public class ManagerController {
      * @return
      */
     @GetMapping(path = "/coiffures-by-page", name = "list")
-    @ApiOperation("Liste des coiffures par page")
+    @Operation(description = "Liste des coiffures par page")
     public RestResponse coiffureDisplayedPage(@RequestParam(name = "pageNo", defaultValue = "0") int pageNo, @RequestParam(name = "pageSize", defaultValue = "2") int pageSize){
         if(pageNo<0||pageSize<0) return new RestResponse("Fatal error: pageSize and pageNo must positive",ResponseStatus.FAILED,400);
         Map<String, Object> coiffure = managerRetrieveService.coiffureDisplayedPage(pageNo, pageSize);
@@ -226,7 +228,7 @@ public class ManagerController {
      * @throws NoDataFoundException
      */
     @GetMapping(path = "/salon-coiffure/{salonId}")
-    @ApiOperation("Liste des coiffures enregistrée dans un salon")
+    @Operation(description = "Liste des coiffures enregistrée dans un salon")
     public RestResponse salonDisplayedCoiffure(@PathVariable Long salonId) throws NoDataFoundException{
         if(salonId<0) return new RestResponse("Fatal Error: this salon id does not exist",ResponseStatus.FAILED,400);
         List<Coiffure> coiffureList = managerRetrieveService.salonDisplayedCoiffure(salonId);
@@ -237,7 +239,7 @@ public class ManagerController {
     /******************* Carnet endpoints ******************************************/
     //Création d'un carnet
     @PostMapping(path = "/carnet", name = "create")
-    @ApiOperation("Création du carnet d'un coiffeur")
+    @Operation(description = "Création du carnet d'un coiffeur")
     public RestResponse carnetCreation(@RequestBody CarnetRequest carnetRequest){
         Carnet carnet = managerUpdateService.carnetCreation(carnetRequest);
         return new RestResponse(carnet,"Création du carnet avec succes",ResponseStatus.SUCCESS,201);
@@ -251,7 +253,7 @@ public class ManagerController {
      * @return
      */
     @PutMapping(path="/carnet/{id}", name = "update")
-    @ApiOperation("Modification du carnet d'un coiffeur")
+    @Operation(description = "Modification du carnet d'un coiffeur")
     public RestResponse carnetModification(@RequestBody CarnetRequest carnetRequest, @PathVariable Long id){
         Carnet carnet = managerUpdateService.carnetModification(carnetRequest,id);
         return new RestResponse(carnet,"La modification a été effectuée avec succes",ResponseStatus.SUCCESS,201);
@@ -265,7 +267,7 @@ public class ManagerController {
      * @throws NoDataFoundException
      */
     @GetMapping(path = "/carnet/{id}", name = "read")
-    @ApiOperation("Afficher les informations sur un carnet")
+    @Operation(description = "Afficher les informations sur un carnet")
     public RestResponse carnetDisplayed(@PathVariable Long id)throws NoDataFoundException{
         if(id<0) return new RestResponse("Fatal error: This id does not exist", ResponseStatus.FAILED,400);
         Carnet carnet = managerRetrieveService.carnetDisplayed(id);
@@ -274,7 +276,7 @@ public class ManagerController {
     }
     //Afficher tous les carnets
     @GetMapping(path = "/carnets", name = "All")
-    @ApiOperation("Affiche tous les carnets")
+    @Operation(description = "Affiche tous les carnets")
     public RestResponse carnetDisplayedList(){
         List<Carnet> carnetList = managerRetrieveService.carnetDisplayedList();
         if(carnetList.isEmpty()) return new RestResponse("Carnet is empty",ResponseStatus.ABORTED,401);
@@ -289,7 +291,7 @@ public class ManagerController {
      * @return
      */
     @GetMapping(path = "/carnets-by-page", name = "List")
-    @ApiOperation("Afficher les informations sur les carnets par page")
+    @Operation(description = "Afficher les informations sur les carnets par page")
     public RestResponse carnetDisplayedPage(@RequestParam(name = "pageNo", defaultValue = "0") int pageSize, @RequestParam(name = "pageSize", defaultValue = "0") int pageNo){
         if(pageNo<0||pageSize<0) return new RestResponse("Fatal error: pageSize and pageNo must positive",ResponseStatus.FAILED,400);
         Map<String, Object> carnet = managerRetrieveService.coiffureDisplayedPage(pageNo, pageSize);
@@ -298,7 +300,7 @@ public class ManagerController {
     }
 
     @GetMapping("/display-barber-planing/{coiffeurId}")
-    @ApiOperation("Afficher le carnet d'un carnet")
+    @Operation(description = "Afficher le carnet d'un carnet")
     public RestResponse displayBarberPlaning(@PathVariable long coiffeurId) throws NoDataFoundException{
         Carnet carnet = new Carnet();
         carnet = managerRetrieveService.displayBarberPlaning(coiffeurId);
@@ -314,14 +316,14 @@ public class ManagerController {
      */
     //Créer une plage horaire
     @PostMapping(path = "/plage-horaire",name = "create")
-    @ApiOperation("Créer une plage horaire")
+    @Operation(description = "Créer une plage horaire")
     public RestResponse plageHoraireCreation(@RequestBody PlageHoraireRequest plageHoraireRequest){
         PlageHoraire plageHoraire = managerUpdateService.plageHoraireCreation(plageHoraireRequest);
         return new RestResponse(plageHoraire,"Création d'une plage horaire a réussie",ResponseStatus.SUCCESS,200);
     }
     //Modifier une plage horaire
     @PutMapping(path = "/plage-horaire/{id}", name = "update")
-    @ApiOperation("Modifier une plage horaire")
+    @Operation(description = "Modifier une plage horaire")
     public RestResponse plageHoraireModification(@RequestBody PlageHoraireRequest plageHoraireRequest, @PathVariable Long id){
         PlageHoraire plageHoraire = managerUpdateService.plageHoraireModification(plageHoraireRequest, id);
         return new RestResponse(plageHoraire,"Modification de la plage horaire avec succes",ResponseStatus.SUCCESS,200);
@@ -335,7 +337,7 @@ public class ManagerController {
      * @throws NoDataFoundException
      */
     @GetMapping(path = "/plage-horaire/{id}", name = "read")
-    @ApiOperation("Afficher une plage horaire")
+    @Operation(description = "Afficher une plage horaire")
     public RestResponse plageHoraireDisplayed(@PathVariable Long id) throws NoDataFoundException{
         if(id<0) return new RestResponse("Fatal error: l'id doit être un nombre positif",ResponseStatus.FAILED,400);
         PlageHoraire plageHoraire = managerRetrieveService.plageHoraireDisplayed(id);
@@ -344,7 +346,7 @@ public class ManagerController {
     }
     //Afficher la liste des plages horaire
     @GetMapping(path = "/plages-horaires", name = "all")
-    @ApiOperation("Afficher la liste des plages horaires")
+    @Operation(description = "Afficher la liste des plages horaires")
     public RestResponse plageHoraireDisplayedList(){
         List<PlageHoraire> plageHoraireList = managerRetrieveService.plageHoraireDisplayedList();
         if(plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire trouvée",ResponseStatus.ABORTED,404);

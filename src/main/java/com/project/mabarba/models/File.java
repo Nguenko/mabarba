@@ -1,5 +1,7 @@
 package com.project.mabarba.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -153,19 +155,22 @@ public class File {
                  '}';
     }
 
-
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coiffeurId", insertable=false, updatable=false)
     Coiffeur coiffeur;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coiffureId", insertable=false, updatable=false)
     Coiffure coiffure;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salonId", insertable=false, updatable=false)
     Salon salon;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id", insertable=false, updatable=false)
     User user;

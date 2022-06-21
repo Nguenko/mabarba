@@ -1,5 +1,6 @@
 package com.project.mabarba.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -70,6 +71,7 @@ public class PlageHoraire extends CommonModel{
         this.id = id;
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "carnetId")
     private Carnet carnet;
@@ -87,6 +89,7 @@ public class PlageHoraire extends CommonModel{
             joinColumns = @JoinColumn(name = "plage_id"),
            inverseJoinColumns = @JoinColumn(name = "user_id"))
    private List<User> userList;*/
+    @JsonIgnore
     @OneToMany(mappedBy = "plageHoraire")
    private List<Reservation> reservationList;
 

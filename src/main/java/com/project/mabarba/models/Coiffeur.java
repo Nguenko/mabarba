@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "coiffeur")
@@ -74,15 +75,17 @@ public class Coiffeur extends CommonModel{
         this.telephone = telephone;
     }
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "carnetId")
     private Carnet carnet;
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "salonId")
     private  Salon salon;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "coiffeur",cascade = CascadeType.ALL)
     List<File> photos = new ArrayList<>();
 
