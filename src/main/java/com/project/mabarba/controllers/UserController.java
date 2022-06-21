@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@RestController
 @RequestMapping("/user")
+@RestController
 public class UserController {
 
     @Autowired
@@ -78,6 +78,7 @@ public class UserController {
         if(coiffeurList.isEmpty()) return new RestResponse("There is no barber in this salon", ResponseStatus.ABORTED,404);
         return new RestResponse(coiffeurList,"Liste des coiffeurs d'un salon", ResponseStatus.SUCCESS,200);
     }
+
     //Liste des coiffures d'un salon de coiffuere
     /**
      *
@@ -93,19 +94,21 @@ public class UserController {
         if(coiffureList.isEmpty()) return new RestResponse("There is no coiffure in this salon", ResponseStatus.ABORTED,404);
         return new RestResponse(coiffureList,"Liste des coiffures d'un salon", ResponseStatus.SUCCESS,200);
     }
+
     //Liste des plages horaires d'un coiffeur pour une journee
     @GetMapping(path = "/plagehoraire-coiffeur-jour")
     @ApiOperation("Les plages Horaires d'une journee pour un coiffeur")
-    public RestResponse plageHoraireCoiffeurJour(@RequestParam(name = "coiffeurId") Long coiffeurId, @RequestParam(name = "jour") String jour) throws Exception{
+    public RestResponse plageHoraireCoiffeurJour(@RequestParam(name = "coiffeurId") Long coiffeurId, @RequestParam(name = "jour") String jour){
         if(coiffeurId<0) return new RestResponse("Fatal Error: this coiffeur id does not exist", ResponseStatus.FAILED,400);
+        /*SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date parsedDate = dateFormat.parse(jour);
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());*/
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date parsedDate = dateFormat.parse(jour);
-        Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-
-
-        List<PlageHoraire> plageHoraireList = userRetrieveService.plageHoraireByCoiffeurByJour(coiffeurId,timestamp);
-        if(plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire pour cette journee",ResponseStatus.ABORTED,404);
-        return new RestResponse(plageHoraireList,"Liste des plage horaire pour un coiffeur pour une journee", ResponseStatus.SUCCESS,200);
+        //List<PlageHoraire> plageHoraireList = userRetrieveService.plageHoraireByCoiffeurByJour(coiffeurId);
+        List<PlageHoraire> plageHoraireList = userRetrieveService.plageHoraireDisplayedList();
+        //System.out.println("Je passe ici");
+        return new RestResponse(plageHoraireList,"Un message",ResponseStatus.SUCCESS,200);
+        /*if(plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire pour cette journee",ResponseStatus.ABORTED,404);
+        return new RestResponse(plageHoraireList,"Liste des plage horaire pour un coiffeur pour une journee", ResponseStatus.SUCCESS,200);*/
     }
 }

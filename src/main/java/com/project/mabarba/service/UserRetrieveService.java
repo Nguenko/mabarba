@@ -71,9 +71,9 @@ public interface UserRetrieveService {
      * @throws NoDataFoundException
      */
     List<Coiffure> salonDisplayedCoiffure(long salonId) throws NoDataFoundException;
-
+    List<PlageHoraire> plageHoraireDisplayedList();
     //TODO: Afficher les Plage Horaire d'un coiffeur pour une journée x
-    List<PlageHoraire>plageHoraireByCoiffeurByJour(Long coiffeurId, Timestamp jour) throws NoDataFoundException;
+    List<PlageHoraire>plageHoraireByCoiffeurByJour(Long coiffeurId) throws NoDataFoundException;
 
     //TODO: Reserver une plage horaire
 

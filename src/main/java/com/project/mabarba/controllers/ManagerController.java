@@ -302,7 +302,7 @@ public class ManagerController {
     public RestResponse displayBarberPlaning(@PathVariable long coiffeurId) throws NoDataFoundException{
         Carnet carnet = new Carnet();
         carnet = managerRetrieveService.displayBarberPlaning(coiffeurId);
-        System.out.println("Dans le controller "+carnet.toString());
+        //System.out.println("Dans le controller "+carnet.toString());
         if(carnet==null) return new RestResponse("this carnet does'nt exist",ResponseStatus.ABORTED,404);
         return new RestResponse(carnet,"carnet displayed ", ResponseStatus.SUCCESS,200);
 

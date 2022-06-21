@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -111,15 +112,22 @@ public class UserRetrieveImpl implements UserRetrieveService{
     }
 
     @Override
-    public List<PlageHoraire> plageHoraireByCoiffeurByJour(Long coiffeurId, Timestamp jour) throws NoDataFoundException{
-        Carnet carnet = carnetRepository.findByCoiffeurIdAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
-        List<PlageHoraire> plageHoraireList = carnet.getPlageHoraires().stream()
-                .filter(plh->plh.getJour().equals(jour))
-                .collect(Collectors.toList());
-                plageHoraireList = plageHoraireRepository.findAllByJourAndCarnetIdOrderByCreatedAtDesc(jour,carnet.getId());
-        System.out.println("La valeur qui arrive "+jour);
-        System.out.println("La valeur en bd "+carnet.getPlageHoraires().get(0).getJour());
+    public List<PlageHoraire> plageHoraireDisplayedList() {
+        List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAllByOrderByCreatedAtDesc();
+        return plageHoraireList;
+    }
 
+    @Override
+    public List<PlageHoraire> plageHoraireByCoiffeurByJour(Long coiffeurId) throws NoDataFoundException{
+        Carnet carnet = carnetRepository.findByCoiffeurIdAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
+
+        /*List<PlageHoraire> plageHoraireList =
+                carnet.getPlageHoraires().stream()
+                .filter(plh->plh.getJour().equals(jour))
+                .collect(Collectors.toList());*/
+        List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAll();
+
+        //plageHoraireList = plageHoraireRepository.findAllByJourAndCarnetIdOrderByCreatedAtDesc(jour,carnet.getId());
         return plageHoraireList;
     }
 }
