@@ -42,6 +42,13 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
         return salonRepository.save(salon.get());
     }
 
+    @Override
+    public Boolean salonDelete(Long salonId) throws NoDataFoundException{
+        Salon salon = salonRepository.findById(salonId).orElseThrow(()->new NoDataFoundException(salonId));
+        salon.setDeleted(true);
+        salonRepository.save(salon);
+        return true;
+    }
     /**
      * Gestion des coiffeurs
      */
@@ -62,6 +69,13 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
         Supplier<Coiffeur> coiffeur = ()->new Coiffeur(id,coiffeurRequest.getNom(), coiffeurRequest.getTelephone());
         return coiffeurRepository.save(coiffeur.get());
     }
+    @Override
+    public Boolean barberDelete(Long coiffeurId) throws NoDataFoundException{
+        Coiffeur coiffeur = coiffeurRepository.findByIdAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
+        coiffeur.setDeleted(true);
+        coiffeurRepository.save(coiffeur);
+        return true;
+    }
 
 
 
@@ -74,6 +88,14 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
         Optional<Salon> salon = salonRepository.findByIdAndDeletedIsFalse(coiffureRequest.getSalonId());
         Coiffure coiffure = new Coiffure(coiffureRequest.getNom(), coiffureRequest.getPrix(),salon.get());
         return coiffureRepository.save(coiffure);
+    }
+
+    @Override
+    public Boolean coiffureDelete(Long coiffureId) throws NoDataFoundException {
+        Coiffure coiffure = coiffureRepository.findByIdAndDeletedIsFalse(coiffureId).orElseThrow(()->new NoDataFoundException(coiffureId));
+        coiffure.setDeleted(true);
+        coiffureRepository.save(coiffure);
+        return true;
     }
 
     @Override
@@ -98,6 +120,15 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
         Carnet carnet = new Carnet(id,carnetRequest.getNom());
         return carnetRepository.save(carnet);
     }
+
+    @Override
+    public Boolean carnetDelete(Long carnetId) throws NoDataFoundException {
+        Carnet carnet = carnetRepository.findByIdAndDeletedIsFalse(carnetId).orElseThrow(()-> new NoDataFoundException(carnetId));
+        carnet.setDeleted(true);
+        carnetRepository.save(carnet);
+        return true;
+    }
+
     //Création d'un plage horaire
     @Override
     public PlageHoraire plageHoraireCreation(PlageHoraireRequest plageHoraireRequest) {
@@ -116,6 +147,14 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
     public PlageHoraire plageHoraireModification(PlageHoraireRequest plageHoraireRequest, Long id) {
         PlageHoraire plageHoraire = new PlageHoraire(id,plageHoraireRequest.getDebut(),plageHoraireRequest.getFin(), plageHoraireRequest.getJour());
         return plageHoraireRepository.save(plageHoraire);
+    }
+
+    @Override
+    public Boolean plageHoraireDelete(Long plageHoraireId) throws NoDataFoundException{
+        PlageHoraire plageHoraire = plageHoraireRepository.findByIdAndDeleteIsFalse(plageHoraireId).orElseThrow(()-> new NoDataFoundException(plageHoraireId));
+        plageHoraire.setDeleted(true);
+        plageHoraireRepository.save(plageHoraire);
+        return true;
     }
 
 }

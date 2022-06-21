@@ -230,7 +230,11 @@ public class ManagerRetrieveImpl implements ManagerRetrieveService{
         }
         return null;
     }
-
+    @Override
+    public List<PlageHoraire>plageHoraireByCarnet(long carnetId){
+        List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAllByCarnetId(carnetId);
+        return plageHoraireList;
+    }
     @Override
     public Carnet displayBarberPlaning(Long coiffeurId) throws NoDataFoundException {
         System.out.println("1");

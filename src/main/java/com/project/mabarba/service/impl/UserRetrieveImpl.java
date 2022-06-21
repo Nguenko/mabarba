@@ -104,13 +104,29 @@ public class UserRetrieveImpl implements UserRetrieveService{
         return coiffeurList;
     }
 
+    /********************** Gestion des coiffures ******************************/
     @Override
     public List<Coiffure> salonDisplayedCoiffure(long salonId) throws NoDataFoundException {
         Salon salon = salonRepository.findByIdAndDeletedIsFalse(salonId).orElseThrow(()->new NoDataFoundException(salonId));
         List<Coiffure> coiffureList = coiffureRepository.findBySalonId(salonId);
         return coiffureList;
     }
+    @Override
+    public Coiffure coiffureDisplayed(long coiffureId) throws NoDataFoundException{
+        Coiffure coiffure = coiffureRepository.findByIdAndDeletedIsFalse(coiffureId).orElseThrow(()-> new NoDataFoundException(coiffureId));
+        return coiffure;
+    }
+    /********************* Gestion des carnets ******************************/
+    @Override
+    public Carnet carnetByCoiffeur(long coiffeurId) throws NoDataFoundException{
+        return  carnetRepository.findByCoiffeurIdAndDeletedIsFalse(coiffeurId).orElseThrow(()-> new NoDataFoundException(coiffeurId));
+    }
+    @Override
+    public Carnet carnetDisplayed(long carnetId) throws NoDataFoundException{
+        return  carnetRepository.findByIdAndDeletedIsFalse(carnetId).orElseThrow(()-> new NoDataFoundException(carnetId));
+    }
 
+    /*********************** Gestion des plages horaires *********************/
     @Override
     public List<PlageHoraire> plageHoraireDisplayedList() {
         List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAllByOrderByCreatedAtDesc();
@@ -118,16 +134,25 @@ public class UserRetrieveImpl implements UserRetrieveService{
     }
 
     @Override
-    public List<PlageHoraire> plageHoraireByCoiffeurByJour(Long coiffeurId) throws NoDataFoundException{
+    public List<PlageHoraire> plageHorairesByCarnet(long carnetId){
+        return plageHoraireRepository.findAllByCarnetId(carnetId);
+    }
+    @Override
+    public PlageHoraire plageHoraireDisplayed(long plageHoraireId) throws NoDataFoundException{
+        return plageHoraireRepository.findByIdAndDeleteIsFalse(plageHoraireId).orElseThrow(()->new NoDataFoundException(plageHoraireId));
+    }
+
+    @Override
+    public List<PlageHoraire> plageHoraireByCoiffeurByJour(Long coiffeurId, Timestamp jour) throws NoDataFoundException{
         Carnet carnet = carnetRepository.findByCoiffeurIdAndDeletedIsFalse(coiffeurId).orElseThrow(()->new NoDataFoundException(coiffeurId));
 
         /*List<PlageHoraire> plageHoraireList =
                 carnet.getPlageHoraires().stream()
                 .filter(plh->plh.getJour().equals(jour))
                 .collect(Collectors.toList());*/
-        List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAll();
+        //List<PlageHoraire> plageHoraireList = plageHoraireRepository.findAll();
 
-        //plageHoraireList = plageHoraireRepository.findAllByJourAndCarnetIdOrderByCreatedAtDesc(jour,carnet.getId());
+        List<PlageHoraire>plageHoraireList = plageHoraireRepository.findAllByJourAndCarnetIdOrderByCreatedAtDesc(jour,carnet.getId());
         return plageHoraireList;
     }
 }

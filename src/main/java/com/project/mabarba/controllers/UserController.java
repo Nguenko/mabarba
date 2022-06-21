@@ -1,10 +1,7 @@
 package com.project.mabarba.controllers;
 
 import com.project.mabarba.exception.NoDataFoundException;
-import com.project.mabarba.models.Coiffeur;
-import com.project.mabarba.models.Coiffure;
-import com.project.mabarba.models.PlageHoraire;
-import com.project.mabarba.models.Salon;
+import com.project.mabarba.models.*;
 import com.project.mabarba.payload.response.ResponseStatus;
 import com.project.mabarba.payload.response.RestResponse;
 import com.project.mabarba.service.UserRetrieveService;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -65,14 +63,13 @@ public class UserController {
         }
     }
     /**
-     *
      * @param salonId
      * @return
      * @throws NoDataFoundException
      */
     @GetMapping(path = "/salon-barber/{salonId}", name = "")
     @ApiOperation("Afficher la liste des coiffeurs d'un salon")
-    public RestResponse salonDisplayedCoiffeur(@PathVariable Long salonId) throws NoDataFoundException{
+    public RestResponse coiffeursBySalon(@PathVariable Long salonId) throws NoDataFoundException{
         if(salonId<0) return new RestResponse("Fatal Error: this salon id does not exist",ResponseStatus.FAILED,400);
         List<Coiffeur> coiffeurList = userRetrieveService.salonDisplayedCoiffeur(salonId);
         if(coiffeurList.isEmpty()) return new RestResponse("There is no barber in this salon", ResponseStatus.ABORTED,404);
@@ -81,24 +78,64 @@ public class UserController {
 
     //Liste des coiffures d'un salon de coiffuere
     /**
-     *
      * @param salonId
      * @return
      * @throws NoDataFoundException
      */
     @GetMapping(path = "/salon-coiffure/{salonId}")
     @ApiOperation("Liste des coiffures enregistrées dans un salon")
-    public RestResponse salonDisplayedCoiffure(@PathVariable Long salonId) throws NoDataFoundException{
+    public RestResponse coiffuresBySalon(@PathVariable Long salonId) throws NoDataFoundException{
         if(salonId<0) return new RestResponse("Fatal Error: this salon id does not exist",ResponseStatus.FAILED,400);
         List<Coiffure> coiffureList = userRetrieveService.salonDisplayedCoiffure(salonId);
         if(coiffureList.isEmpty()) return new RestResponse("There is no coiffure in this salon", ResponseStatus.ABORTED,404);
         return new RestResponse(coiffureList,"Liste des coiffures d'un salon", ResponseStatus.SUCCESS,200);
     }
+    @GetMapping(path = "/coiffure/{id}")
+    @ApiOperation("Afficher une coiffure")
+    public RestResponse coiffureDisplayed(@PathVariable Long coiffureId) throws NoDataFoundException{
+        if(coiffureId<0) return new RestResponse("Fatal Error: this coiffure id does not exist", ResponseStatus.FAILED,400);
+        Coiffure coiffure = userRetrieveService.coiffureDisplayed(coiffureId);
+        return new RestResponse(coiffure,"Displayed coiffure",ResponseStatus.SUCCESS,200);
+    }
+
+    /******************* endpoints de carnet ****************************/
+    @GetMapping("/carnet-coiffeur/{coiffeurId}")
+    @ApiOperation("Afficher le carnet d'un coiffeur")
+    public RestResponse carnetByCoiffeur(@PathVariable Long coiffeurId) throws NoDataFoundException{
+        if (coiffeurId<0) return new RestResponse("Fatal Error: this coiffeur id does not exist", ResponseStatus.FAILED,400);
+        Carnet carnet = userRetrieveService.carnetByCoiffeur(coiffeurId);
+        return new RestResponse(carnet,"Le carnet d'un coiffeur", ResponseStatus.SUCCESS,200);
+    }
+    @GetMapping("/carnet/{id}")
+    @ApiOperation("Afficher un carnet")
+    public RestResponse carnetDisplayed(@PathVariable Long carnetId) throws NoDataFoundException{
+        if(carnetId<0) return new RestResponse("Fatal Error:this carnet id does not exisit",ResponseStatus.FAILED,400);
+        Carnet carnet = userRetrieveService.carnetDisplayed(carnetId);
+        return new RestResponse(carnet,"Displayed carnet successfully",ResponseStatus.SUCCESS,200);
+    }
+
+    /************************* endpoints des plages horaires *************************/
+    @GetMapping("/plagehoraire-carnet/{carnetId}")
+    @ApiOperation("Afficher les plages horaires d'un carnet")
+    public RestResponse plageHorairesByCarnet(@PathVariable long carnetId) throws NoDataFoundException {
+        if(carnetId<0) return new RestResponse("Fatal error: carnet id doest not exist",ResponseStatus.FAILED,400);
+        List<PlageHoraire> plageHoraireList = userRetrieveService.plageHorairesByCarnet(carnetId);
+        if(!plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire pour ce carnet",ResponseStatus.ABORTED,404);
+        return new RestResponse("Liste des plages horaires du carnet",ResponseStatus.SUCCESS,200);
+    }
+
+    @GetMapping("/plagehoraire/{plageHoraireId}")
+    @ApiOperation("Afficher une plage horaire")
+    public RestResponse plageHoraireDisplayed(@PathVariable long plageHoraireId) throws NoDataFoundException{
+        if(plageHoraireId<0) return new RestResponse("Fatal error: plage horaire id does not exist", ResponseStatus.FAILED,400);
+        PlageHoraire plageHoraire = userRetrieveService.plageHoraireDisplayed(plageHoraireId);
+        return new RestResponse(plageHoraire,"Plage horaire displayed", ResponseStatus.SUCCESS,200);
+    }
 
     //Liste des plages horaires d'un coiffeur pour une journee
     @GetMapping(path = "/plagehoraire-coiffeur-jour")
     @ApiOperation("Les plages Horaires d'une journee pour un coiffeur")
-    public RestResponse plageHoraireCoiffeurJour(@RequestParam(name = "coiffeurId") Long coiffeurId, @RequestParam(name = "jour") String jour){
+    public RestResponse plageHoraireCoiffeurJour(@RequestParam(name = "coiffeurId") Long coiffeurId, @RequestParam(name = "jour") String jour) throws ParseException, NoDataFoundException{
         if(coiffeurId<0) return new RestResponse("Fatal Error: this coiffeur id does not exist", ResponseStatus.FAILED,400);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date parsedDate = dateFormat.parse(jour);

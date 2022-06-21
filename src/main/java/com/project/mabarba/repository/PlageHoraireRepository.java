@@ -20,7 +20,7 @@ public interface PlageHoraireRepository extends JpaRepository<PlageHoraire, Long
     //Modifier une plage horaire
 
     //Afficher une plage horaire
-    //Optional<PlageHoraire>findByIdAndDeleteIsFalse(Long id);
+    Optional<PlageHoraire>findByIdAndDeleteIsFalse(Long id);
 
     //Afficher la liste des plages horaires
     List<PlageHoraire>findAll();
@@ -30,7 +30,7 @@ public interface PlageHoraireRepository extends JpaRepository<PlageHoraire, Long
     Page<PlageHoraire>findAllByOrderByCreatedAtDesc (Pageable pageable);
 
     //Afficher les plages horaires d'un carnet
-    List<PlageHoraire> findCarnetById(Long carnetId);
+    List<PlageHoraire> findAllByCarnetId(Long carnetId);
 
     //Afficher les plage horaires pour une journee x
     List<PlageHoraire> findAllByJourAndCarnetIdOrderByCreatedAtDesc(Date jour,Long carnetId);
