@@ -316,7 +316,7 @@ public class ManagerController {
      */
     //Créer une plage horaire
     @PostMapping(path = "/plage-horaire",name = "create")
-    @Operation(description = "Créer une plage horaire")
+    @Operation(summary = "Créer une plage horaire", description="creation plage horraire")
     public RestResponse plageHoraireCreation(@RequestBody PlageHoraireRequest plageHoraireRequest){
         PlageHoraire plageHoraire = managerUpdateService.plageHoraireCreation(plageHoraireRequest);
         return new RestResponse(plageHoraire,"Création d'une plage horaire a réussie",ResponseStatus.SUCCESS,200);
