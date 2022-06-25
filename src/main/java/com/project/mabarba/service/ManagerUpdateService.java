@@ -15,6 +15,8 @@ public interface ManagerUpdateService {
     // update a salon
     Salon salonModification(SalonRequest salonRequest, Long id);
 
+    Boolean salonDelete(Long salonId) throws NoDataFoundException;
+
     /********************* Coiffeur ******************/
     // create a barber
     Coiffeur barberCreation(CoiffeurRequest coiffeurRequest) throws NoDataFoundException;
@@ -22,23 +24,21 @@ public interface ManagerUpdateService {
     // update a barberbg
     Coiffeur barberModification(CoiffeurRequest coiffeurRequest, Long id);
 
+    Boolean barberDelete(Long coiffeurId) throws NoDataFoundException;
+
     /**
      * Gestion des coiffures
      */
-
-    //update a coiffure
     Coiffure coiffureModification(CoiffureRequest coiffureRequest, Long id);
-
-    //Creation d'une coiffure
     Coiffure coiffureCreation(CoiffureRequest coiffureRequest);
+    Boolean coiffureDelete(Long coiffureId) throws NoDataFoundException;
 
     /**
      * Gestion des carnets
      */
     Carnet carnetCreation(CarnetRequest carnetRequest);
-
     Carnet carnetModification(CarnetRequest carnetRequest, Long id);
-
+    Boolean carnetDelete(Long carnetId) throws NoDataFoundException;
     /**
      * Gestion des plages horaires
      */
@@ -47,4 +47,6 @@ public interface ManagerUpdateService {
 
     //Modification d'une plage Horaire
     PlageHoraire plageHoraireModification(PlageHoraireRequest plageHoraireRequest, Long id);
+
+    Boolean plageHoraireDelete(Long plageHoraireId) throws NoDataFoundException;
 }

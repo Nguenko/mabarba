@@ -11,6 +11,7 @@ import com.project.mabarba.payload.response.RestResponse;
 import com.project.mabarba.service.ManagerRetrieveService;
 import com.project.mabarba.service.ManagerUpdateService;
 
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -85,6 +86,13 @@ public class ManagerController {
         return new RestResponse(salon,"Salon updated successfuly", ResponseStatus.SUCCESS,200);
     }
 
+    @GetMapping(path = "/salon-delete/{salonId}")
+    @ApiOperation("Supprimer un salon")
+    public RestResponse salonDelete(@PathVariable Long salonId) throws NoDataFoundException{
+        if(salonId<0) return new RestResponse("Fatal Error: salon id does not exist",ResponseStatus.FAILED,400);
+        Boolean result = managerUpdateService.salonDelete(salonId);
+        return new RestResponse("Salon deleted successfully", ResponseStatus.SUCCESS,200);
+    }
     /******************* Coiffeur endpoints ************************/
     @GetMapping(path = "/barber/{id}", name = "read")
     @Operation(description = "Affichage d'un Coiffeur")
@@ -131,7 +139,6 @@ public class ManagerController {
                     400);
         }
     }
-
     /**
      *
      * @param salonId
@@ -162,6 +169,14 @@ public class ManagerController {
         return new RestResponse(coiffeur,"Barber updated successfully", ResponseStatus.SUCCESS,200);
     }
 
+    @GetMapping(path = "/barber-delete/{coiffeurId}")
+    @ApiOperation("Supprimer un coiffeur")
+    public RestResponse barberDelete(@PathVariable Long coiffeurId) throws NoDataFoundException{
+        if(coiffeurId<0) return new RestResponse("Fatal error: coiffeur id does not exist",ResponseStatus.FAILED,400);
+        Boolean result = managerUpdateService.barberDelete(coiffeurId);
+        return new RestResponse("Coiffeur deleted successfully",ResponseStatus.SUCCESS,200);
+    }
+
     /**************** Coiffure endpoints *******************************/
     //Création d'une coiffure
     @PostMapping(path = "/coiffure", name = "create")
@@ -170,14 +185,22 @@ public class ManagerController {
         Coiffure coiffure = managerUpdateService.coiffureCreation(coiffureRequest);
         return new RestResponse(coiffure,"La création de la coiffure a réussie",ResponseStatus.SUCCESS,201);
     }
-    //Modificqtion d'une coiffure
+    //Modification d'une coiffure
     @PutMapping(path = "/coiffure/{id}", name = "Update")
     @Operation(description = "Modification d'une coiffure")
     public RestResponse coiffureModification(@RequestBody CoiffureRequest coiffureRequest, @PathVariable Long id){
         Coiffure coiffure = managerUpdateService.coiffureModification(coiffureRequest,id);
         return new RestResponse(coiffure, "Modification de la coiffure avec succes",ResponseStatus.SUCCESS,200);
     }
-    //Information sur une coiffure
+
+    @GetMapping("/coiffure-delete/{coiffureId}")
+    @ApiOperation("Supprimer une coiffure")
+    public RestResponse coiffureDelete(@PathVariable Long coiffureId) throws NoDataFoundException{
+        if(coiffureId<0) return new RestResponse("Fatal Error: coiffure id does not exist",ResponseStatus.FAILED,400);
+        Boolean result = managerUpdateService.coiffureDelete(coiffureId);
+        return new RestResponse("Coiffure deleted successfully", ResponseStatus.SUCCESS,200);
+    }
+
     /**
      *
      * @param id
@@ -191,8 +214,6 @@ public class ManagerController {
         if(coiffure==null) return new RestResponse("Cette coiffure n'exsite pas",ResponseStatus.FAILED,404);
         return new RestResponse(coiffure,"La coiffure a été retrouvée",ResponseStatus.SUCCESS,200);
     }
-
-    //Liste des coiffures
     /**
      *
      * @return
@@ -204,8 +225,6 @@ public class ManagerController {
         if(coiffureList.isEmpty()) return new RestResponse("Coiffures is empty",ResponseStatus.ABORTED,404);
         return new RestResponse("Coiffure list displayed successfully", ResponseStatus.SUCCESS,200);
     }
-
-    //Liste des coiffures par page
     /**
      *
      * @param pageNo
@@ -220,7 +239,7 @@ public class ManagerController {
         if(coiffure==null) return new RestResponse("this coiffure does'nt exist",ResponseStatus.ABORTED,404);
         return new RestResponse(coiffure,"coiffure displayed with pagination", ResponseStatus.SUCCESS,200);
     }
-    //Liste des coiffures d'un salon de coiffuere
+
     /**
      *
      * @param salonId
@@ -244,8 +263,6 @@ public class ManagerController {
         Carnet carnet = managerUpdateService.carnetCreation(carnetRequest);
         return new RestResponse(carnet,"Création du carnet avec succes",ResponseStatus.SUCCESS,201);
     }
-    //Modification d'un carnet
-
     /**
      *
      * @param carnetRequest
@@ -258,8 +275,14 @@ public class ManagerController {
         Carnet carnet = managerUpdateService.carnetModification(carnetRequest,id);
         return new RestResponse(carnet,"La modification a été effectuée avec succes",ResponseStatus.SUCCESS,201);
     }
-    //Afficher un carnet
 
+    @GetMapping("/carnet-delete/{carnetId}")
+    @ApiOperation("Supprimer un carnet")
+    public RestResponse carnetDelete(@PathVariable Long carnetId) throws NoDataFoundException{
+        if(carnetId<0) return new RestResponse("Fatal Error: carnet id does not exist",ResponseStatus.FAILED,400);
+        Boolean result = managerUpdateService.carnetDelete(carnetId);
+        return new RestResponse("Carnet deleted successfully",ResponseStatus.SUCCESS,200);
+    }
     /**
      *
      * @param id
@@ -274,7 +297,11 @@ public class ManagerController {
         if(carnet==null) return new RestResponse("Ce carnet n'existe pas", ResponseStatus.FAILED,404);
         return new RestResponse(carnet, "Le carnet a ete trouve", ResponseStatus.SUCCESS,200);
     }
-    //Afficher tous les carnets
+
+    /**
+     *
+     * @return
+     */
     @GetMapping(path = "/carnets", name = "All")
     @Operation(description = "Affiche tous les carnets")
     public RestResponse carnetDisplayedList(){
@@ -282,7 +309,6 @@ public class ManagerController {
         if(carnetList.isEmpty()) return new RestResponse("Carnet is empty",ResponseStatus.ABORTED,401);
         return new RestResponse(carnetList,"Liste des carnets",ResponseStatus.SUCCESS,200);
     }
-    //Lister les carnet par page
 
     /**
      *
@@ -300,38 +326,48 @@ public class ManagerController {
     }
 
     @GetMapping("/display-barber-planing/{coiffeurId}")
-    @Operation(description = "Afficher le carnet d'un carnet")
+    @Operation(description = "Afficher le carnet d'un coiffeur")
     public RestResponse displayBarberPlaning(@PathVariable long coiffeurId) throws NoDataFoundException{
         Carnet carnet = new Carnet();
         carnet = managerRetrieveService.displayBarberPlaning(coiffeurId);
-        System.out.println("Dans le controller "+carnet.toString());
         if(carnet==null) return new RestResponse("this carnet does'nt exist",ResponseStatus.ABORTED,404);
         return new RestResponse(carnet,"carnet displayed ", ResponseStatus.SUCCESS,200);
-
-        //return new RestResponse("Carnet displayed succesfully",ResponseStatus.SUCCESS,200);
     }
 
+    /************************ Endpoints des plages horaires ******************/
     /**
-     * Gestion des plages horaires
+     *
+     * @param plageHoraireRequest
+     * @return
      */
-    //Créer une plage horaire
     @PostMapping(path = "/plage-horaire",name = "create")
     @Operation(summary = "Créer une plage horaire", description="creation plage horraire")
     public RestResponse plageHoraireCreation(@RequestBody PlageHoraireRequest plageHoraireRequest){
         PlageHoraire plageHoraire = managerUpdateService.plageHoraireCreation(plageHoraireRequest);
         return new RestResponse(plageHoraire,"Création d'une plage horaire a réussie",ResponseStatus.SUCCESS,200);
     }
-    //Modifier une plage horaire
+
+    /**
+     * @param plageHoraireRequest
+     * @param id
+     * @return
+     */
     @PutMapping(path = "/plage-horaire/{id}", name = "update")
     @Operation(description = "Modifier une plage horaire")
     public RestResponse plageHoraireModification(@RequestBody PlageHoraireRequest plageHoraireRequest, @PathVariable Long id){
         PlageHoraire plageHoraire = managerUpdateService.plageHoraireModification(plageHoraireRequest, id);
         return new RestResponse(plageHoraire,"Modification de la plage horaire avec succes",ResponseStatus.SUCCESS,200);
     }
-    //Afficher une plage horaire
+
+    @GetMapping("/plage-horaire-delete/{plageHoraireId}")
+    @ApiOperation("Supprimer une plage horaire")
+    public RestResponse plageHoraireDelete(@PathVariable Long plageHoraireId) throws NoDataFoundException{
+        if(plageHoraireId<0) return new RestResponse("Fatal Error: plage horaire id does not exist",ResponseStatus.SUCCESS,400);
+        Boolean result = managerUpdateService.plageHoraireDelete(plageHoraireId);
+        return new RestResponse("Plage horaire deleted successfully", ResponseStatus.SUCCESS,200);
+    }
 
     /**
-     *
      * @param id
      * @return
      * @throws NoDataFoundException
@@ -344,7 +380,10 @@ public class ManagerController {
         if(plageHoraire==null) return new RestResponse("Cette plage horaire n'existe pas", ResponseStatus.FAILED,404);
         return new RestResponse(plageHoraire, "La plage horaire a ete trouve", ResponseStatus.SUCCESS,200);
     }
-    //Afficher la liste des plages horaire
+
+    /**
+     * @return
+     */
     @GetMapping(path = "/plages-horaires", name = "all")
     @Operation(description = "Afficher la liste des plages horaires")
     public RestResponse plageHoraireDisplayedList(){
@@ -352,9 +391,8 @@ public class ManagerController {
         if(plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire trouvée",ResponseStatus.ABORTED,404);
         return new RestResponse(plageHoraireList, "Liste des plages horaires", ResponseStatus.SUCCESS,200);
     }
-    //Afficher la liste des plages horaires par page
+
     /**
-     *
      * @param pageNo
      * @param pageSize
      * @return
@@ -364,6 +402,12 @@ public class ManagerController {
         Map<String, Object> plageHoraire = managerRetrieveService.plageHoraireDisplayedPage(pageNo, pageSize);
         if(plageHoraire==null) return new RestResponse("Cette plage horaire n'existe pas",ResponseStatus.ABORTED,404);
         return new RestResponse(plageHoraire,"Liste des plages horaires avec pagination", ResponseStatus.SUCCESS,200);
+    }
+
+    public RestResponse plageHoraireByCarnet(@PathVariable Long carnetId){
+        if(carnetId<0) return new RestResponse("Fatal Error: l'id du carnet doit etre positif",ResponseStatus.FAILED,400);
+        List<PlageHoraire>plageHoraireList = managerRetrieveService.plageHoraireByCarnet(carnetId);
+        return new RestResponse(plageHoraireList,"Liste des plages horaire d'un carnet", ResponseStatus.SUCCESS,200);
     }
 }
 
