@@ -20,7 +20,7 @@ public interface PlageHoraireRepository extends JpaRepository<PlageHoraire, Long
     //Modifier une plage horaire
 
     //Afficher une plage horaire
-    Optional<PlageHoraire>findByIdAndDeleteIsFalse(Long id);
+    Optional<PlageHoraire>findByIdAndDeletedIsFalse(Long id);
 
     //Afficher la liste des plages horaires
     List<PlageHoraire>findAll();

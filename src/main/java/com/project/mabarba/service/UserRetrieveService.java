@@ -80,6 +80,8 @@ public interface UserRetrieveService {
     //TODO: Afficher les Plage Horaire d'un coiffeur pour une journée x
     List<PlageHoraire>plageHoraireByCoiffeurByJour(Long coiffeurId, Timestamp jour) throws NoDataFoundException;
 
-    //TODO: Reserver une plage horaire
+    //TODO: Lister les reservation d'un coiffeur
+    List<Reservation>listReservationBarber(Long coiffeurId);
 
+    Map<String,Object> reservationDisplayedAll(int pageNo, int pageSize);
 }

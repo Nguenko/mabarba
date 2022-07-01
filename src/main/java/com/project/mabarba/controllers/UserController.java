@@ -2,11 +2,13 @@ package com.project.mabarba.controllers;
 
 import com.project.mabarba.exception.NoDataFoundException;
 import com.project.mabarba.models.*;
+import com.project.mabarba.payload.request.ReservationRequest;
 import com.project.mabarba.payload.response.ResponseStatus;
 import com.project.mabarba.payload.response.RestResponse;
 import com.project.mabarba.service.UserRetrieveService;
 import com.project.mabarba.service.UserUpdateService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -120,8 +122,8 @@ public class UserController {
     public RestResponse plageHorairesByCarnet(@PathVariable long carnetId) throws NoDataFoundException {
         if(carnetId<0) return new RestResponse("Fatal error: carnet id doest not exist",ResponseStatus.FAILED,400);
         List<PlageHoraire> plageHoraireList = userRetrieveService.plageHorairesByCarnet(carnetId);
-        if(!plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire pour ce carnet",ResponseStatus.ABORTED,404);
-        return new RestResponse("Liste des plages horaires du carnet",ResponseStatus.SUCCESS,200);
+        if(plageHoraireList.isEmpty()) return new RestResponse("Aucune plage horaire pour ce carnet",ResponseStatus.ABORTED,404);
+        return new RestResponse(plageHoraireList,"Liste des plages horaires du carnet",ResponseStatus.SUCCESS,200);
     }
 
     @GetMapping("/plagehoraire/{plageHoraireId}")
@@ -144,5 +146,15 @@ public class UserController {
         if(plageHoraireList.isEmpty())
             return new RestResponse("Aucune plage horaire pour cette journee",ResponseStatus.ABORTED,404);
         return new RestResponse(plageHoraireList,"Liste des plage horaire pour un coiffeur pour une journee", ResponseStatus.SUCCESS,200);
+    }
+
+    /*======================================================================*/
+    /*                             LES RESERVATIONS                        */
+    /*====================================================================*/
+    @PostMapping("/reservation")
+    @Operation(summary = "Réserver une plage horaire", description = "Réservation d'une plage horaire à partir de l'id de la plage et l'id de l'utilisateur")
+    public RestResponse plageHoraireReservation(@RequestBody ReservationRequest reservationRequest) throws NoDataFoundException,Exception {
+        Reservation reservation = userUpdateService.userCreateReservation(reservationRequest);
+        return new RestResponse(reservation,"Create reservation successfully",ResponseStatus.SUCCESS,200);
     }
 }

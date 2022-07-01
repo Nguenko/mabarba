@@ -31,6 +31,18 @@ public class PlageHoraire extends CommonModel{
     )
     private Date fin;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, columnDefinition = "varchar(20) default 'NON_RESERVEE'")
+    private EEtat etat;
+
+    public EEtat getEtat() {
+        return etat;
+    }
+
+    public void setEtat(EEtat etat) {
+        this.etat = etat;
+    }
+
     public Date getDebut() {
         return debut;
     }
@@ -84,11 +96,7 @@ public class PlageHoraire extends CommonModel{
         this.carnet = carnet;
     }
 
-   /*@ManyToMany(fetch = FetchType.LAZY)
-   @JoinTable(name = "reservation",
-            joinColumns = @JoinColumn(name = "plage_id"),
-           inverseJoinColumns = @JoinColumn(name = "user_id"))
-   private List<User> userList;*/
+
     @JsonIgnore
     @OneToMany(mappedBy = "plageHoraire")
    private List<Reservation> reservationList;

@@ -134,12 +134,9 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
     public PlageHoraire plageHoraireCreation(PlageHoraireRequest plageHoraireRequest) {
         PlageHoraire plageHoraire = new PlageHoraire(plageHoraireRequest.getDebut(), plageHoraireRequest.getFin(), plageHoraireRequest.getJour());
         Optional<Carnet> carnetOptional = carnetRepository.findByIdAndDeletedIsFalse(plageHoraireRequest.getCarnetId());
-        /*Carnet carnet = carnetOptional.get();
-        System.out.println(carnet);
-        carnet.getPlageHoraires().add(plageHoraire);
-        carnet = carnetRepository.save(carnet);
-        return plageHoraire;*/
+
         plageHoraire.setCarnet(carnetOptional.get());
+        plageHoraire.setEtat(EEtat.NON_RESERVEE);
         return plageHoraireRepository.save(plageHoraire);
     }
     //Modification d'une plage horaire
@@ -151,7 +148,7 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
 
     @Override
     public Boolean plageHoraireDelete(Long plageHoraireId) throws NoDataFoundException{
-        PlageHoraire plageHoraire = plageHoraireRepository.findByIdAndDeleteIsFalse(plageHoraireId).orElseThrow(()-> new NoDataFoundException(plageHoraireId));
+        PlageHoraire plageHoraire = plageHoraireRepository.findByIdAndDeletedIsFalse(plageHoraireId).orElseThrow(()-> new NoDataFoundException(plageHoraireId));
         plageHoraire.setDeleted(true);
         plageHoraireRepository.save(plageHoraire);
         return true;

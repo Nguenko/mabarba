@@ -41,6 +41,9 @@ public class UserRetrieveImpl implements UserRetrieveService{
     @Autowired
     CarnetRepository carnetRepository;
 
+    @Autowired
+    ReservationRepository reservationRepository;
+
     /******** Retrive Service implement */
     @Override
     public User userDisplayedByID(Long userId) throws NoDataFoundException {
@@ -135,11 +138,12 @@ public class UserRetrieveImpl implements UserRetrieveService{
 
     @Override
     public List<PlageHoraire> plageHorairesByCarnet(long carnetId){
+        //System.out.println("La valeur de carnetId est "+carnetId);
         return plageHoraireRepository.findAllByCarnetId(carnetId);
     }
     @Override
     public PlageHoraire plageHoraireDisplayed(long plageHoraireId) throws NoDataFoundException{
-        return plageHoraireRepository.findByIdAndDeleteIsFalse(plageHoraireId).orElseThrow(()->new NoDataFoundException(plageHoraireId));
+        return plageHoraireRepository.findByIdAndDeletedIsFalse(plageHoraireId).orElseThrow(()->new NoDataFoundException(plageHoraireId));
     }
 
     @Override
@@ -155,4 +159,20 @@ public class UserRetrieveImpl implements UserRetrieveService{
         List<PlageHoraire>plageHoraireList = plageHoraireRepository.findAllByJourAndCarnetIdOrderByCreatedAtDesc(jour,carnet.getId());
         return plageHoraireList;
     }
+
+    @Override
+    public List<Reservation> listReservationBarber(Long coiffeurId) {
+        return reservationRepository.getBarberReservation(coiffeurId);
+    }
+    @Override
+    public Map<String,Object> reservationDisplayedAll(int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        try {
+            Page<Reservation> reservationPage = reservationRepository.findAllByOrderByCreatedAtDesc(pageable);
+            return new FunctionalUtilities<Reservation>().paginator(reservationPage);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        return null;
+    ;
 }
