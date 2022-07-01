@@ -165,7 +165,7 @@ public class UserRetrieveImpl implements UserRetrieveService{
         return reservationRepository.getBarberReservation(coiffeurId);
     }
     @Override
-    public Map<String,Object> reservationDisplayedAll(int pageNo, int pageSize){
+    public Map<String,Object> reservationDisplayedAll(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         try {
             Page<Reservation> reservationPage = reservationRepository.findAllByOrderByCreatedAtDesc(pageable);
@@ -174,5 +174,5 @@ public class UserRetrieveImpl implements UserRetrieveService{
             e.getMessage();
         }
         return null;
-    ;
+    }
 }
