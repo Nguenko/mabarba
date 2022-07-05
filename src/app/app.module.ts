@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule , CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,13 +14,17 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShopdetailsComponent } from './shopdetails/shopdetails.component';
-
+import {ShareModule} from'../../src/app/views/share/share.module';
+import { UsersModule } from './views/users/users.module';
+import { AuthModule } from './views/auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -33,9 +37,14 @@ import { ShopdetailsComponent } from './shopdetails/shopdetails.component';
     BoardModeratorComponent,
     BoardUserComponent,
     ShopdetailsComponent
-  ],
+     ],
   imports: [
     BrowserModule,
+    ShareModule,
+    UsersModule,
+    AuthModule,
+    MatSelectModule,
+    MatFormFieldModule,
     MatButtonModule,
     AppRoutingModule,
     MaterialModule,
@@ -48,6 +57,7 @@ import { ShopdetailsComponent } from './shopdetails/shopdetails.component';
     ReactiveFormsModule,
     MatSidenavModule
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })

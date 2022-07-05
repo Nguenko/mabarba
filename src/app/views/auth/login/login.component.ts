@@ -3,7 +3,7 @@ import { AuthService } from '../../../_services/auth.service';
 import { TokenStorageService } from '../../../_services/token-storage.service';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
-
+import { Router } from '@angular/router';
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
@@ -20,10 +20,12 @@ export class LoginComponent implements OnInit {
   form: any = {};
   isLoggedIn = false;
   isLoginFailed = false;
+  username:string ='';
+  password:string ='';
   errorMessage = '';
   roles: string[] = [];
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService,private router :Router) { }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
@@ -51,7 +53,8 @@ export class LoginComponent implements OnInit {
   }
 
   reloadPage(): void {
-    window.location.reload();
+    //window.location.reload();
+    this.router.navigate(['/shop'])
   }
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);

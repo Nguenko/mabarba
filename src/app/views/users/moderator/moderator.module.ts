@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModeratorRoutingModule } from './moderator-routing/moderator-routing.module';
+import { ModeratorRoutingModule } from './moderator-routing.module';
 
 
 
