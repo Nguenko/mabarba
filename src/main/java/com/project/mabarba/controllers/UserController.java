@@ -70,12 +70,46 @@ public class UserController {
      * @throws NoDataFoundException
      */
     @GetMapping(path = "/salon-barber/{salonId}", name = "")
-    @ApiOperation("Afficher la liste des coiffeurs d'un salon")
+    @Operation(summary = "Afficher la liste des coiffeurs d'un salon")
     public RestResponse coiffeursBySalon(@PathVariable Long salonId) throws NoDataFoundException{
         if(salonId<0) return new RestResponse("Fatal Error: this salon id does not exist",ResponseStatus.FAILED,400);
         List<Coiffeur> coiffeurList = userRetrieveService.salonDisplayedCoiffeur(salonId);
         if(coiffeurList.isEmpty()) return new RestResponse("There is no barber in this salon", ResponseStatus.ABORTED,404);
         return new RestResponse(coiffeurList,"Liste des coiffeurs d'un salon", ResponseStatus.SUCCESS,200);
+    }
+
+    @GetMapping("/salon-user/{userId}")
+    @Operation(summary = "Afficher la liste des salons d'un quartier dans la ville d'un utilisateur")
+    public RestResponse salonDisplayByUser(@PathVariable Long userId) throws NoDataFoundException{
+        if(userId<0)return new RestResponse("Fatal Error: this user id does not exist", ResponseStatus.FAILED,400);
+        List<Salon>salonList = userRetrieveService.salonDisplayedByUser(userId);
+        if(salonList.isEmpty()) return new RestResponse("There is no salon found", ResponseStatus.ABORTED,404);
+        return new RestResponse(salonList,"Liste des salons trouvés",ResponseStatus.SUCCESS,200);
+    }
+    @GetMapping("/salon-search/{name}")
+    @Operation(summary = "Rechercher les salons à partir d'un nom")
+    public RestResponse searchSalonsByName(@PathVariable String name){
+        List<Salon>salonList = userRetrieveService.displaySalonsByName(name);
+        return new RestResponse(salonList,"Liste des salon correspondant au name", ResponseStatus.SUCCESS,200);
+    }
+    @GetMapping("/coiffeur-search/{name}")
+    @Operation(summary = "Rechercher les coiffeurs à partir d'un nom")
+    public RestResponse searchCoiffeursByName(@PathVariable String name){
+        List<Coiffeur>coiffeurList = userRetrieveService.displayCoiffeursByName(name);
+        return new RestResponse(coiffeurList,"Liste des coiffeurs correspondant au name", ResponseStatus.SUCCESS,200);
+    }
+    /**
+     * @param ville
+     * @param quartier
+     * @return
+     * @throws NoDataFoundException
+     */
+    @GetMapping("/salon-user")
+    @Operation(summary = "Afficher la liste des salons d'un quartier dans une ville donnée")
+    public RestResponse salonDisplayByUser(@RequestParam String ville, @RequestParam String quartier) throws NoDataFoundException{
+        List<Salon>salonList = userRetrieveService.salonDisplayedByUserAdvanced(ville, quartier);
+        if(salonList.isEmpty()) return new RestResponse("There is no salon found", ResponseStatus.ABORTED,404);
+        return new RestResponse(salonList,"Liste des salons trouvés",ResponseStatus.SUCCESS,200);
     }
 
     //Liste des coiffures d'un salon de coiffuere
@@ -99,7 +133,12 @@ public class UserController {
         Coiffure coiffure = userRetrieveService.coiffureDisplayed(coiffureId);
         return new RestResponse(coiffure,"Displayed coiffure",ResponseStatus.SUCCESS,200);
     }
-
+    @GetMapping("/coiffure-search/{name}")
+    @Operation(summary = "Rechercher les coiffures à partir d'un nom")
+    public RestResponse searchCoiffuresByName(@PathVariable String name){
+        List<Coiffure>coiffureList = userRetrieveService.displayCoiffuresByName(name);
+        return new RestResponse(coiffureList,"Liste des coiffures correspondant au name", ResponseStatus.SUCCESS,200);
+    }
     /******************* endpoints de carnet ****************************/
     @GetMapping("/carnet-coiffeur/{coiffeurId}")
     @ApiOperation("Afficher le carnet d'un coiffeur")

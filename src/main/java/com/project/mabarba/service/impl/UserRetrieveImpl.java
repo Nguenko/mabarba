@@ -55,13 +55,6 @@ public class UserRetrieveImpl implements UserRetrieveService{
         return userRepository.findByUsername(username).orElseThrow(() -> new NoDataFoundException("User"));
     }
 
-    /*
-     * @Override
-     * public Boolean userDeleted(Long userId) throws NoDataFoundException{
-     *
-     * }
-     */
-
     @Override
     public List<User> userDisplayedList() {
         Supplier<List<User>> userList = () -> userRepository.findAllByOrderByCreatedAtDesc();
@@ -107,6 +100,30 @@ public class UserRetrieveImpl implements UserRetrieveService{
         return coiffeurList;
     }
 
+    @Override
+    public List<Salon> salonDisplayedByUser(long userId) throws NoDataFoundException {
+
+        User user = userRepository.findById(userId).orElseThrow(()-> new NoDataFoundException(userId));
+        List<Salon> salonList = salonRepository.searchAllSalonsByUser(user.getVille(),user.getQuartier());
+        return salonList;
+    }
+
+    @Override
+    public List<Salon> salonDisplayedByUserAdvanced(String ville, String quartier) throws NoDataFoundException {
+        //User user = userRepository.findById(userId).orElseThrow(()-> new NoDataFoundException(userId));
+        List<Salon> salonList = salonRepository.searchAllSalonsByUser(ville,quartier);
+        return salonList;
+    }
+    @Override
+    public List<Salon> displaySalonsByName(String name){
+        List<Salon> salonList = salonRepository.searchAllSalonsByName(name);
+        return salonList;
+    }
+    @Override
+    public List<Coiffeur> displayCoiffeursByName(String name){
+        List<Coiffeur> coiffeurList = coiffeurRepository.searchAllCoiffeursByName(name);
+        return coiffeurList;
+    }
     /********************** Gestion des coiffures ******************************/
     @Override
     public List<Coiffure> salonDisplayedCoiffure(long salonId) throws NoDataFoundException {
@@ -119,6 +136,13 @@ public class UserRetrieveImpl implements UserRetrieveService{
         Coiffure coiffure = coiffureRepository.findByIdAndDeletedIsFalse(coiffureId).orElseThrow(()-> new NoDataFoundException(coiffureId));
         return coiffure;
     }
+    @Override
+    public List<Coiffure> displayCoiffuresByName(String name){
+        List<Coiffure> coiffureList = coiffureRepository.searchAllCoiffuresByName(name);
+        return coiffureList;
+    }
+    //TODO: la pagination lors de la recherche par name
+
     /********************* Gestion des carnets ******************************/
     @Override
     public Carnet carnetByCoiffeur(long coiffeurId) throws NoDataFoundException{

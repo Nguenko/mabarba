@@ -64,9 +64,17 @@ public interface UserRetrieveService {
      */
     List<Coiffeur> salonDisplayedCoiffeur(long salonId) throws NoDataFoundException;
 
+    List<Salon> salonDisplayedByUser(long userId) throws NoDataFoundException;
+    List<Salon> salonDisplayedByUserAdvanced(String ville, String quartier) throws NoDataFoundException;
+
+    List<Salon> displaySalonsByName(String name);
+
+    List<Coiffeur> displayCoiffeursByName(String name);
     /*********************** Gestion des coiffures **********************************/
     List<Coiffure> salonDisplayedCoiffure(long salonId) throws NoDataFoundException;
     Coiffure coiffureDisplayed(long coiffureId) throws NoDataFoundException;
+
+    List<Coiffure> displayCoiffuresByName(String name);
 
     /********************** Gestion des carnets ************************************/
     Carnet carnetByCoiffeur(long coiffeurId) throws NoDataFoundException;

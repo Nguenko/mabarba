@@ -39,4 +39,12 @@ public class ReservationRequest {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public EStatutReservation getStatut() {
+        return statut;
+    }
+
+    public void setStatut(EStatutReservation statut) {
+        this.statut = statut;
+    }
 }

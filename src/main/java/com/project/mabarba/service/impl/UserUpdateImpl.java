@@ -34,17 +34,24 @@ public class UserUpdateImpl implements UserUpdateService {
     public Reservation userCreateReservation(ReservationRequest reservationRequest) throws NoDataFoundException, Exception{
         User user = userRepository.getById(reservationRequest.getUserId());
         PlageHoraire plageHoraire = plageHoraireRepository.findByIdAndDeletedIsFalse(reservationRequest.getPlageHoraireId()).orElseThrow(()->new NoDataFoundException(reservationRequest.getPlageHoraireId()));
-        if(plageHoraire.getEtat().equals(EEtat.RESERVEE_DISPONIBLE) || plageHoraire.getEtat().equals(EEtat.NON_RESERVEE)){
+        if(plageHoraire.getEtat().equals(EEtat.NON_RESERVEE) && !reservationRequest.getStatut().equals(EStatutReservation.REGLE)){
             plageHoraire.setEtat(EEtat.RESERVEE_DISPONIBLE);
-
-            Reservation reservation = new Reservation(user,plageHoraire);
             plageHoraireRepository.save(plageHoraire);
-            reservation.setStatut(EStatutReservation.NON_REGLE);
-            return reservationRepository.save(reservation);
         }
-        else {
-            throw new Exception("Impossible de reserver cette plageHoraire");
+        else if(plageHoraire.getEtat().equals(EEtat.RESERVEE_DISPONIBLE)||
+                plageHoraire.getEtat().equals(EEtat.NON_RESERVEE) &&
+                        reservationRequest.getStatut().equals(EStatutReservation.REGLE)
+        ){
+
+            if(plageHoraire.getEtat().equals(EEtat.RESERVEE_DISPONIBLE)){
+                //Quelqu'un avait déjà reservé. on lui envoie un message pour lui informer de l'annulation
+                //TODO: Suprimer l'ancienne reservation et envoie du message
+            }
+            plageHoraire.setEtat(EEtat.RESERVEE_INDISPONIBLE);
         }
+        Reservation reservation = new Reservation(user,plageHoraire);
+        reservation = reservationRepository.save(reservation);
+        return reservation;
     }
 
 }

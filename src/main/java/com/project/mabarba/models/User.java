@@ -29,6 +29,9 @@ public class User extends CommonModel{
 	private String ville;
 
 	@NotBlank
+	private String quartier;
+
+	@NotBlank
 	@Size(max = 40)
 	private String username;
 
@@ -161,6 +164,14 @@ public class User extends CommonModel{
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getQuartier() {
+		return quartier;
+	}
+
+	public void setQuartier(String quartier) {
+		this.quartier = quartier;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)

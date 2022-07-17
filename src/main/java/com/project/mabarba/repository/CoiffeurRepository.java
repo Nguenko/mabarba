@@ -23,4 +23,7 @@ public interface CoiffeurRepository extends JpaRepository<Coiffeur,Long> {
     //Liste des Coiffeurs d'un salon
     List<Coiffeur> findBySalonId(Long salonId);
 
+    //Rechercher les salon par leur nom
+    @Query(value = "SELECT * From Coiffeur where name:=name", nativeQuery = true)
+    List<Coiffeur> searchAllCoiffeursByName(String name);
 }
