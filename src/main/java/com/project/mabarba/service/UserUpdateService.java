@@ -1,6 +1,7 @@
 package com.project.mabarba.service;
 
 import com.project.mabarba.exception.NoDataFoundException;
+import com.project.mabarba.exception.ReservationException;
 import com.project.mabarba.models.Reservation;
 import com.project.mabarba.models.User;
 import com.project.mabarba.payload.request.ReservationRequest;
@@ -12,5 +13,5 @@ public interface UserUpdateService {
     //update a user
     User userModification(SignupRequest signupRequest, Long id);
 
-    Reservation userCreateReservation(ReservationRequest reservationRequest) throws NoDataFoundException, Exception;
+    Reservation userCreateReservation(ReservationRequest reservationRequest) throws ReservationException, NoDataFoundException;
 }

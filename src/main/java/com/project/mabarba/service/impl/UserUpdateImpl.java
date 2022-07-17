@@ -1,6 +1,7 @@
 package com.project.mabarba.service.impl;
 
 import com.project.mabarba.exception.NoDataFoundException;
+import com.project.mabarba.exception.ReservationException;
 import com.project.mabarba.models.*;
 import com.project.mabarba.payload.request.ReservationRequest;
 import com.project.mabarba.payload.request.SignupRequest;
@@ -31,26 +32,31 @@ public class UserUpdateImpl implements UserUpdateService {
     }
 
     @Override
-    public Reservation userCreateReservation(ReservationRequest reservationRequest) throws NoDataFoundException, Exception{
+    public Reservation userCreateReservation(ReservationRequest reservationRequest) throws ReservationException, NoDataFoundException{
         User user = userRepository.getById(reservationRequest.getUserId());
         PlageHoraire plageHoraire = plageHoraireRepository.findByIdAndDeletedIsFalse(reservationRequest.getPlageHoraireId()).orElseThrow(()->new NoDataFoundException(reservationRequest.getPlageHoraireId()));
+        Reservation reservation = new Reservation(user,plageHoraire);
+
         if(plageHoraire.getEtat().equals(EEtat.NON_RESERVEE) && !reservationRequest.getStatut().equals(EStatutReservation.REGLE)){
             plageHoraire.setEtat(EEtat.RESERVEE_DISPONIBLE);
             plageHoraireRepository.save(plageHoraire);
+            reservation.setStatut(EStatutReservation.NON_REGLE);
+            reservation = reservationRepository.save(reservation);
         }
         else if(plageHoraire.getEtat().equals(EEtat.RESERVEE_DISPONIBLE)||
                 plageHoraire.getEtat().equals(EEtat.NON_RESERVEE) &&
                         reservationRequest.getStatut().equals(EStatutReservation.REGLE)
         ){
-
             if(plageHoraire.getEtat().equals(EEtat.RESERVEE_DISPONIBLE)){
                 //Quelqu'un avait déjà reservé. on lui envoie un message pour lui informer de l'annulation
                 //TODO: Suprimer l'ancienne reservation et envoie du message
             }
             plageHoraire.setEtat(EEtat.RESERVEE_INDISPONIBLE);
+            reservation.setStatut(EStatutReservation.NON_REGLE);
         }
-        Reservation reservation = new Reservation(user,plageHoraire);
-        reservation = reservationRepository.save(reservation);
+        else if(plageHoraire.getEtat().equals(EEtat.RESERVEE_INDISPONIBLE)){
+            throw new ReservationException(plageHoraire.getId());
+        }
         return reservation;
     }
 

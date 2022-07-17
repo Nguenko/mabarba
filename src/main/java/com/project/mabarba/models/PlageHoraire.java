@@ -32,7 +32,7 @@ public class PlageHoraire extends CommonModel{
     private Date fin;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20, columnDefinition = "varchar(20) default 'NON_RESERVEE'")
+    @Column(length = 30, columnDefinition = "varchar(20) default 'NON_RESERVEE'")
     private EEtat etat;
 
     public EEtat getEtat() {

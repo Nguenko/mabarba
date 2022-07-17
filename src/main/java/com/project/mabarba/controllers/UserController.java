@@ -1,6 +1,7 @@
 package com.project.mabarba.controllers;
 
 import com.project.mabarba.exception.NoDataFoundException;
+import com.project.mabarba.exception.ReservationException;
 import com.project.mabarba.models.*;
 import com.project.mabarba.payload.request.ReservationRequest;
 import com.project.mabarba.payload.response.ResponseStatus;
@@ -192,8 +193,12 @@ public class UserController {
     /*====================================================================*/
     @PostMapping("/reservation")
     @Operation(summary = "Réserver une plage horaire", description = "Réservation d'une plage horaire à partir de l'id de la plage et l'id de l'utilisateur")
-    public RestResponse plageHoraireReservation(@RequestBody ReservationRequest reservationRequest) throws NoDataFoundException,Exception {
-        Reservation reservation = userUpdateService.userCreateReservation(reservationRequest);
-        return new RestResponse(reservation,"Create reservation successfully",ResponseStatus.SUCCESS,200);
+    public RestResponse plageHoraireReservation(@RequestBody ReservationRequest reservationRequest) throws ReservationException, NoDataFoundException {
+        try {
+            Reservation reservation = userUpdateService.userCreateReservation(reservationRequest);
+            return new RestResponse(reservation,"Create reservation successfully",ResponseStatus.SUCCESS,200);
+        }catch (ReservationException e){
+            return new RestResponse(e.getMessage(),ResponseStatus.FAILED,400);
+        }
     }
 }
