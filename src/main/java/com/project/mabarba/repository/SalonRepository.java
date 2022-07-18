@@ -39,7 +39,7 @@ public interface SalonRepository extends JpaRepository<Salon, Long>, PagingAndSo
     List<Salon> searchAllSalonsByUser(String townUser, String quarterUser);
 
     //Rechercher les salon par leur nom
-    @Query(value = "SELECT * From Salon where name:=name", nativeQuery = true)
+    @Query(value = "SELECT * From Salon s where s.nom=:name ", nativeQuery = true)
     List<Salon> searchAllSalonsByName(String name);
     //TODO: Terminer avec la reservation
     // TODO: Recherche par texte: salon, coiffures, coiffeur

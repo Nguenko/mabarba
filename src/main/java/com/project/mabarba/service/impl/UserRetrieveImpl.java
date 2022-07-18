@@ -116,6 +116,7 @@ public class UserRetrieveImpl implements UserRetrieveService{
     }
     @Override
     public List<Salon> displaySalonsByName(String name){
+        System.out.println("search 2");
         List<Salon> salonList = salonRepository.searchAllSalonsByName(name);
         return salonList;
     }

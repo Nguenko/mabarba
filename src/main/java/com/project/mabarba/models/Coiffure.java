@@ -2,9 +2,11 @@ package com.project.mabarba.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,6 +22,14 @@ public class Coiffure extends CommonModel{
 
     @Column(name = "prix", nullable = true, updatable = true)
     private double prix;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "hh:mm:ss")
+    @Column(
+            name = "duree",
+            nullable = false
+    )
+    private Date duree;
 
     public Coiffure(){
 

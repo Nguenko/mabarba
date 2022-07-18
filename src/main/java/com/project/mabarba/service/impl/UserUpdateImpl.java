@@ -43,18 +43,23 @@ public class UserUpdateImpl implements UserUpdateService {
             reservation.setStatut(EStatutReservation.NON_REGLE);
             reservation = reservationRepository.save(reservation);
         }
-        else if(plageHoraire.getEtat().equals(EEtat.RESERVEE_DISPONIBLE)||
-                plageHoraire.getEtat().equals(EEtat.NON_RESERVEE) &&
+        else if((plageHoraire.getEtat().equals(EEtat.RESERVEE_DISPONIBLE)||
+                plageHoraire.getEtat().equals(EEtat.NON_RESERVEE)) &&
                         reservationRequest.getStatut().equals(EStatutReservation.REGLE)
         ){
             if(plageHoraire.getEtat().equals(EEtat.RESERVEE_DISPONIBLE)){
                 //Quelqu'un avait déjà reservé. on lui envoie un message pour lui informer de l'annulation
                 //TODO: Suprimer l'ancienne reservation et envoie du message
+                //TODO: Envoie du mail pour informé de l'annulation de sa reservation
             }
             plageHoraire.setEtat(EEtat.RESERVEE_INDISPONIBLE);
-            reservation.setStatut(EStatutReservation.NON_REGLE);
+            reservation.setStatut(EStatutReservation.REGLE);
+            reservation = reservationRepository.save(reservation);
         }
         else if(plageHoraire.getEtat().equals(EEtat.RESERVEE_INDISPONIBLE)){
+            throw new ReservationException(plageHoraire.getId());
+        }
+        else{
             throw new ReservationException(plageHoraire.getId());
         }
         return reservation;

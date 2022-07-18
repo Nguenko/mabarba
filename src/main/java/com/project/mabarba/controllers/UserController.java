@@ -90,6 +90,7 @@ public class UserController {
     @GetMapping("/salon-search/{name}")
     @Operation(summary = "Rechercher les salons à partir d'un nom")
     public RestResponse searchSalonsByName(@PathVariable String name){
+        System.out.println("search 1");
         List<Salon>salonList = userRetrieveService.displaySalonsByName(name);
         return new RestResponse(salonList,"Liste des salon correspondant au name", ResponseStatus.SUCCESS,200);
     }
