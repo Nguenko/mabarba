@@ -1,0 +1,49 @@
+
+body {
+    margin: 0;
+}
+.col-md-9 {
+    /* flex: 0 0 auto; */
+    width: 71% !important;
+}
+main {
+    margin: 30px;
+}
+body {
+    margin: 0;
+    font-family: Poppins, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #3c3c3c
+}
+
+.bg-theme {
+    background-color: #3F51B5!important
+}
+
+
+a,
+a:visited {
+    color: #fff;
+    webkit-transition: color .5s;
+    transition: color .5s;
+    text-decoration: none
+}
+
+footer .logo {
+    width: 200px;
+}
+
+footer ul li a {
+    color: #a9bbec!important;
+    text-decoration: none !important;
+}
+
+footer ul li a:hover {
+    color: #E09807!important
+}
+
+footer hr {
+    border-top: 1px solid #6191bc
+}
