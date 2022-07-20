@@ -30,6 +30,10 @@ public class Reservation extends CommonModel {
     @Column(length = 20, columnDefinition = "varchar(20) default 'NON_REGLE'")
     private EStatutReservation statut;
 
+    @ManyToOne
+    @JoinColumn(name = "coiffureId")
+    private Coiffure coiffure;
+
 
 
     public Long getId() {
@@ -73,5 +77,11 @@ public class Reservation extends CommonModel {
         this.user = user;
         this.plageHoraire = plageHoraire;
         this.statut = statut;
+    }
+
+    public Reservation(User user, PlageHoraire plageHoraire , Coiffure coiffure) {
+        this.user = user;
+        this.plageHoraire = plageHoraire;
+        this.coiffure = coiffure;
     }
 }

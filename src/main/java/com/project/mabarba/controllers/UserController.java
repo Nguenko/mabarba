@@ -108,7 +108,7 @@ public class UserController {
      */
     @GetMapping("/salon-user")
     @Operation(summary = "Afficher la liste des salons d'un quartier dans une ville donnée")
-    public RestResponse salonDisplayByUser(@RequestParam String ville, @RequestParam String quartier) throws NoDataFoundException{
+    public RestResponse salonDisplayByUser(@RequestParam("ville") String ville, @RequestParam("quartier") String quartier) throws NoDataFoundException{
         List<Salon>salonList = userRetrieveService.salonDisplayedByUserAdvanced(ville, quartier);
         if(salonList.isEmpty()) return new RestResponse("There is no salon found", ResponseStatus.ABORTED,404);
         return new RestResponse(salonList,"Liste des salons trouvés",ResponseStatus.SUCCESS,200);

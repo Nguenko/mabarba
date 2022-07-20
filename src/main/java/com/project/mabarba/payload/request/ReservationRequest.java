@@ -1,5 +1,6 @@
 package com.project.mabarba.payload.request;
 
+import com.project.mabarba.models.Coiffure;
 import com.project.mabarba.models.EStatutReservation;
 
 import javax.validation.constraints.NotBlank;
@@ -15,6 +16,9 @@ public class ReservationRequest {
 
     @NotBlank
     private EStatutReservation statut;
+
+    @NotBlank
+    private Long coiffureId;
 
     public Long getId() {
         return id;
@@ -46,5 +50,13 @@ public class ReservationRequest {
 
     public void setStatut(EStatutReservation statut) {
         this.statut = statut;
+    }
+
+    public Long getCoiffureId() {
+        return coiffureId;
+    }
+
+    public void setCoiffureId(Long coiffureId) {
+        this.coiffureId = coiffureId;
     }
 }

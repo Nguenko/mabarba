@@ -33,14 +33,13 @@ public interface SalonRepository extends JpaRepository<Salon, Long>, PagingAndSo
 
     //recherche simple d'un salon
     @Query(value="select * from Salon s, Localisation l where l.ville=:townUser and l.quartier=:quarterUser", nativeQuery = true)
-    List<Salon> searchAllSalonByUser(String townUser, String quarterUser);
-
-    @Query(value="SELECT * FROM Salon INNER JOIN Localisation l ON Salon.localisation_id=Localisation.id and l.ville:=townUser and l.quartier:=quaterUser", nativeQuery = true)
     List<Salon> searchAllSalonsByUser(String townUser, String quarterUser);
+
+    @Query(value="SELECT * FROM Salon s INNER JOIN Localisation l ON s.localisation_id=l.id and l.ville:=townUser and l.quartier:=quaterUser", nativeQuery = true)
+    List<Salon> searchAllSalonByUser(String townUser, String quarterUser);
 
     //Rechercher les salon par leur nom
     @Query(value = "SELECT * From Salon s where s.nom=:name ", nativeQuery = true)
     List<Salon> searchAllSalonsByName(String name);
-    //TODO: Terminer avec la reservation
-    // TODO: Recherche par texte: salon, coiffures, coiffeur
+
 }
