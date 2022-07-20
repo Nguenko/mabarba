@@ -12,12 +12,6 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import{BarbersComponent } from './barbers/barbers.component';
 import { SalonsComponent } from './salons/salons.component';
-import {HairSttyleComponent} from './hair-sttyle/hair-sttyle.component';
-import {ManagerBarberComponent} from './manager-barber/manager-barber.component';
-import {ReservationComponent} from './reservation/reservation.component';
-import {PaymentComponent} from './payment/payment.component';
-import {ProfilComponent} from './profil/profil.component';
-import { SearchComponent } from './search/search.component';
 const routes: Routes = [
     {
         path: "",
@@ -27,10 +21,6 @@ const routes: Routes = [
     {
         path: "about",
         component: AboutComponent
-    },
-    {
-      path: "hair",
-      component: HairSttyleComponent
     },
     {
         path: 'courses/:id',
@@ -64,28 +54,8 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
-    path: "manager-barber",
-    component: ManagerBarberComponent
-  },
-  {
-    path: "profil",
-    component: ProfilComponent
-  },
-  {
-    path: "search",
-    component: SearchComponent
-  },
-  {
     path: 'virtual-scrolling',
     component: VirtualScrollingComponent
-  },
-  {
-    path: 'reservation',
-    component: ReservationComponent
-  },
-  {
-    path: 'payment',
-    component: PaymentComponent
   },
   {
     path:'salons',

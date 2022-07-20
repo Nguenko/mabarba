@@ -2,7 +2,7 @@
     <div class="row">
      <br>
      <mat-form-field class="example-chip-list" appearance="fill">
-      <mat-label>My steps</mat-label>
+      <mat-label>Favorite Fruits</mat-label>
       <mat-chip-list #chipList aria-label="Fruit selection">
         <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
           {{fruit.name}}
@@ -10,7 +10,7 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
-        <input placeholder="My salons management page..."
+        <input placeholder="New step..."
                [matChipInputFor]="chipList"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                [matChipInputAddOnBlur]="addOnBlur"
@@ -58,7 +58,7 @@
         <div>
           <br>
          <div class="col-md-9">
-           <mat-paginator [pageSizeOptions]="[10, 15, 20]"  showFirstLastButtons  aria-label="Select page of periodic elements"></mat-paginator>
+           <mat-paginator [pageSizeOptions]="[5, 10, 20]"  showFirstLastButtons  aria-label="Select page of periodic elements"></mat-paginator>
          </div>
          <div class="col-md-3">
   

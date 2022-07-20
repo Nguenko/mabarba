@@ -3,7 +3,7 @@
 
     <mat-sidenav #sidenav>
 
-        <mat-nav-list (click)="sidenav.close()" *ngIf="isLoggedIn">
+        <mat-nav-list (click)="sidenav.close()">
 
             <button mat-list-item routerLink="/">
                 <mat-icon>library_books</mat-icon>
@@ -46,28 +46,43 @@
     </mat-sidenav>
 
 
-    <mat-toolbar color="primary" *ngIf="isLoggedIn">
+    <mat-toolbar color="primary" *ngIf="!isLoggedIn">
         <button mat-icon-button (click)="sidenav.open()">
             <mat-icon>menu</mat-icon>
         </button>
 
-        <div class="container-fluid">
+        <div class="container">
                         
-                <a mat-button >
+                <a mat-button  style="margin-left: 5%;">
                    <span *ngIf="!isLoggedIn">Mabarba</span> 
+                   <a href="/profile" *ngIf="isLoggedIn" class="nav-link" routerLink="profile">{{ username }}</a>
                 </a>
-             
-                <a mat-button routerLink="/home" *ngIf="isLoggedIn">
+        
+               <!--  <mat-menu #dropdown>
+        
+                    <button mat-menu-item routerLink="/">Courses</button>
+        
+                    <button mat-menu-item routerLink="/about">About</button>
+        
+                </mat-menu> -->
+              
+                    <a mat-button routerLink="/home" *ngIf="isLoggedIn">
                         <mat-icon>home</mat-icon>
                         Home
-                </a>
-               
-                <a mat-button routerLink="/search" *ngIf="isLoggedIn">
+                    </a>
+                    <a class="navbar-nav" style="margin-top: 1.5%;" *ngIf="showManagerBoard" mat-button  [matMenuTriggerFor]="dropdownManager">
+                        <mat-icon>supervised_user_circle</mat-icon>
+                        Manager Board
+                     </a> 
+                    <a mat-button routerLink="/home" *ngIf="isLoggedIn">
                         <mat-icon>search</mat-icon>
                         Search
-                </a>
-                                       
-                    <a mat-button routerLink="/profil" *ngIf="isLoggedIn">
+                    </a>
+                    <a mat-button routerLink="/home" *ngIf="isLoggedIn">
+                        <mat-icon>folder_shared</mat-icon>
+                        Hair style
+                    </a>
+                    <a mat-button routerLink="/home" *ngIf="isLoggedIn">
                         <mat-icon>person</mat-icon>
                         My profil
                     </a>
@@ -79,32 +94,35 @@
                         <mat-icon>supervised_user_circle</mat-icon>
                         Admin Board
                     </a> 
-                    <a mat-button routerLink="/reservation" *ngIf="isLoggedIn">
-                        <mat-icon>border_color</mat-icon> Reservation
-                    </a>
-                    <a class="navbar-nav" style="margin-top: 1.5%;" *ngIf="showManagerBoard" mat-button  [matMenuTriggerFor]="dropdownManager">
-                        <mat-icon>supervised_user_circle</mat-icon>
-                        Manager Board
-                   </a> 
                     <a mat-button routerLink="/admin" [matMenuTriggerFor]="dropdownAdmin" *ngIf="showAdminBoard">
                         <mat-icon>supervised_user_circle</mat-icon>
                         Admin Board
                     </a> 
                     <mat-menu #dropdownAdmin>
             
-                        <button mat-menu-item routerLink="/manager"> <mat-icon>supervisor_account</mat-icon> Manager Board</button>            
-                        <button mat-menu-item routerLink="/manager-barber">  <mat-icon>dvr</mat-icon> My barbers </button>                       
-                        <button mat-menu-item routerLink="/about">  <mat-icon>domain_disabled</mat-icon> My Salons </button>
+                        <button mat-menu-item routerLink="/manager"> <mat-icon>supervisor_account</mat-icon>
+                            Manager Board</button>
+            
+                        <button mat-menu-item routerLink="/about">  <mat-icon>person</mat-icon>
+                            My barbers </button>
+                            
+                        <button mat-menu-item routerLink="/about">  <mat-icon>domain_disabled</mat-icon>
+                                My Salons </button>
                         <button mat-menu-item routerLink="/"> <mat-icon>border_color</mat-icon> Reservation </button>
                         <button mat-menu-item routerLink="/"> <mat-icon>payment</mat-icon> Payment </button>
                                   
                     </mat-menu>                   
-                    <mat-menu #dropdownManager>                                  
-                        <button mat-menu-item routerLink="/manager-barber">  <mat-icon>dvr</mat-icon> My barbers </button>   
-                        <button mat-menu-item routerLink="/hair" *ngIf="isLoggedIn"><mat-icon>folder_shared</mat-icon> Hair style </button>    
-                        <button mat-menu-item routerLink="/salons">  <mat-icon>domain_disabled</mat-icon> My Salons </button>
-                        <button mat-menu-item routerLink="/payment"> <mat-icon>payment</mat-icon> Payment </button>                                  
-                    </mat-menu>  
+                    <mat-menu #dropdownManager>
+                                  
+                        <button mat-menu-item routerLink="/about">  <mat-icon>person</mat-icon>
+                            My barbers </button>
+                            
+                        <button mat-menu-item routerLink="/salons">  <mat-icon>domain_disabled</mat-icon>
+                                My Salons </button>
+                        <button mat-menu-item routerLink="/"> <mat-icon>border_color</mat-icon> Reservation </button>
+                        <button mat-menu-item routerLink="/"> <mat-icon>payment</mat-icon> Payment </button>
+                                  
+                </mat-menu>  
                
              
            
@@ -119,7 +137,7 @@
                     <mat-icon>account_circle</mat-icon>
                     Login
                 </a>
-                <a mat-button href="/profil" *ngIf="isLoggedIn" class="nav-link" routerLink="profil">{{ username }}</a>
+           
                 <a mat-button *ngIf="isLoggedIn">               
                     <mat-icon (click)="logout()">power_settings_new</mat-icon>   
                    
@@ -136,38 +154,35 @@
         </button>
 
         <div class="container">
-             <div class="row">
+          <div class="col-md-9">
 
-                <div class="col-md-9">
-                    <a mat-button  style="margin-left: 6%;" routerLink="/">
-                        <span *ngIf="!isLoggedIn">Mabarba</span>                        
-                     </a>
-             
-                </div>
-                <div class="col-md-3">
-                
-                      <a mat-button routerLink="/register">
-                         <mat-icon>person_add</mat-icon>
-                         Register
-                     </a>
-                          
-                     <a mat-button  routerLink="/login" >
-                         <mat-icon>account_circle</mat-icon>
-                         Login
-                     </a>
-                
-                </div>
-                
+          </div>                
+          <div class="col-md-3">
+            <a mat-button routerLink="/register">
+                <mat-icon>person_add</mat-icon>
+                Register
+            </a>
     
-
-             </div>           
+            
+          
+            <a mat-button  routerLink="/login">
+                <mat-icon>account_circle</mat-icon>
+                Login
+            </a>
+          </div>                             
+           
+               
+           
+                      
+         
         </div>    
-       
+
     </mat-toolbar>
+
 
     <router-outlet></router-outlet>
      
-    <footer class="p-5 bg-theme text-small" style="margin-top: 10px;">
+    <footer class="p-5 bg-theme text-small">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-3 text-white">
@@ -189,14 +204,32 @@
                             <ul class="list-unstyled">
                                 <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">C'est quoi MaBarba</a></li>
                                 <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Comment ça marche ?</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Naveed Ul Hassan</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Testimonials</a></li>
                             </ul>
-                          
+                            <h5 class="text-white">Notre Politique</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Legal Information</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Privacy Policy</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Refund Policy</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Contact Us</a></li>
+                            </ul>
                         </div>
                         <div class="col-12 col-sm-4">
                             <h5 class="text-white">Produits</h5>
                             <ul class="list-unstyled">
                                 <li><a href="vectorvest-7.html">MaBarba</a></li>
                                 <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Stock Advisory – Mobile App</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">RoboTrader</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">RealTime Tracking</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Watch blog</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Watchdog</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Profitbit Pro</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">ProSpinner 7</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Pro Analyzer</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">OptionsHackPro</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">TimerSechudeule</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Portfolio</a></li>
                             </ul>
                         </div>
                         <div class="col-12 col-sm-4">
@@ -204,8 +237,18 @@
                             <ul class="list-unstyled">
                                 <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">US Events</a></li>
                                 <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">CA Events</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">EU Events</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">UK Events</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">AU Events</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">HK Events</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">SG Events</a></li>
                             </ul>
-                           
+                            <h5 class="text-white">Liens importants</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Pricing</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Blog</a></li>
+                                <li><a href="https://www.fiverr.com/sunlimetech/design-and-fix-your-bootstrap-4-issues" target="_blank">Risk-Free Trial</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>

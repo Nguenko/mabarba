@@ -2,10 +2,7 @@
 body {
     margin: 0;
 }
-.col-md-9 {
-    /* flex: 0 0 auto; */
-    width: 71% !important;
-}
+
 main {
     margin: 30px;
 }
