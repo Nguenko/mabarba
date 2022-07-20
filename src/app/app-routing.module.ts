@@ -12,6 +12,8 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import{BarbersComponent } from './barbers/barbers.component';
 import { SalonsComponent } from './salons/salons.component';
+import {HairSttyleComponent} from './hair-sttyle/hair-sttyle.component';
+import {ManagerBarberComponent} from './manager-barber/manager-barber.component';
 const routes: Routes = [
     {
         path: "",
@@ -21,6 +23,10 @@ const routes: Routes = [
     {
         path: "about",
         component: AboutComponent
+    },
+    {
+      path: "hair",
+      component: HairSttyleComponent
     },
     {
         path: 'courses/:id',
@@ -52,6 +58,10 @@ const routes: Routes = [
   {
     path: "register",
     component: RegisterComponent
+  },
+  {
+    path: "manager-barber",
+    component: ManagerBarberComponent
   },
   {
     path: 'virtual-scrolling',

@@ -2,7 +2,7 @@
     <div class="row">
      <br>
      <mat-form-field class="example-chip-list" appearance="fill">
-      <mat-label>My steps</mat-label>
+      <mat-label>Steps</mat-label>
       <mat-chip-list #chipList aria-label="Fruit selection">
         <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
           {{fruit.name}}
@@ -10,7 +10,7 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
-        <input placeholder="My salons management page..."
+        <input placeholder="My Barbers management page..."
                [matChipInputFor]="chipList"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                [matChipInputAddOnBlur]="addOnBlur"
@@ -46,12 +46,14 @@
             <ng-container matColumnDef="symbol">
               <th mat-header-cell *matHeaderCellDef> Phone </th>
               <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-            </ng-container>
-        
+            </ng-container>           
+            <tr>
+                <th mat-header-cell *matHeaderCellDef> Phone </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+            </tr>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
-          
           
           
         </div>

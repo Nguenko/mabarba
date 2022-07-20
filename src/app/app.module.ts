@@ -52,6 +52,11 @@ import { LoginComponent } from './login/login.component';
 import { BarbersComponent } from './barbers/barbers.component';
 import { SalonsComponent } from './salons/salons.component';
 import {MaterialExampleModule} from '../material.module';
+import { HairSttyleComponent } from './hair-sttyle/hair-sttyle.component';
+import { ManagerBarberComponent } from './manager-barber/manager-barber.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { AlertDialogComponent } from './views/alert-dialog/alert-dialog.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 @NgModule({
     declarations: [
         AppComponent,
@@ -69,12 +74,17 @@ import {MaterialExampleModule} from '../material.module';
         RegisterComponent,
         LoginComponent,
         BarbersComponent,
-        SalonsComponent
+        SalonsComponent,
+        HairSttyleComponent,
+        ManagerBarberComponent,
+        AlertDialogComponent,
+        ConfirmationDialogComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         MaterialExampleModule,
+        MatSnackBarModule,
         HttpClientModule,
         MatMenuModule,
         MatButtonModule,
