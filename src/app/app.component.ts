@@ -4,6 +4,7 @@ import {MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialo
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { AlertDialogComponent } from './views/alert-dialog/alert-dialog.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,7 +22,7 @@ export class AppComponent {
   animal: string;
   name: string;
   constructor(private tokenStorageService: TokenStorageService,private dialog: MatDialog,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar, private router:Router) { }
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
@@ -40,6 +41,8 @@ export class AppComponent {
 
   logout(): void {
     this.tokenStorageService.signOut();
+    //window.location.reload();
+    this.router.navigate(['/login']);
     window.location.reload();
   }
 

@@ -57,6 +57,10 @@ import { ManagerBarberComponent } from './manager-barber/manager-barber.componen
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { AlertDialogComponent } from './views/alert-dialog/alert-dialog.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ReservationComponent } from './reservation/reservation.component';
+import { PaymentComponent } from './payment/payment.component';
+import { ProfilComponent } from './profil/profil.component';
+import { SearchComponent } from './search/search.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -78,7 +82,11 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
         HairSttyleComponent,
         ManagerBarberComponent,
         AlertDialogComponent,
-        ConfirmationDialogComponent
+        ConfirmationDialogComponent,
+        ReservationComponent,
+        PaymentComponent,
+        ProfilComponent,
+        SearchComponent
     ],
     imports: [
         BrowserModule,

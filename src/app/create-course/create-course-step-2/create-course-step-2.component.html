@@ -1,16 +1,16 @@
-<div  class="course-details-form">
+<form  [formGroup]="form2" class="course-details-form" (submit)="onSubmit2()">
 
 
-    <mat-form-field>
+   <!--  <mat-form-field>
 
 
         <input matInput placeholder="Barber's Town"  >
 
-        <!-- <mat-hint align="end">
+         <mat-hint align="end">
 
             {{name.value.length}} / 60
 
-        </mat-hint> -->
+        </mat-hint> 
 
        
 
@@ -21,17 +21,36 @@
 
         <input matInput placeholder="Barber's city">
 
-       <!--  <mat-hint align="end">
+         <mat-hint align="end">
 
             {{phone.value.length}} / 60
 
-        </mat-hint> -->
+        </mat-hint>
 
        
 
 
-    </mat-form-field>
+    </mat-form-field> -->
+    <mat-form-field>
 
+
+        <input matInput placeholder="Phone Number" formControlName="telephone" #telephone>
+
+        <mat-hint align="end">
+
+            {{telephone.value.length}} / 60
+
+        </mat-hint>
+        
+       <!--  <mat-error *ngIf="courseTitle.errors?.minlength">
+
+            A minimum length of 5 characters is required.
+
+        </mat-error>(formEvent1)="addForm1($event)"  -->
+
+
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit">Go</button>
     <!-- <mat-radio-group class="course-type" formControlName="courseType">
 
         <mat-radio-button [disabled]="true" value="free">Free</mat-radio-button>
@@ -84,7 +103,7 @@
     </mat-form-field> -->
 
 
-</div>
+</form>
 
 
 

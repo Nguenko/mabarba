@@ -1,26 +1,27 @@
-<div [formGroup]="form" class="course-details-form">
+<form [formGroup]="form1" class="course-details-form" (submit)="onSubmit1()">
 
 
     <mat-form-field>
 
 
-        <input matInput placeholder="Barber Name" formControlName="name" #name>
+        <input matInput placeholder="Barber Name" formControlName="nom" #nom>
 
         <mat-hint align="end">
 
-            {{name.value.length}} / 60
+            {{nom.value.length}} / 60
 
         </mat-hint>
 
-        <mat-error *ngIf="courseTitle.errors?.minlength">
+        <!-- <mat-error *ngIf="courseTitle.errors?.minlength">
 
             A minimum length of 5 characters is required.
 
-        </mat-error>
+        </mat-error> -->
 
 
     </mat-form-field>
-    <mat-form-field>
+    <button mat-raised-button color="accent" type="submit">Go1</button>
+    <!-- <mat-form-field>
 
 
         <input matInput placeholder="Phone Number" formControlName="phone" #phone>
@@ -38,7 +39,7 @@
         </mat-error>
 
 
-    </mat-form-field>
+    </mat-form-field> -->
 
     <!-- <mat-radio-group class="course-type" formControlName="courseType">
 
@@ -70,7 +71,7 @@
 
     </mat-form-field> -->
 
-    <mat-form-field appearance="outline">
+    <!-- <mat-form-field appearance="outline">
 
         <input matInput formControlName="releasedAt"
                placeholder="Birth date" [matDatepicker]="releasedAtPicker">
@@ -86,14 +87,14 @@
         </mat-datepicker>
 
 
-    </mat-form-field>
+    </mat-form-field> -->
 
-    <mat-checkbox color="primary" formControlName="downloadsAllowed"
+    <!-- <mat-checkbox color="primary" formControlName="downloadsAllowed"
         [indeterminate]="true">
 
         Downloads allowed?
 
-    </mat-checkbox>
+    </mat-checkbox> -->
 
    <!--  <mat-form-field appearance="outline">
 
@@ -108,7 +109,7 @@
     </mat-form-field> -->
 
 
-</div>
+</form>
 
 
 

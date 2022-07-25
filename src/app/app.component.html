@@ -3,7 +3,7 @@
 
     <mat-sidenav #sidenav>
 
-        <mat-nav-list (click)="sidenav.close()">
+        <mat-nav-list (click)="sidenav.close()" *ngIf="isLoggedIn">
 
             <button mat-list-item routerLink="/">
                 <mat-icon>library_books</mat-icon>
@@ -51,35 +51,23 @@
             <mat-icon>menu</mat-icon>
         </button>
 
-        <div class="container">
+        <div class="container-fluid">
                         
-                <a mat-button  style="margin-left: 5%;">
+                <a mat-button >
                    <span *ngIf="!isLoggedIn">Mabarba</span> 
-                   <a href="/profile" *ngIf="isLoggedIn" class="nav-link" routerLink="profile">{{ username }}</a>
                 </a>
-        
-               <!--  <mat-menu #dropdown>
-        
-                    <button mat-menu-item routerLink="/">Courses</button>
-        
-                    <button mat-menu-item routerLink="/about">About</button>
-        
-                </mat-menu> -->
-              
-                    <a mat-button routerLink="/home" *ngIf="isLoggedIn">
+             
+                <a mat-button routerLink="/home" *ngIf="isLoggedIn">
                         <mat-icon>home</mat-icon>
                         Home
-                    </a>
-                    <a class="navbar-nav" style="margin-top: 1.5%;" *ngIf="showManagerBoard" mat-button  [matMenuTriggerFor]="dropdownManager">
-                        <mat-icon>supervised_user_circle</mat-icon>
-                        Manager Board
-                     </a> 
-                    <a mat-button routerLink="/home" *ngIf="isLoggedIn">
+                </a>
+               
+                <a mat-button routerLink="/search" *ngIf="isLoggedIn">
                         <mat-icon>search</mat-icon>
                         Search
-                    </a>
+                </a>
                                        
-                    <a mat-button routerLink="/home" *ngIf="isLoggedIn">
+                    <a mat-button routerLink="/profil" *ngIf="isLoggedIn">
                         <mat-icon>person</mat-icon>
                         My profil
                     </a>
@@ -91,6 +79,13 @@
                         <mat-icon>supervised_user_circle</mat-icon>
                         Admin Board
                     </a> 
+                    <a mat-button routerLink="/reservation" *ngIf="isLoggedIn">
+                        <mat-icon>border_color</mat-icon> Reservation
+                    </a>
+                    <a class="navbar-nav" style="margin-top: 1.5%;" *ngIf="showManagerBoard" mat-button  [matMenuTriggerFor]="dropdownManager">
+                        <mat-icon>supervised_user_circle</mat-icon>
+                        Manager Board
+                   </a> 
                     <a mat-button routerLink="/admin" [matMenuTriggerFor]="dropdownAdmin" *ngIf="showAdminBoard">
                         <mat-icon>supervised_user_circle</mat-icon>
                         Admin Board
@@ -108,8 +103,7 @@
                         <button mat-menu-item routerLink="/manager-barber">  <mat-icon>dvr</mat-icon> My barbers </button>   
                         <button mat-menu-item routerLink="/hair" *ngIf="isLoggedIn"><mat-icon>folder_shared</mat-icon> Hair style </button>    
                         <button mat-menu-item routerLink="/salons">  <mat-icon>domain_disabled</mat-icon> My Salons </button>
-                        <button mat-menu-item routerLink="/"> <mat-icon>border_color</mat-icon> Reservation </button>
-                        <button mat-menu-item routerLink="/"> <mat-icon>payment</mat-icon> Payment </button>                                  
+                        <button mat-menu-item routerLink="/payment"> <mat-icon>payment</mat-icon> Payment </button>                                  
                     </mat-menu>  
                
              
@@ -125,7 +119,7 @@
                     <mat-icon>account_circle</mat-icon>
                     Login
                 </a>
-           
+                <a mat-button href="/profil" *ngIf="isLoggedIn" class="nav-link" routerLink="profil">{{ username }}</a>
                 <a mat-button *ngIf="isLoggedIn">               
                     <mat-icon (click)="logout()">power_settings_new</mat-icon>   
                    
@@ -146,8 +140,7 @@
 
                 <div class="col-md-9">
                     <a mat-button  style="margin-left: 6%;" routerLink="/">
-                        <span *ngIf="!isLoggedIn">Mabarba</span> 
-                       
+                        <span *ngIf="!isLoggedIn">Mabarba</span>                        
                      </a>
              
                 </div>

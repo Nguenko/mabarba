@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Signuprequest} from '../model/signuprequest.model';
+import {RestResponse} from '../model/RestResponse';
+
 const AUTH_API = 'http://localhost:8080/api/auth/';
 
 const httpOptions = {
@@ -30,5 +32,10 @@ export class AuthService {
       password: user.password
     }, httpOptions);
     
+  }
+
+  getProfilInfo():Observable<RestResponse> {
+    console.log(AUTH_API+'me');
+    return this.http.get<RestResponse>(AUTH_API+'me', httpOptions);
   }
 }
