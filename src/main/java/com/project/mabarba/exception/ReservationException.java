@@ -9,4 +9,7 @@ public class ReservationException extends Exception {
     public ReservationException(long plageHoraireId, long coiffureId){
         super(String.format("The duration of the hairstyle with id :%s is greater than the duration of the range with %s",coiffureId,plageHoraireId));
     }
+    public ReservationException(String durationOfPlage){
+        super(String.format("This hairstyle requires at least %s to be achieved", durationOfPlage));
+    }
 }

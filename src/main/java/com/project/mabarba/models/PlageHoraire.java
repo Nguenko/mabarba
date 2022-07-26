@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +16,21 @@ public class PlageHoraire extends CommonModel{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "hh:mm:ss")
+    @Column(
+            name = "debut",
+            nullable = false
+    )
+    private Time debut;
+
+    @DateTimeFormat(pattern = "hh:mm:ss")
+    @Column(
+            name = "fin",
+            nullable = false
+    )
+    private Time fin;
+
+    /*@Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "hh:mm:ss")
     @Column(
             name = "debut",
@@ -29,10 +44,10 @@ public class PlageHoraire extends CommonModel{
             name = "fin",
             nullable = false
     )
-    private Date fin;
+    private Date fin;*/
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 30, columnDefinition = "varchar(20) default 'NON_RESERVEE'")
+    //@Column(length = 30, columnDefinition = "varchar(30) default 'NON_RESERVEE'")
     private EEtat etat;
 
     public EEtat getEtat() {
@@ -47,15 +62,15 @@ public class PlageHoraire extends CommonModel{
         return debut;
     }
 
-    public void setDebut(Date debut) {
+    public void setDebut(Time debut) {
         this.debut = debut;
     }
 
-    public Date getFin() {
+    public Time getFin() {
         return fin;
     }
 
-    public void setFin(Date fin) {
+    public void setFin(Time fin) {
         this.fin = fin;
     }
 
@@ -104,14 +119,14 @@ public class PlageHoraire extends CommonModel{
     public PlageHoraire() {
     }
 
-    public PlageHoraire(Long id, Date debut, Date fin, Date jour) {
+    public PlageHoraire(Long id, Time debut, Time fin, Date jour) {
         this.id = id;
         this.debut = debut;
         this.fin = fin;
         this.jour = jour;
     }
 
-    public PlageHoraire(Date debut, Date fin, Date jour) {
+    public PlageHoraire(Time debut, Time fin, Date jour) {
         this.debut = debut;
         this.fin = fin;
         this.jour = jour;

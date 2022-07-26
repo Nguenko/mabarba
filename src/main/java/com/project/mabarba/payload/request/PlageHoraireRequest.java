@@ -9,10 +9,10 @@ public class PlageHoraireRequest {
     private Long id;
 
     @NotBlank
-    private Date debut;
+    private String debut;
 
     @NotBlank
-    private Date fin;
+    private String fin;
 
     @NotBlank
     private Date jour;
@@ -23,14 +23,14 @@ public class PlageHoraireRequest {
     public PlageHoraireRequest() {
     }
 
-    public PlageHoraireRequest(Long id, Date debut, Date fin, Date jour) {
+    public PlageHoraireRequest(Long id, String debut, String fin, Date jour) {
         this.id = id;
         this.debut = debut;
         this.fin = fin;
         this.jour = jour;
     }
 
-    public PlageHoraireRequest(Date debut, Date fin, Date jour) {
+    public PlageHoraireRequest(String debut, String fin, Date jour) {
         this.debut = debut;
         this.fin = fin;
         this.jour = jour;
@@ -44,19 +44,19 @@ public class PlageHoraireRequest {
         this.id = id;
     }
 
-    public Date getDebut() {
+    public String getDebut() {
         return debut;
     }
 
-    public void setDebut(Date debut) {
+    public void setDebut(String debut) {
         this.debut = debut;
     }
 
-    public Date getFin() {
+    public String getFin() {
         return fin;
     }
 
-    public void setFin(Date fin) {
+    public void setFin(String fin) {
         this.fin = fin;
     }
 

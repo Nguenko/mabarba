@@ -20,7 +20,6 @@ public class Coiffeur extends CommonModel{
             nullable = false
     )
     private  String nom;
-
     @Column(
             name = "telephone",
             nullable = false

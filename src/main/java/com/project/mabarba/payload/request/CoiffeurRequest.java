@@ -60,4 +60,5 @@ public class CoiffeurRequest {
     public void setSalonId(Long salonId) {
         this.salonId = salonId;
     }
+
 }

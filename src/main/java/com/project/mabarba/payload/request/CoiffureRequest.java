@@ -16,6 +16,10 @@ public class CoiffureRequest {
 
     @NotBlank
     private Long salonId;
+
+    @NotBlank
+    private String duree;
+
     public CoiffureRequest(){}
     public  CoiffureRequest(String nom, double prix){
         this.nom = nom;
@@ -54,5 +58,13 @@ public class CoiffureRequest {
     }
     public void setPrix(double prix){
         this.prix = prix;
+    }
+
+    public String getDuree() {
+        return duree;
+    }
+
+    public void setDuree(String duree) {
+        this.duree = duree;
     }
 }

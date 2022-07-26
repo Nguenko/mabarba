@@ -1,6 +1,7 @@
 package com.project.mabarba.service.impl;
 
 import com.project.mabarba.exception.NoDataFoundException;
+import com.project.mabarba.helpers.TimeManager;
 import com.project.mabarba.models.*;
 import com.project.mabarba.payload.request.*;
 import com.project.mabarba.repository.*;
@@ -8,6 +9,9 @@ import com.project.mabarba.service.ManagerUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -86,7 +90,9 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
     //Creation d'une coiffure
     public Coiffure coiffureCreation(CoiffureRequest coiffureRequest){
         Optional<Salon> salon = salonRepository.findByIdAndDeletedIsFalse(coiffureRequest.getSalonId());
-        Coiffure coiffure = new Coiffure(coiffureRequest.getNom(), coiffureRequest.getPrix(),salon.get());
+        Time duree = TimeManager.stringToTime(coiffureRequest.getDuree());
+        Coiffure coiffure = new Coiffure(coiffureRequest.getNom(), coiffureRequest.getPrix(),duree,salon.get());
+        //Coiffure coiffure = new Coiffure(coiffureRequest.getNom(),coiffureRequest.getPrix(),salon.get());
         return coiffureRepository.save(coiffure);
     }
 
@@ -132,7 +138,9 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
     //Création d'un plage horaire
     @Override
     public PlageHoraire plageHoraireCreation(PlageHoraireRequest plageHoraireRequest) {
-        PlageHoraire plageHoraire = new PlageHoraire(plageHoraireRequest.getDebut(), plageHoraireRequest.getFin(), plageHoraireRequest.getJour());
+        Time debut = TimeManager.stringToTime(plageHoraireRequest.getDebut());
+        Time fin = TimeManager.stringToTime(plageHoraireRequest.getFin());
+        PlageHoraire plageHoraire = new PlageHoraire(debut, fin, plageHoraireRequest.getJour());
         Optional<Carnet> carnetOptional = carnetRepository.findByIdAndDeletedIsFalse(plageHoraireRequest.getCarnetId());
 
         plageHoraire.setCarnet(carnetOptional.get());
@@ -142,7 +150,9 @@ public class ManagerUpdateImpl implements ManagerUpdateService {
     //Modification d'une plage horaire
     @Override
     public PlageHoraire plageHoraireModification(PlageHoraireRequest plageHoraireRequest, Long id) {
-        PlageHoraire plageHoraire = new PlageHoraire(id,plageHoraireRequest.getDebut(),plageHoraireRequest.getFin(), plageHoraireRequest.getJour());
+        Time debut = TimeManager.stringToTime(plageHoraireRequest.getDebut());
+        Time fin = TimeManager.stringToTime(plageHoraireRequest.getFin());
+        PlageHoraire plageHoraire = new PlageHoraire(id,debut,fin, plageHoraireRequest.getJour());
         return plageHoraireRepository.save(plageHoraire);
     }
 

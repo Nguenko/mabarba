@@ -4,9 +4,13 @@ package com.project.mabarba.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
+
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+//import java.util.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,13 +27,13 @@ public class Coiffure extends CommonModel{
     @Column(name = "prix", nullable = true, updatable = true)
     private double prix;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIME)
     @DateTimeFormat(pattern = "hh:mm:ss")
     @Column(
             name = "duree",
             nullable = false
     )
-    private Date duree;
+    private Time duree;
 
     public Coiffure(){
 
@@ -44,6 +48,13 @@ public class Coiffure extends CommonModel{
     public Coiffure(String nom, double prix, Salon salon) {
         this.nom = nom;
         this.prix = prix;
+        this.salon = salon;
+    }
+
+    public Coiffure(String nom, double prix, Time duree, Salon salon) {
+        this.nom = nom;
+        this.prix = prix;
+        this.duree = duree;
         this.salon = salon;
     }
 
@@ -63,6 +74,37 @@ public class Coiffure extends CommonModel{
         this.nom = nom;
     }
 
+    public double getPrix() {
+        return prix;
+    }
+
+    public void setPrix(double prix) {
+        this.prix = prix;
+    }
+
+    public Time getDuree() {
+        return duree;
+    }
+
+    public void setDuree(Time duree) {
+        this.duree = duree;
+    }
+
+    public Salon getSalon() {
+        return salon;
+    }
+
+    public void setSalon(Salon salon) {
+        this.salon = salon;
+    }
+
+    public List<File> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<File> photos) {
+        this.photos = photos;
+    }
 
     @JsonIgnore
     @ManyToOne
